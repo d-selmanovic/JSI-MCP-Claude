@@ -1,0 +1,38 @@
+quelle	gruppe	n	min	max	treffer_je_ziel
+idk_notes.note_dataid	2	182850	0	198812	K=182808 C=5611 CT=3190 N=1404 P=12681 E=2080 CL=2118 D=106389 U=136410
+idk_notes.note_dataid	3	2826	5	1423	K=2804 C=2826 CT=2299 N=1046 P=2547 E=1437 CL=1653 D=2821 U=2509
+idk_notes.note_dataid	4	1303	21	350	K=1239 C=1303 CT=1303 N=1303 P=1088 E=1152 CL=1132 D=1303 U=1176
+idk_notes.note_dataid	5	16	32	3335	K=16 C=10 CT=3 N=2 P=16 E=3 CL=3 D=16 U=13
+idk_notes.note_dataid	6	49	161	313	K=49 C=49 CT=49 N=33 P=43 E=39 CL=36 D=49 U=44
+idk_notes.note_dataid	7	162	33	237	K=162 C=162 CT=162 N=149 P=144 E=162 CL=162 D=162 U=149
+idk_notes.note_dataid	8	935	9	580	K=931 C=935 CT=933 N=642 P=758 E=839 CL=934 D=931 U=850
+idk_notes.note_dataid	1	83	43	412	K=83 C=83 CT=83 N=77 P=79 E=83 CL=82 D=83 U=80
+idk_documents.document_dataid	2	23076	0	198797	K=23069 C=2571 CT=1598 N=746 P=4386 E=1072 CL=1178 D=17388 U=18721
+idk_documents.document_dataid	3	257	31	1424	K=257 C=257 CT=152 N=80 P=238 E=97 CL=116 D=257 U=239
+idk_documents.document_dataid	5	3	32	499	K=3 C=3 CT=3 N=0 P=3 E=3 CL=3 D=3 U=2
+idk_documents.document_dataid	4	217	21	350	K=215 C=217 CT=217 N=217 P=168 E=191 CL=193 D=217 U=196
+idk_documents.document_dataid	1	4	67	402	K=4 C=4 CT=4 N=2 P=4 E=4 CL=4 D=4 U=4
+idk_documents.document_dataid	7	3	46	68	K=3 C=3 CT=3 N=3 P=2 E=3 CL=3 D=3 U=3
+idk_documents.document_dataid	8	54	15	576	K=54 C=54 CT=53 N=26 P=44 E=47 CL=53 D=54 U=50
+idk_timeline.timeline_dataid	2	1046	5	1432	K=1038 C=1046 CT=514 N=142 P=1000 E=242 CL=377 D=1044 U=952
+idk_timeline.timeline_dataid	1	5	54	405	K=5 C=5 CT=5 N=1 P=4 E=4 CL=4 D=5 U=5
+idk_tasks.task_dataid	2	13	10	56	K=13 C=13 CT=13 N=3 P=13 E=13 CL=13 D=13 U=13
+idk_tasks.task_dataid	3	854	5	1331	K=844 C=854 CT=829 N=455 P=737 E=616 CL=602 D=843 U=766
+idk_tasks.task_dataid	1	6	31	207	K=6 C=6 CT=6 N=4 P=4 E=6 CL=6 D=6 U=6
+idk_partner_uplate.jp_uplate_kandidatid	1 (NALOG)	28	6776	99711	K=28 D=14
+idk_partner_uplate.jp_uplate_kandidatid	2 (DIPL)	106	130	92876	K=103 D=106
+idk_partner_uplate.jp_uplate_kandidatid	NULL	13	7948	62958	K=13 D=7
+idk_reminders.reminder_candidate_id	1	15949	15	198812	D=15948 K=9760
+idk_reminders.reminder_candidate_id	2	60	4827	126992	D=60 K=40
+idk_reminders.reminder_foreign_key	1	15949	307041	1719396	biljeske=15948 (davon gleicher DIPL-Kandidat 15948) nd_ugovori=0
+idk_reminders.reminder_foreign_key	2	60	3	5867	biljeske=60 nd_ugovori=60 (davon gleicher DIPL-Kandidat 60)
+idk_kandidat_pozicija.kp_created_by	1 (CRM)	121	207	461	E=3 JP=3 leer=118
+idk_kandidat_pozicija.kp_created_by	2 (PP)	12	35721	36190	E=0 JP=12 leer=0
+idk_kandidati_contracts.kc_user_id	1 (CRM)	2090	12	457	E=2090 PU=739 leer=0
+idk_kandidati_contracts.kc_user_id	2 (PP)	13	1	126	E=13 PU=13 leer=0
+idk_kandidati_reject_reasons.krr_done_by	1 (CRM)	520	12	511	E=520 PU=211 leer=0
+idk_kandidati_reject_reasons.krr_done_by	2 (PP)	1312	11	347	E=1215 PU=1312 leer=0
+idk_validnosti_inputa.vi_podatak_id	obrazovanje	7417	0	285858	kj=0 ke(gleicher Kandidat)=7407 kri=2 leer=2
+idk_validnosti_inputa.vi_podatak_id	iskustvo	15629	0	157077	kj=0 ke=2 kri(gleicher Kandidat)=15618 leer=1
+idk_validnosti_inputa.vi_podatak_id	dokument	3114	897	144391	kj=44 ke=0 kri=0 leer=0 (Ziel offen)
+idk_validnosti_inputa.vi_podatak_id	blok_* (12 Werte) + leer	ca. 62.000	0	0	immer 0 = kein Datensatz-Bezug
