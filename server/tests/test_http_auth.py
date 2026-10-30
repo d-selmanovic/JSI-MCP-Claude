@@ -63,3 +63,29 @@ def test_valid_token_lists_tools_and_permissions_apply(client):
     call["params"] = {"name": "kpis", "arguments": {"bereich": "vermittlungen"}}
     r = client.post("/mcp", json=call, headers={**HDR, "Authorization": "Bearer " + tok})
     assert r.json()["result"]["isError"] is True and "jsi:kennzahlen:read" in r.json()["result"]["content"][0]["text"]
+
+
+def test_authorization_server_metadata_proxied(client, monkeypatch):
+    import httpx
+
+    doc = {"issuer": "https://test-authkit.example.com", "authorization_endpoint": "https://test-authkit.example.com/oauth2/authorize",
+           "token_endpoint": "https://test-authkit.example.com/oauth2/token"}
+
+    async def fake_get(self, url, **kw):
+        assert url == "https://test-authkit.example.com/.well-known/oauth-authorization-server"
+        return httpx.Response(200, json=doc, request=httpx.Request("GET", url))
+
+    monkeypatch.setattr(httpx.AsyncClient, "get", fake_get)
+    r = client.get("/.well-known/oauth-authorization-server")
+    assert r.status_code == 200 and r.json() == doc
+
+
+def test_authorization_server_unreachable(client, monkeypatch):
+    import httpx
+
+    async def boom(self, url, **kw):
+        raise httpx.ConnectError("down")
+
+    monkeypatch.setattr(httpx.AsyncClient, "get", boom)
+    r = client.get("/.well-known/oauth-authorization-server")
+    assert r.status_code == 502

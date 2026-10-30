@@ -263,6 +263,25 @@ def build_mcp(cfg: config_mod.Config) -> MCPServer:
         async def prm_root(request: Request):
             return JSONResponse({"resource": cfg.public_url, "authorization_servers": [cfg.issuer],
                                  "bearer_methods_supported": ["header"]})
+
+        # Clients following the older MCP auth spec look for authorization-server metadata on the MCP host
+        # itself; serve AuthKit's metadata here so discovery works either way.
+        _as_cache: dict[str, Any] = {}
+
+        @mcp.custom_route("/.well-known/oauth-authorization-server", methods=["GET"])
+        async def as_metadata(request: Request):
+            if "doc" not in _as_cache:
+                import httpx
+
+                try:
+                    async with httpx.AsyncClient(timeout=10) as client:
+                        r = await client.get(f"{cfg.issuer}/.well-known/oauth-authorization-server")
+                    r.raise_for_status()
+                    _as_cache["doc"] = r.json()
+                except Exception as e:
+                    log.warning("AuthKit metadata not reachable: %s", type(e).__name__)
+                    return JSONResponse({"error": "authorization_server_unreachable", "issuer": cfg.issuer}, status_code=502)
+            return JSONResponse(_as_cache["doc"])
     return mcp
 
 
