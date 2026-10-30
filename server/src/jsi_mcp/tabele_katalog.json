@@ -976,7 +976,7 @@
       "kandidat_djevojackoprezime": {
        "tip": "varchar(150)",
        "opis": "",
-       "pii": false
+       "pii": true
       },
       "kandidat_datumrodjenja": {
        "tip": "date",
@@ -986,7 +986,7 @@
       "kandidat_mjestorodjenja": {
        "tip": "varchar(150)",
        "opis": "",
-       "pii": false
+       "pii": true
       },
       "kandidat_drzavljanstvo_vrsta": {
        "tip": "varchar(100)",
@@ -996,7 +996,7 @@
       "kandidat_drzavarodjenja": {
        "tip": "varchar(150)",
        "opis": "",
-       "pii": false
+       "pii": true
       },
       "kandidat_drzavljanstvo": {
        "tip": "varchar(150)",
@@ -1056,7 +1056,7 @@
       "kandidat_korisnickoime": {
        "tip": "varchar(250)",
        "opis": "",
-       "pii": false
+       "pii": true
       },
       "kandidat_slika": {
        "tip": "varchar(150)",
@@ -3402,7 +3402,7 @@
       "client_telephone": {
        "tip": "varchar(250)",
        "opis": "",
-       "pii": false
+       "pii": true
       },
       "client_email": {
        "tip": "varchar(250)",
@@ -3666,7 +3666,7 @@
       "comi_data": {
        "tip": "varchar(250)",
        "opis": "",
-       "pii": false
+       "pii": true
       },
       "comi_primary": {
        "tip": "int",
@@ -3812,7 +3812,7 @@
       "ci_data": {
        "tip": "varchar(250)",
        "opis": "",
-       "pii": false
+       "pii": true
       },
       "ci_primary": {
        "tip": "int",
@@ -6020,7 +6020,7 @@
       "passporttime_dak_kandidat": {
        "tip": "datetime",
        "opis": "",
-       "pii": false
+       "pii": true
       },
       "contract_dak_kandidat": {
        "tip": "varchar(250)",

@@ -44,7 +44,11 @@ PII_EXACT = {  # names that the token rule does not catch
     ("idk_kandidat_kontakt_info", "kki_podatak"),  # the contact value itself (phone, e-mail, …)
     ("idk_sms_messages", "sms_number"), ("idk_kandidat_cv", "kcv_ba"), ("idk_kandidat_cv", "kcv_de"),
     ("idk_documents", "document_desc"),
+    ("idk_contacts_info", "ci_data"), ("idk_companies_info", "comi_data"),  # contact values (phone, e-mail, …)
 }
+# stems inside compound names (kandidat_djevojackoprezime, kandidat_mjestorodjenja, client_telephone, …)
+PII_SUBSTR = ("prezime", "rodjenj", "korisnickoime", "telephone", "telefon", "mobitel", "adresa", "email", "passport",
+              "pasos", "jmbg")
 NOT_PII = {  # lookup / template tables: "name"/"email" columns are labels, not people
     "idk_email_text", "idk_reject_reasons", "idk_razlozi_odbijanja", "idk_pp_reminder_types", "idk_chat_type",
     "idk_provider_for_sending_messages", "idk_pp_document_types", "idk_pp_documents_statuses",
@@ -64,7 +68,7 @@ def is_pii(table: str, col: str, typ: str, table_cols: list[str]) -> bool:
         return True
     if table in NOT_PII:
         return False
-    if tokens(col) & PII_TOKENS:
+    if tokens(col) & PII_TOKENS or any(s in col.lower() for s in PII_SUBSTR):
         return True
     if FILE_NAME.search(col):
         return True
