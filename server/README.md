@@ -32,6 +32,8 @@ Schreiben nur wenn `JSI_WRITES_ENABLED=true` **und** `JSI_DB_TARGET=mirror`.
 
 `set_application_status`: setzt `kandidat_status_prijave` (bei `rezervisanje=1` auch `kandidat_latest_reserved_time`), schreibt `lsp_broj_dana = DATEDIFF(NOW(), lsp_datetime)` in die bisher letzte Log-Zeile und fügt eine neue Log-Zeile ein (`lsp_izvor = JSI_LSP_IZVOR`, Standard 1 = CRM). Die `lsp_broj_dana`-Logik ist aus den Daten abgeleitet (2026-10-30: 27.300 von 27.313 Zeilen seit 2025 stimmen ±1 Tag), nicht dokumentiert.
 
+> ⚠️ **Schreiben bleibt in v1 ausgeschaltet.** Direkte DB-Schreibzugriffe lösen die Automationen des CRM nicht aus (Benachrichtigungen, Task-Force-Aufgaben, weitere Logs – die DB hat keine Trigger, die Logik liegt im CRM-Code). Pflichtpunkt direkt nach Go-live: CRM-Code/API klären, Automationen nachbauen oder über die API schreiben, Mirror-Abnahme, erst dann `JSI_WRITES_ENABLED=true`.
+
 ## Umgebungsvariablen
 
 | Variable | geheim | Bedeutung |

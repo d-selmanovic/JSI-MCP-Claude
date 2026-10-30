@@ -17,3 +17,9 @@
 - Lese-SQL gegen echte DB (BlazeSQL, Literal-SQL aus `scripts/render_sql.py`): Vermittlungen 299/536/71/24/1 ✅, Bestand 854 ✅, Umsatz 2023 430.050 / 1.819.207,36 / 239.716,92 ✅, DIPL 2021–2024 = Referenz ✅, Casting 3.828 Reservierungen ✅, Auftrag 254 = 300/900/165 ✅, Profil-SQL (mit nicht existierender ID) fehlerfrei ✅, Elektriker+C 2.672 (Ref. 2.676 vom Vortag).
 - Smoke-Test: uvicorn-Prozess + MCP-Client über HTTP (11 Tools gelistet, Suche ok); Docker-Image gebaut (nur in der Session mit Proxy-Build-Args) und gestartet: ohne Konfiguration `degraded` + 503 mit Klartext, mit WorkOS-Konfig 401 + `resource_metadata`, `JSI_AUTH_DISABLED` mit https-URL → Start verweigert.
 - **Nicht gemacht (wegen Schritt 0):** Push, Draft-PR, Manufact `create_server`, Variablen auf Manufact, Build-/Runtime-Logs. Commit liegt nur lokal auf `feature/server-v1`.
+
+## Nach Go-live v1 – Pflichtpunkt (Nutzer-Entscheidung 2026-10-30)
+- **CRM-Automationen beim Schreiben fehlen.** Die DB hat keine Trigger/Views/Routinen; die Automationen (Benachrichtigungen SMS/Viber/Bot, Task-Force-Aufgaben, `idk_logs`, `idk_log_kandidat_statusi`, `idk_timeline` …) liegen im CRM-Code/Cron. Eingebaut sind nur aus Daten abgeleitete Nebenwirkungen von `set_application_status` (Pipeline-Log, `lsp_broj_dana`, `kandidat_latest_reserved_time`).
+- Bis das geklärt ist: **Schreiben bleibt aus** (`JSI_WRITES_ENABLED=false`).
+- Direkt nach v1: CRM-Quellcode oder CRM-API beschaffen → Automationen je Aktion inventarisieren → über API schreiben oder nachbauen → Mirror-Abnahme → erst dann Schreiben einschalten.
+- Erledigt/gestrichen: Hinweis auf `dsactivi-2/manufact-db-roleback-mcp` (laut Nutzer alte Version, nicht relevant).
