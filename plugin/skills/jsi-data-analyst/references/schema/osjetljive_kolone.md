@@ -1,6 +1,6 @@
 # Osjetljive kolone ([TAJNO])
 
-Nikad ne selektovati, ne exportovati, ne prikazivati. Preporuka: isključiti ih u BlazeSQL (column-level permissions).
+Nikad ne selektovati, ne exportovati, ne prikazivati. Zaštita: MCP-server ih blokira prije izvršenja i MySQL GRANT-ovi MCP-korisnika ih isključuju (column-level).
 
 | Tabela | Kolona |
 |---|---|
