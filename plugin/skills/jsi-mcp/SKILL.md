@@ -19,7 +19,7 @@ The JSI CRM (MySQL `jsicrm`, mirror database) is reachable through the MCP serve
 | Orders: demand vs. candidates vs. signed | `orders_overview` | |
 | Status history of a candidate or per period | `pipeline_history` | |
 | What the MCP wrote | `change_log` | Needs `jsi:audit:read`. |
-| Writes | `record_preview`, `record_write`, `set_application_status` | **Only on explicit user request.** Always `dry_run=true` / `record_preview` first, show the preview, write only after confirmation with the returned `preview_hash`. |
+| Writes | one tool per entity and action: `candidate_create/update/archive`, `candidate_driving_licence_update`, `candidate_language_create/update`, `candidate_education_create/update`, `candidate_experience_create/update`, `candidate_note_create`, `candidate_order_update`, `project_member_create`, `candidate_dipl_link_update`, `company_create/update`, `contact_create/update`; pipeline status: `set_application_status` | **Only on explicit user request.** Call with `dry_run=true` (default) first, show the preview, then call again with `dry_run=false` and the returned `preview_hash` after the user confirms. Each tool needs `jsi:write:<entity>:<action>`. |
 
 Metric definitions and status codes: skill `jsi-data-analyst`.
 

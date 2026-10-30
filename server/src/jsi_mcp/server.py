@@ -24,6 +24,11 @@ from . import db, registry, tools_read, writes
 from .auth import WorkOSTokenVerifier, current_principal
 from .permissions import TOOL_PERMISSIONS, PermissionDenied, require
 from .sensitive import SensitiveColumnError
+from .write_tools import WRITE_TOOLS
+
+# Write tools have no base permission: writes.precheck requires jsi:write:<entity>:<action> per call.
+for _wt in WRITE_TOOLS:
+    TOOL_PERMISSIONS.setdefault(_wt.name, [])
 
 VERSION = "0.1.0"
 log = logging.getLogger("jsi_mcp")
@@ -32,8 +37,9 @@ calls = logging.getLogger("jsi_mcp.calls")
 INSTRUCTIONS = (
     "JSI CRM (JobStep) – feste Tools statt SQL. Kandidaten suchen/zählen: search_candidates (Standard izlaz='broj'; "
     "zuerst izlaz='izvori' für die Beweisstärke). Gültige Werte: filter_options. Ein Kandidat: candidate_profile. "
-    "Kennzahlen: kpis. Aufträge: orders_overview. Pipeline: pipeline_history. Schreiben: immer zuerst record_preview / "
-    "dry_run=true, dann record_write bzw. set_application_status mit dry_run=false und preview_hash. "
+    "Kennzahlen: kpis. Aufträge: orders_overview. Pipeline: pipeline_history. Schreiben nur auf ausdrücklichen Wunsch: je "
+    "Entität/Aktion ein eigenes Tool (z. B. candidate_update, candidate_note_create) bzw. set_application_status – immer "
+    "zuerst dry_run=true (Vorschau + preview_hash), nach Bestätigung dry_run=false mit preview_hash. "
     "Antworten für JSI auf Bosnisch. Personendaten nur auf ausdrücklichen Wunsch (Permission jsi:kandidati:pii). "
     "/ Fiksni alati umjesto SQL-a; lični podaci samo na izričit zahtjev."
 )
@@ -151,7 +157,6 @@ def t_search_candidates(
     tf_agent_id: Annotated[list[int] | None, Field(description="Reserviert für Task-Force-Agent (employee_id)")] = None,
     tf_status: Annotated[bool | list[int] | None, Field(description="Aktiver Task-Force-Status: true = irgendeiner, [tfs_id] (filter_options tf_status)")] = None,
     vjestina: Annotated[str | list[str] | None, Field(description="Fähigkeit (Freitext, z. B. 'Office', 'Schweißen')")] = None,
-    grad: Annotated[str | None, Field(description="Wohnort (Freitext, min. 3 Zeichen; ~35 % befüllt)")] = None,
     aktivan: Annotated[JsonObj | None, Field(description="Aktivität = Statuswechsel im Zeitraum {'od':'YYYY-MM-DD','do':..}")] = None,
     status_historija: Annotated[JsonObj | None, Field(description="War jemals im Status: {'status':[9],'od':..,'do':..,'nalog_id':[..],'projekt_id':[..]}")] = None,
     faza_min: Annotated[int | None, Field(ge=1, le=15, description="Aktueller Status mindestens Phase (redoslijed_statusa), 7 = Vertrag unterschrieben oder weiter")] = None,
@@ -176,7 +181,7 @@ def t_search_candidates(
                 nalog_izvor=nalog_izvor, porijeklo=porijeklo, messenger_status=messenger_status, bracno_stanje=bracno_stanje,
                 viza=viza, termin_za_vizu=termin_za_vizu, casting=casting, intervju=intervju, odbijen=odbijen,
                 dokument_status=dokument_status, makler=makler, pp_partner_id=pp_partner_id, tf_agent_id=tf_agent_id,
-                tf_status=tf_status, vjestina=vjestina, grad=grad, aktivan=aktivan, status_historija=status_historija,
+                tf_status=tf_status, vjestina=vjestina, aktivan=aktivan, status_historija=status_historija,
                 faza_min=faza_min, ima_biljeske=ima_biljeske, ima_dokumente=ima_dokumente, firma_id=firma_id, dipl=dipl,
                 cv_de=cv_de, profil_de=profil_de, ugovor=ugovor, pocetak_rada_potvrden=pocetak_rada_potvrden,
                 grupa_id=grupa_id, radno_iskustvo=radno_iskustvo, glossa=glossa)
@@ -232,28 +237,6 @@ def t_change_log(cfg, p,
     return tools_read.change_log(cfg, p, tabelle, kandidat_id, limit, mit_werten)
 
 
-ENTITY_DESC = "Entität aus dem Schreib-Register: " + ", ".join(sorted(n for n, e in registry.REGISTRY.items() if not e.process_tool))
-
-
-def t_record_preview(cfg, p,
-                     entity: Annotated[str, Field(description=ENTITY_DESC)],
-                     action: Annotated[Literal["create", "update", "archive"], Field()],
-                     record_id: Annotated[int | None, Field(gt=0, description="PK bei update/archive")] = None,
-                     values: Annotated[JsonObj | None, Field(description="Spalte -> neuer Wert (nur Register-Spalten)")] = None) -> dict:
-    return writes.record_preview(cfg, p, entity, action, record_id, values)
-
-
-def t_record_write(cfg, p,
-                   entity: Annotated[str, Field(description=ENTITY_DESC)],
-                   action: Annotated[Literal["create", "update", "archive"], Field()],
-                   record_id: Annotated[int | None, Field(gt=0)] = None,
-                   values: Annotated[JsonObj | None, Field()] = None,
-                   dry_run: Annotated[bool, Field(description="Standard true = nur Vorschau; false = ausführen")] = True,
-                   preview_hash: Annotated[str | None, Field(description="preview_hash aus record_preview; bei Abweichung Abbruch")] = None,
-                   grund: Annotated[str | None, Field(max_length=200, description="Begründung fürs Audit")] = None) -> dict:
-    return writes.record_write(cfg, p, entity, action, record_id, values, dry_run, preview_hash, grund)
-
-
 def t_set_application_status(cfg, p,
                              kandidat_id: Annotated[int, Field(gt=0)],
                              status_id: Annotated[int, Field(gt=0, description="idk_kandidat_status_prijave.status_id")],
@@ -274,8 +257,6 @@ TOOL_TITLES: dict[str, str] = {
     "orders_overview": "Auftragsübersicht",
     "pipeline_history": "Pipeline-Verlauf",
     "change_log": "Änderungsprotokoll",
-    "record_preview": "Schreibvorschau",
-    "record_write": "Datensatz schreiben",
     "set_application_status": "Bewerbungsstatus setzen",
 }
 
@@ -290,8 +271,6 @@ TOOLS: list[tuple[str, Any, str, ToolAnnotations]] = [
     ("orders_overview", t_orders_overview, "Aufträge: Bedarf vs. Kandidaten vs. unterschrieben. / Pregled naloga.", RO),
     ("pipeline_history", t_pipeline_history, "Pipeline-Verlauf eines Kandidaten oder Statuswechsel pro Periode. / Historija statusa prijave.", RO),
     ("change_log", t_change_log, "Änderungsprotokoll der MCP-Schreibaktionen (mcp_aenderung). / Dnevnik promjena.", RO),
-    ("record_preview", t_record_preview, "Vorschau einer Schreibaktion (vorher/nachher, Prüfungen, preview_hash) – schreibt nichts. / Pregled promjene bez upisa.", RO),
-    ("record_write", t_record_write, "Datensatz anlegen/ändern/archivieren laut Schreib-Register; Standard dry_run=true; Audit in mcp_aenderung; kein Löschen. / Upis uz audit.", RW),
     ("set_application_status", t_set_application_status, "Bewerbungs-/Pipeline-Status setzen inkl. Pipeline-Log; Standard dry_run=true. / Promjena statusa prijave uz log.", RW),
 ]
 
@@ -306,6 +285,9 @@ def build_mcp(cfg: config_mod.Config) -> MCPServer:
     for name, fn, desc, ann in TOOLS:
         mcp.add_tool(tool_wrapper(cfg, name)(fn), name=name, title=TOOL_TITLES[name], description=desc, annotations=ann,
                      structured_output=False)
+    for wt in WRITE_TOOLS:
+        mcp.add_tool(tool_wrapper(cfg, wt.name)(wt.fn), name=wt.name, title=wt.title, description=wt.description,
+                     annotations=wt.annotations, structured_output=False)
 
     @mcp.custom_route("/health", methods=["GET"])
     async def health(request: Request):

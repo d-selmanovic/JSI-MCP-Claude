@@ -55,7 +55,7 @@ NEW_FILTER_SPECS = [
     {"casting": {"status": [1], "nalog_id": [10], "od": "2023-01-01"}}, {"intervju": {"preporuka": ["hire"], "nalog_id": [10]}},
     {"odbijen": {"odbio": "poslodavac", "razlog_id": [4]}}, {"dokument_status": [18]}, {"makler": True}, {"makler": [1]},
     {"pp_partner_id": [1]}, {"tf_agent_id": [1]}, {"tf_status": True}, {"tf_status": [8]}, {"vjestina": "office"},
-    {"grad": "Sarajevo"}, {"aktivan": {"od": "2024-01-01"}}, {"status_historija": {"status": [9], "nalog_id": [10]}},
+    {"aktivan": {"od": "2024-01-01"}}, {"status_historija": {"status": [9], "nalog_id": [10]}},
     {"status_historija": {"status": [9], "projekt_id": [100], "od": "2022-01-01", "do": "2026-01-01"}}, {"faza_min": 7},
     {"ima_biljeske": True}, {"ima_dokumente": True}, {"firma_id": [1]}, {"dipl": True}, {"dipl": {"povezan": False}},
     {"cv_de": True}, {"profil_de": True}, {"ugovor": "potpisan"}, {"ugovor": "postoji"}, {"pocetak_rada_potvrden": True},

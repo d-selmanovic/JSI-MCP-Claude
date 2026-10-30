@@ -6,11 +6,13 @@ from mcp import Client
 
 from jsi_mcp import config, server, tools_read
 from jsi_mcp.permissions import KPI_AREA_PERMISSIONS, TOOL_PERMISSIONS
+from jsi_mcp.registry import REGISTRY
 
 from testenv import LOCAL_ENV
 
+WRITE_TOOL_NAMES = {f"{n}_{a}" for n, e in REGISTRY.items() if not e.process_tool for a in e.actions}
 EXPECTED = {"whoami", "search_candidates", "filter_options", "candidate_profile", "kpis", "orders_overview",
-            "pipeline_history", "change_log", "record_preview", "record_write", "set_application_status"}
+            "pipeline_history", "change_log", "set_application_status"} | WRITE_TOOL_NAMES
 
 
 def mcp_for(perms: str, **env):
@@ -37,7 +39,21 @@ async def test_tool_list_and_schemas():
     assert sc["izlaz"]["enum"] == ["broj", "izvori", "lista", "id"] or "enum" in json.dumps(sc["izlaz"])
     assert tools["candidate_profile"].input_schema["required"] == ["kandidat_id"]
     assert tools["search_candidates"].annotations.read_only_hint is True
-    assert tools["record_write"].annotations.read_only_hint is False
+    assert "record_write" not in tools and "record_preview" not in tools  # no generic executor
+    assert "grad" not in sc  # no raw place-of-residence input
+    for name in WRITE_TOOL_NAMES:
+        t = tools[name]
+        assert t.annotations.read_only_hint is False and len(name) <= 64
+        props = t.input_schema["properties"]
+        assert "entity" not in props and "action" not in props and "values" not in props, name
+        assert props["dry_run"]["default"] is True
+        assert t.annotations.destructive_hint is name.endswith("_archive")
+    note = tools["candidate_note_create"].input_schema
+    assert set(note["required"]) == {"note_dataid", "note_txt"}
+    upd = tools["candidate_update"].input_schema
+    assert upd["required"] == ["record_id"] and "kandidat_status" in upd["properties"]
+    assert "properties" in tools["candidate_archive"].input_schema
+    assert set(tools["candidate_archive"].input_schema["properties"]) == {"record_id", "dry_run", "preview_hash", "grund"}
     assert set(json.dumps(tools["kpis"].input_schema).split('"')) >= set(KPI_AREA_PERMISSIONS)
 
 
@@ -81,13 +97,29 @@ async def test_pii_needs_permission():
 
 async def test_write_permission_per_entity_action():
     async with Client(mcp_for("jsi:write:candidate:update")) as c:
-        r1 = await c.call_tool("record_preview", {"entity": "company", "action": "create", "values": {"company_name": "X"}})
+        r1 = await c.call_tool("company_create", {"company_name": "X"})
         r2 = await c.call_tool("set_application_status", {"kandidat_id": 1, "status_id": 3})
-        r3 = await c.call_tool("record_preview", {"entity": "application_status", "action": "update", "record_id": 1,
-                                                  "values": {"kandidat_status_prijave": 3}})
+        r3 = await c.call_tool("candidate_update", {"record_id": 1, "kandidat_ime": "X"})
+        tools = {t.name for t in (await c.list_tools()).tools}
     assert r1.is_error and "jsi:write:company:create" in text(r1)
     assert r2.is_error and "jsi:write:application_status:update" in text(r2)
-    assert r3.is_error and "set_application_status" in text(r3)
+    assert r3.is_error and "jsi:kandidati:pii" in text(r3)  # PII column needs the PII permission too
+    assert "application_status_update" not in tools  # process entity only via set_application_status
+
+
+async def test_write_tool_input_errors_are_readable():
+    async with Client(mcp_for("*")) as c:
+        r1 = await c.call_tool("candidate_update", {"record_id": 1})
+        r2 = await c.call_tool("candidate_update", {"record_id": 1, "kandidat_email": "a@b.c", "leeren": ["kandidat_email"]})
+    assert r1.is_error and "values" in text(r1)
+    assert r2.is_error and "gleichzeitig" in text(r2)
+
+
+def test_city_filter_not_available_over_mcp():
+    from jsi_mcp.permissions import Principal
+    with pytest.raises(tools_read.InputError, match="drzava"):
+        tools_read.search_candidates(config.load(LOCAL_ENV), Principal(sub="t", permissions=frozenset({"*"})), {"grad": "Tuzla"})
+    assert "grad" not in {f["schluessel"] for f in tools_read.load_filter_catalog()["filter"]}
 
 
 async def test_db_not_configured_is_clear_error():
@@ -105,8 +137,7 @@ async def test_invalid_filter_is_input_error():
 async def test_record_write_refused_when_writes_disabled():
     async with Client(mcp_for("*", JSI_MIRROR_DB_HOST="h", JSI_MIRROR_DB_NAME="d", JSI_MIRROR_DB_USER="u",
                               JSI_MIRROR_DB_PASSWORD="p")) as c:
-        res = await c.call_tool("record_write", {"entity": "company", "action": "create",
-                                                 "values": {"company_name": "X"}, "dry_run": False})
+        res = await c.call_tool("company_create", {"company_name": "X", "dry_run": False})
     assert res.is_error and "JSI_WRITES_ENABLED" in text(res)
 
 
