@@ -35,3 +35,14 @@
 - Auch mit dockerfilePath = null nimmt Manufact ein vorhandenes `Dockerfile` im `rootDir` automatisch → Auto-Variante auf Test-Branch `test/pyproject-auto` (ohne Dockerfile) getestet: **#9 pyproject-Variante: running**, Preview `https://calm-steel-onjlq--br-test-pyproject-auto.run.mcp-use.com/mcp` (Start über `python app.py`).
 - Beobachtungen Manufact: öffentliches `/health` liefert Plattform-Antwort `{"status":"healthy",…}` statt der App-Antwort; 401-Header wird um `resource_metadata` ergänzt. An Manufact per `send_feedback` gemeldet.
 - Fremder Branch `feature/filter-katalog` (nicht aus dieser Session) erzeugt Preview-Deploys (#6, #8 failed) – nicht angefasst.
+
+## WorkOS-Einrichtung 2026-10-30 (über WorkOS-Connector)
+- Workspace „activi.io“. **Production** (`stable-marsh-24.authkit.app`): Schreiben über den Connector verboten („Forbidden“ trotz Rolle ADMIN) → Nutzerentscheidung: **erst Staging, Production später manuell**. Production hatte außerdem keine Anmeldemethode aktiv (nur SSO) und freie Registrierung an.
+- **Staging** (`balanced-lantern-65-staging.authkit.app`, Client-ID `client_01M48TZ5VD659BR6GD0M2ZYWE2`): CIMD + DCR waren bereits aktiv.
+  - OAuth-Ressourcen: `https://calm-steel-onjlq.run.mcp-use.com/mcp` (Standard) + `https://calm-steel-onjlq.run.mcp-use.com` ergänzt; 4 alte Einträge (`calm-forge-…`, `keen-forge-…`) unverändert behalten.
+  - 25 Permissions `jsi:*` angelegt (6 Lesen, 19 Schreiben, 1:1 aus dem Schreib-Register).
+  - Rollen: `jsi-reader` (kandidati:read, kennzahlen:read), `jsi-analyst` (+ finansije, dipl), `jsi-admin-test` (alle 25).
+  - Organisation „Activi“: dem Nutzerkonto zusätzlich `jsi-admin-test` zugewiesen (bisherige 3 Rollen bleiben). Zweites Mitglied unverändert.
+- Manufact: `WORKOS_AUTHKIT_DOMAIN`, `WORKOS_CLIENT_ID` (Staging) gesetzt, neu deployt. Öffentlich geprüft: Protected-Resource-Metadata → AuthKit Staging; AS-Metadata (inkl. `client_id_metadata_document_supported: true`); 401 mit `resource_metadata`.
+- Manufact schreibt unter `/.well-known/oauth-protected-resource` (ohne `/mcp`) `resource` auf die Basis-URL um → Server akzeptiert jetzt Token-`aud` = URL mit und ohne `/mcp`.
+- Offen: Testen, ob AuthKit den `permissions`-Claim in MCP-Tokens setzt (`whoami` nach Login); Staging erlaubt freie Registrierung (Neue Konten ohne Organisation haben keine Permissions → alle Tools außer `whoami` abgelehnt).

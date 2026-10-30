@@ -25,6 +25,12 @@ async def test_trailing_slash_audience_accepted(verifier):
     assert await verifier.verify_token(mint(aud=AUDIENCE + "/")) is not None
 
 
+async def test_origin_audience_accepted(verifier):
+    tok = await verifier.verify_token(mint(aud="https://jsi-mcp.example.com"))
+    assert tok is not None and tok.resource == AUDIENCE
+    assert await verifier.verify_token(mint(aud="https://jsi-mcp.example.com/other")) is None
+
+
 @pytest.mark.parametrize("kw", [
     {"aud": "https://other.example.com/mcp"},
     {"iss": "https://evil.example.com"},

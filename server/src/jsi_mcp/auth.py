@@ -24,7 +24,12 @@ ALGORITHMS = ["RS256", "RS384", "RS512", "ES256", "ES384"]
 def _audiences(public_url: str) -> list[str]:
     u = public_url.rstrip("/")
     # Accept the URL with and without trailing slash; clients differ in how they send `resource`.
-    return [u, u + "/"]
+    out = [u, u + "/"]
+    # Hosts like Manufact also publish the origin (without /mcp) as resource; same server, so accept it too.
+    if u.endswith("/mcp"):
+        base = u[: -len("/mcp")]
+        out += [base, base + "/"]
+    return out
 
 
 class WorkOSTokenVerifier:
@@ -52,7 +57,8 @@ class WorkOSTokenVerifier:
             log.info("token rejected: %s", type(e).__name__)
             return None
         aud = claims.get("aud")
-        resource = self.audience if (aud == self.audience or (isinstance(aud, list) and self.audience in aud)) else None
+        auds = aud if isinstance(aud, list) else [aud]
+        resource = self.audience if any(a in _audiences(self.audience) for a in auds) else None
         scope = claims.get("scope") or ""
         return AccessToken(
             token=token,
