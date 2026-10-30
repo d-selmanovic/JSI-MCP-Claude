@@ -23,3 +23,5 @@
 - Bis das geklärt ist: **Schreiben bleibt aus** (`JSI_WRITES_ENABLED=false`).
 - Direkt nach v1: CRM-Quellcode oder CRM-API beschaffen → Automationen je Aktion inventarisieren → über API schreiben oder nachbauen → Mirror-Abnahme → erst dann Schreiben einschalten.
 - Erledigt/gestrichen: Hinweis auf `dsactivi-2/manufact-db-roleback-mcp` (laut Nutzer alte Version, nicht relevant).
+- Erledigt: Doppelung mit `Manufact-DB-Roleback-MCP` – laut Nutzer/Orchestrator vergessenes Altprojekt, nicht relevant; Vermerk in HANDOVER §13.3.
+- Repo `d-selmanovic/JSI-MCP-Claude` seit 2026-10-30 ~02:45 UTC privat (API geprüft) → `main` (Arbeitsstand) und `feature/server-v1` gepusht, Draft-PR #1.
