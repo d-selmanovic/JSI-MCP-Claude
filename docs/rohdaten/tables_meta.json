@@ -1,0 +1,1164 @@
+{
+ "operation": "list_schemas",
+ "databaseName": "Mysql JSI",
+ "schemaCount": 1,
+ "tableCount": 190,
+ "fullSchemaTokenCount": 38060,
+ "scopeTokenCount": null,
+ "describeThresholdTokens": 20000,
+ "autoDescribed": false,
+ "schemas": [
+  {
+   "name": "jsicrm",
+   "description": null,
+   "tableCount": 190
+  }
+ ],
+ "tables": [
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_partners",
+   "description": "Stores partner program participant records, including associated company and tax identifiers, candidate counts, and status information.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_projects",
+   "description": "Stores details about company projects, including project management assignments, scheduling, status, descriptions, and planned hours.",
+   "columnCount": 14
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_cand_required_documents",
+   "description": "Tracks the status, lifecycle, and fulfillment details of required documents associated with candidates and specific orders.",
+   "columnCount": 12
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidat_de",
+   "description": "Stores candidate profile details including gender, citizenship, driver's license status, and job application preferences.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_nalog_required_documents",
+   "description": "Stores records of required documents for orders or permits, tracking candidate criteria, activation and archival statuses, and processing details.",
+   "columnCount": 13
+  },
+  {
+   "schema": "jsicrm",
+   "name": "mcp_fehler",
+   "description": "Logs application errors, including timestamps, error types, messages, context, associated tools, and export status.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_contacts",
+   "description": "Stores individual contact profiles, including personal details, job titles, addresses, company affiliations, and CRM relationship statuses.",
+   "columnCount": 20
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_projects_tasks",
+   "description": "Stores individual tasks associated with projects, including task names, descriptions, due dates, sorting order, and assigned employees.",
+   "columnCount": 9
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_tf_vrste",
+   "description": "Stores categories or types of items, including their names, associated category identifiers, and status flags.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_users",
+   "description": "Stores user account details, including names, login credentials, contact information, language preferences, and company affiliations for the CRM portal.",
+   "columnCount": 10
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidat_status",
+   "description": "A lookup table that defines candidate processing statuses, such as under review, in progress, completed, or archived.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_racuni",
+   "description": "Stores invoice records, including amounts across multiple currencies, payment and cancellation statuses, associated candidates, and links to generated invoice files.",
+   "columnCount": 21
+  },
+  {
+   "schema": "jsicrm",
+   "name": "rb_field_state",
+   "description": "Tracks revision and state information for specific fields associated with entities in the CRM.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_appointment_invite_links",
+   "description": "Stores invitation links sent to candidates for appointment or interview scheduling, along with tracking metrics such as sent dates, open status, confirmation status, and link state.",
+   "columnCount": 11
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_bot_obavijesti",
+   "description": "Stores records of automated bot notifications, including the associated candidate, work order, dispatch status, and received response.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_dak_kandidati",
+   "description": "Stores candidate records, including personal contact details, contract and passport information, application statuses, processing timestamps, and installment payment tracking.",
+   "columnCount": 36
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_duration_per_status",
+   "description": "Records the duration, description, and group associations for various operational or CRM process statuses.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_email_text",
+   "description": "Stores predefined email templates and notification messages, including their identifiers, subjects, and text content.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_employees",
+   "description": "Stores employee personal profiles, system and telephony credentials, organizational assignments, and commission factors for the CRM system.",
+   "columnCount": 40
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_employees_info",
+   "description": "Stores supplementary employee details, attributes, and grouped profile data categorized by title.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_employees_reports",
+   "description": "Records individual work reports and time logs submitted by employees, detailing the date, time spent, project, and status of tasks performed.",
+   "columnCount": 9
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_glossa_log",
+   "description": "Logs API requests, responses, status codes, and associated candidate identifiers for interactions with the Glossa API.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_jobstep_partners",
+   "description": "Stores user profiles, contact details, authentication credentials, and banking information for Jobstep partners and brokers.",
+   "columnCount": 49
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_jobstep_partners_pregledi",
+   "description": "Records the count of examinations or reviews associated with specific partners and orders within the JobStep workflow.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kampanje_dipl",
+   "description": "Stores marketing and promotional campaign details for diploma programs, including campaign metadata, targeted regions, associated costs, and engagement statistics.",
+   "columnCount": 13
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidat_akademija",
+   "description": "Records candidates' participation in academy programs, including enrollment dates, status, ratings, and notes.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidat_financije",
+   "description": "Records financial transactions, invoices, and payment tracking for candidates linked to specific projects and orders.",
+   "columnCount": 14
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidati_contracts",
+   "description": "Stores records of candidate contracts, including associated candidates, partners, upload metadata, file names, and signature statuses.",
+   "columnCount": 10
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidati_grupe",
+   "description": "Stores candidate groups or occupational categories with multilingual titles, status, and related employee identifiers.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidati_reject_reasons",
+   "description": "Records the rejection reasons, details, and associated metadata for candidates who were rejected during the recruitment or appointment process.",
+   "columnCount": 11
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kategorije",
+   "description": "Stores category names and their corresponding identifiers for organizing various CRM processes, documents, or tickets.",
+   "columnCount": 2
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kategorije_provizija",
+   "description": "Stores definitions, types, amounts, and associated department or employee configurations for commission categories.",
+   "columnCount": 10
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_korisni_dokumenti",
+   "description": "Stores useful reference documents and files uploaded by employees, including file paths, descriptions, document types, and upload timestamps.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_korisni_linkovi",
+   "description": "Stores a curated list of useful external web links, including their URLs, descriptions, publication status, and the employees who added them.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_link_generator",
+   "description": "Stores generated application and tracking links, along with their associated projects, employees, visit counts, costs, and metadata.",
+   "columnCount": 14
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_link_generator_rel",
+   "description": "Stores association mappings between user groups and link generator entries.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_link_projects",
+   "description": "A junction table mapping relationships between links and projects.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_log_kandidat_statusi",
+   "description": "Logs historical changes and timestamped status updates for candidates, including processing and messenger statuses recorded by employees.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_log_statusi_prijave",
+   "description": "Logs historical status changes and timeline details for candidate job applications across different projects and employees.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_logs",
+   "description": "Stores system event and activity logs, capturing the date, type, detailed description, and the associated employee for each entry.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_messages",
+   "description": "Stores records of sent messages, including their subject, text content, delivery status, timestamp, and associated identifiers.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_messages_users",
+   "description": "Tracks the delivery and read status of messages associated with specific employees.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_messenger_obavijesti",
+   "description": "Records messenger notification events sent to candidates, including the candidate ID, dispatch timestamp, and notification type.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_module_permissions",
+   "description": "Stores access permissions for system modules by mapping module names to comma-separated lists of authorized employee IDs.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_modules",
+   "description": "Stores information about application CRM modules, including their names, descriptions, and active status.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nalog_financije",
+   "description": "Stores financial transaction details for work orders, including installment numbers, billing and payment dates, amounts, and payment statuses.",
+   "columnCount": 10
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nalog_profil",
+   "description": "Stores profile configurations and criteria associated with work orders, including status, priority, and assigned employees.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nalog_smjer",
+   "description": "This table represents a junction linking work orders or invoices (nalog) to specific study directions or courses (smjer).",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nalozi",
+   "description": "Stores client job orders and service contracts, including hiring requirements, financial commission terms, academy and nostrification details, and fulfillment statuses.",
+   "columnCount": 43
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nalozi_blokovi_prijave",
+   "description": "Stores application criteria and blocking conditions for job orders, specifying required candidate age, qualifications, language proficiency, driver's licenses, and professional experience.",
+   "columnCount": 20
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nalozi_log",
+   "description": "This table records an audit log of status changes for orders or work orders, including the associated employee and timestamp of each action.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nalozi_opis",
+   "description": "Stores multilingual titles and descriptions for orders or work orders (nalozi) in multiple languages such as Italian, Bosnian, German, English, and Serbian.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nalozi_rate",
+   "description": "Stores installment payment schedules, due dates, percentages, and payment timing details associated with work orders.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_cron_export",
+   "description": "Logs execution details, exported results, and recipient employee records for scheduled cron export tasks.",
+   "columnCount": 9
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_cron_settings",
+   "description": "Stores scheduled cron job configurations and criteria for monitoring employee activities, communication intervals, and candidate statuses within specified date ranges.",
+   "columnCount": 10
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_kandidata",
+   "description": "Stores candidate profiles and application workflows for employment abroad, including personal details, prospective employer information, document tracking, language skills, and communication history.",
+   "columnCount": 71
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_kandidata_biljeske",
+   "description": "Stores notes and follow-up records related to candidates, including call schedules, payment details, proforma invoices, and employee interaction logs.",
+   "columnCount": 15
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_kandidata_dokumenti",
+   "description": "Stores candidate documents and their metadata, including document types, upload timestamps, installment associations, and the employees who added them.",
+   "columnCount": 10
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_kandidata_status_log",
+   "description": "Logs the history of candidate status changes, recording the previous and new status, the timestamp of the change, the employee who made it, and the duration spent in the status.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_kandidati_ciscenje",
+   "description": "Stores candidate data and status flags used for cleaning and migrating candidate profiles, education, and language skills into the diploma system.",
+   "columnCount": 15
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_limiti",
+   "description": "Stores daily, weekly, and monthly lead or assignment limits and usage counts for employees across different countries and campaign categories.",
+   "columnCount": 14
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_menadzeri_statistike",
+   "description": "Records activity logs and assignment statistics for managers or employees handling specific candidate records over time.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_naplata_preko",
+   "description": "Stores billing and collection methods categorized by country, indicating activation dates and whether each method is active.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_poste",
+   "description": "This table stores postal and delivery service providers, including their names and tracking or service links.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_rate",
+   "description": "Stores timestamped rate or count metrics associated with specific channels or entities identified by candidate IDs.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_termini",
+   "description": "Stores scheduled appointments and interview sessions, including dates, times, statuses, and associated candidate and employee identifiers.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_ugovori",
+   "description": "Stores candidate and employee contract records, tracking contract files, language versions, issuance details, acceptance or rejection status, and digital interaction logs.",
+   "columnCount": 19
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_ustanove",
+   "description": "Stores details about institutions, including their contact and location information, registration dates, regions, and nostrification periods.",
+   "columnCount": 12
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_ustanove_biljeske",
+   "description": "Stores notes and comments associated with institutions, including the content, creation timestamp, and the employee who added each note.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_ustanove_kontakti",
+   "description": "Stores contact persons for institutions, including their names, phone numbers, email addresses, roles, and associated institution IDs.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_ustanove_skola",
+   "description": "A junction table that maps associations between educational institutions (schools) and their corresponding organizational entities or facilities.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_ustanove_skole_smjerovi",
+   "description": "This table links educational institutions to their specific study programs or tracks, establishing the courses or majors offered by each school.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nd_ustanove_tip_dokumenta",
+   "description": "Defines institution-specific document types, templates, and requirements associated with schools, study programs, and institutions.",
+   "columnCount": 9
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nedostupan_log",
+   "description": "Logs instances and counts of unavailable contact attempts made by agents to candidates for specific orders, along with the resulting status and timestamp.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_notifications",
+   "description": "Stores user notifications and alerts for employees, including notification status, titles, timestamps, and associated links.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_obracuni",
+   "description": "Stores commission calculation and payout records for employees tied to proforma invoices, detailing amounts across multiple currencies, installment information, and payment statuses.",
+   "columnCount": 18
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_ostatci_obracuna",
+   "description": "Stores records of employee payroll calculation balances and remaining amounts, including currency, calculation period, and status.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_otherdata",
+   "description": "Stores miscellaneous grouped string data entries identified by group and entry IDs.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_partner_companies",
+   "description": "Stores information about partner companies, including their names, branding logos, and primary color schemes.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_partner_meetings",
+   "description": "Stores scheduled partner meeting appointments, including the meeting type, associated company, and responsible employee.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_partner_notification",
+   "description": "Stores records of notifications sent to partners, including their content, payload, target audience, delivery timestamps, and associated navigation actions.",
+   "columnCount": 10
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_partner_notification_logs",
+   "description": "Logs partner notifications sent to employees, recording the creation timestamp along with the message title and content in English and German.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_partner_notification_status",
+   "description": "Tracks the delivery, read, and deletion status of notifications sent to partners.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_partner_personal_notification_types",
+   "description": "Defines the distinct categories of personal notifications available for partners, such as candidates, orders, companies, and global alerts.",
+   "columnCount": 2
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_partner_personal_notifications_preferences",
+   "description": "Stores personal notification settings for partners, including global muting options and lists of blocked notification types.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_partner_pushnot",
+   "description": "Stores partner contact details, registration dates, and identifiers used for managing partner push notifications.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_partner_tutorials",
+   "description": "Stores partner tutorial documents and guides, including their file names, default status, and the uploading employee.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_partner_uplate",
+   "description": "Records partner payment transactions, including payment dates, commission amounts, payment types, statuses, and associated partners, employees, and candidates.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_partner_user_log",
+   "description": "Records activity logs and descriptions of actions taken by partner users along with the corresponding timestamps.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_ponovne_prijave",
+   "description": "Records historical log entries and details for re-applications submitted by job candidates across various campaigns.",
+   "columnCount": 9
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_poslovnice",
+   "description": "Stores information about company branch offices, including their unique identifiers, names, cities, and countries.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_informacije_profil",
+   "description": "Lookup table defining profile information fields and attributes, such as contact details, citizenship, and work experience, available in both Bosnian/Croatian/Serbian and German.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_predracuni",
+   "description": "Stores proforma invoice records for candidates, including multi-currency amounts, payment and cancellation statuses, associated employees, and related document files.",
+   "columnCount": 24
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_provider_for_sending_messages",
+   "description": "Stores configuration details and active status for messaging provider groups used to send messages.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pushnotifications",
+   "description": "Records push notifications sent to employees regarding specific orders or tasks, including timestamps and notification identifiers.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_skladiste",
+   "description": "Stores warehouse and inventory item records, including category, availability, purchase date, branch location, and descriptions.",
+   "columnCount": 9
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_skladiste_kategorije",
+   "description": "Stores warehouse or inventory category identifiers and their corresponding category names.",
+   "columnCount": 2
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_skladiste_product",
+   "description": "Stores warehouse inventory records for individual products, tracking serial numbers, inventory status, and reasons for product discharge or rejection.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_ticketi",
+   "description": "Stores support or internal service tickets, including sender and recipient details, priority, status, subject, description, timestamps, and attached documents.",
+   "columnCount": 12
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_ticketi_komentari",
+   "description": "Stores user comments and responses associated with support tickets, including message content, sender information, timestamps, and attached documents.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_tipovi_provizija",
+   "description": "Stores definitions of commission types, including their names, standard amounts, team associations, and status flags.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_triggerurl",
+   "description": "Records trigger URLs, associated email task tags, and timestamps used for tracking or initiating automated actions.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_tutorijali",
+   "description": "Stores tutorial records, including their descriptions, category associations, document attachments, and YouTube video URLs.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_validnosti_inputa",
+   "description": "Records the validation status, reasons, and timestamps of candidate input data evaluated by employees.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_appointment_hours",
+   "description": "Stores scheduled appointment times and associated employee details within the CRM system.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_contacts_info",
+   "description": "Stores specific contact details and associated metadata, such as titles and grouped data entries, linked to individual contacts.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_project_kandidati",
+   "description": "This table links candidates to their associated projects within the CRM system.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_documents_statuses",
+   "description": "Lookup table storing document processing status definitions and their display sequence, with multilingual name labels in Bosnian/Croatian/Serbian and German.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_chat_type",
+   "description": "Stores lookup categories and names defining different types of chats within the CRM system.",
+   "columnCount": 2
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_document_types",
+   "description": "A lookup table that stores definitions of document types, including their names in Bosnian/Croatian/Serbian and German, creation dates, and the users who entered them.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_reminder_documents",
+   "description": "Stores configuration and schedule settings for reminder documents, including frequency, creation delays, and active status.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_skole_smjerovi",
+   "description": "Stores information about educational programs or majors offered by schools, including multilingual names, duration, and related profession identifiers.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_contract_sent",
+   "description": "Tracks the dispatch, delivery status, and archiving details of candidate and partner contracts, including associated employees and shipment tracking codes.",
+   "columnCount": 15
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_nalog_profil",
+   "description": "This table links orders or accounts to specific profile information records within the CRM system.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_appointment_groups",
+   "description": "Stores appointment group definitions, including their names, associated date ranges, order identifiers, and automation status flags for casting and interviews.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_question_options",
+   "description": "Stores answer choices and their multilingual text and subtext for specific survey or assessment questions.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_skole",
+   "description": "Stores a reference list of secondary and higher education schools, including their names in local and German languages along with their education level.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_notes",
+   "description": "Stores user-entered notes and file attachments created by employees, linked to specific records or groups with associated timestamps.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidat_pozicija",
+   "description": "Stores candidate job positions or roles along with their multilingual names, descriptions, and status information.",
+   "columnCount": 9
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidat_vjestine",
+   "description": "Stores candidates' skills, including skill names, descriptions, groups, and German translations associated with each candidate.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_regions",
+   "description": "Stores definitions of geographic or operational regions along with their names and status codes.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidat_jezici",
+   "description": "Stores candidates' language proficiencies, detailing specific skills such as reading, listening, writing, and speaking in multiple languages and standardized competency levels.",
+   "columnCount": 15
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_permissions",
+   "description": "Stores user permissions, including titles, permission types, and associated accessible menu items.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidat_cv",
+   "description": "Stores candidate CV files and associated details linked to specific candidate IDs, including localized or language-specific resume records.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "rb_events",
+   "description": "Stores audit log events tracking entity changes, revisions, and rollback or restore operations along with actor details and JSON-formatted change payloads.",
+   "columnCount": 14
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_questions",
+   "description": "Stores survey or evaluation questions along with their categories, display order, associated users, and supported response formats such as text, dropdowns, or ratings.",
+   "columnCount": 9
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_appointments_questions",
+   "description": "This table links appointments to specific questions, defining the display or processing order of questions associated with each appointment.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_timeline",
+   "description": "Records timestamped timeline events, activities, and associated text entries logged by employees across different CRM entity types and groups.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_api_clients",
+   "description": "Stores registered API clients and their authentication tokens for system access.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_struke",
+   "description": "Lookup table storing profession and trade specialties, containing identifiers alongside their names in Bosnian/Croatian/Serbian and German.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_tf_transfered_candidates_logs",
+   "description": "Logs details of candidate transfers to destination projects, including the employee who performed the transfer and the transfer timestamp.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "users",
+   "description": "Stores user account details, credentials, device information, notification preferences, and document or qualification flags for job candidates.",
+   "columnCount": 25
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_profil_kriterij",
+   "description": "Stores candidate qualification criteria and requirements, such as age limits, work experience, language proficiency levels, and driver's license categories, linked to specific profiles.",
+   "columnCount": 19
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_reminder_types",
+   "description": "Defines configuration settings and localized notification templates for different automated reminder types, including email subjects, notification texts, and frequency intervals.",
+   "columnCount": 9
+  },
+  {
+   "schema": "jsicrm",
+   "name": "mcp_status_info",
+   "description": "Defines document processing workflow statuses, including their multilingual names, meanings, permitted transitions, and update permissions.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_razlozi_odbijanja",
+   "description": "Stores predefined rejection reasons categorized by section or block, including names in local and German languages.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_reminders",
+   "description": "Stores employee reminders and notifications associated with candidates, tracking scheduled dates, statuses, and reminder types.",
+   "columnCount": 9
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_cand_appts",
+   "description": "Stores candidate appointment and interview records, including ratings, interviewer comments, recommendations, and status updates.",
+   "columnCount": 11
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_viber_obavijesti",
+   "description": "Stores records of Viber notifications sent to candidates, including timestamps, related order IDs, and notification purposes.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_sales_reminders",
+   "description": "Stores sales reminder records, tracking scheduled call dates, types, statuses, and associated employees and clients.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_companies_info",
+   "description": "Stores additional categorized details, attributes, and custom information associated with companies.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_agenti_activity",
+   "description": "Records the start, end, duration, and status of activities or work sessions performed by agents or employees.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_task_force",
+   "description": "Records task force assignments and communications tracking candidate engagement across projects, castings, and work orders, including status, appointments, and interaction notes.",
+   "columnCount": 15
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_tasks",
+   "description": "Stores CRM task records, including task descriptions, due dates, statuses, assigned employees, and notification settings.",
+   "columnCount": 12
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_companies",
+   "description": "Stores CRM company profiles including business details, identification numbers, addresses, contact types, and workforce requirements.",
+   "columnCount": 25
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_ratings",
+   "description": "Stores candidate ratings, selected option values, and feedback comments linked to specific appointment questions.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_projects_settings",
+   "description": "Stores configuration settings and status definitions for projects, such as task progress stages.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_candidate_language_logs",
+   "description": "Records historical log entries, status updates, and tracking data related to candidate language evaluations or training.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_ro_usluge",
+   "description": "Stores a multilingual reference catalog of service cancellation or refusal reasons, along with recall timing, approval statuses, and categorization details.",
+   "columnCount": 10
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_skladiste_zaposlenici",
+   "description": "Records warehouse inventory items and equipment assigned to or used by specific employees, including product details, quantities, locations, and assignment descriptions.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "rb_entity_state",
+   "description": "Tracks the current state, revision level, and baseline timestamp for various entities within the system.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_tf_statusi",
+   "description": "Stores lookup definitions and attributes for tracking and filtering statuses, including interview requirements, display order, and positive outcome flags.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_reminder_settings",
+   "description": "Stores configuration settings for automated partner or tax reminder notifications, including triggering rules, schedule dates, and assigned recipient and controlling employee IDs.",
+   "columnCount": 11
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_project_candidate_queue",
+   "description": "Tracks candidates queued for assignment to projects, including the entry date, partner association, and assignment status.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidat_radno_iskustvo",
+   "description": "Stores candidates' work experience records, including company details, job titles, employment dates, descriptions, and multilingual translations.",
+   "columnCount": 21
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_documents",
+   "description": "Stores metadata, file names, status, and associated entity identifiers for documents linked to candidates, partners, and related records.",
+   "columnCount": 9
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidat_edukacija",
+   "description": "Stores educational background records for job candidates, including institutions, degrees, qualifications, dates, locations, and multilingual descriptions.",
+   "columnCount": 19
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_ipwhitelist",
+   "description": "Stores whitelisted IP addresses along with associated user details, justification reasons, status, timestamps, and who added them.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_reject_reasons",
+   "description": "Stores predefined rejection reasons and their multilingual descriptions (German, Bosnian, and English) used across the CRM system.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidat_status_prijave",
+   "description": "A lookup table that defines candidate application statuses, including their names, display order, active state, and reservation flags.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_user_access",
+   "description": "Stores user access permissions, associating users with specific partners, access types, and permission statuses.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_chat_question",
+   "description": "Stores predefined chat questions, answers, and their hierarchical ordering for interactive chat flows.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_tf_stats_reservations",
+   "description": "Stores tracking statistics and reservation records for candidate interviews, linking candidates, agents, assignments, and statuses.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_city",
+   "description": "Stores information about cities, including their names, associated regions, and active status.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_clients",
+   "description": "Stores client records, including contact and location details, assigned managers, call dates, and sales or contract statuses.",
+   "columnCount": 20
+  },
+  {
+   "schema": "jsicrm",
+   "name": "rb_approvals",
+   "description": "Stores records of request approvals, including decision status, preview payloads, approver details, and expiration timestamps.",
+   "columnCount": 9
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidat_projekcije",
+   "description": "Stores projected employment start dates for candidates.",
+   "columnCount": 2
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_visa_incomplete",
+   "description": "Tracks incomplete partner visa applications, including candidate and employer receipt dates, deadlines, status, and related complaints.",
+   "columnCount": 13
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_settings",
+   "description": "Stores system-wide CRM configuration settings and parameters, including application URLs, names, storage limits, and security options.",
+   "columnCount": 5
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_nostrifikovane_diplome",
+   "description": "Stores records, files, and recognition status details for candidate nostrified (officially validated foreign) diplomas, along with upload metadata.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "mcp_aenderung",
+   "description": "Logs change history, approvals, and execution details for candidate-related data records across system tables, capturing before-and-after states.",
+   "columnCount": 15
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidati",
+   "description": "Stores comprehensive job candidate profiles, tracking personal information, application statuses, employment history, visa details, and recruitment agent assignments.",
+   "columnCount": 100
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_kandidat_kontakt_info",
+   "description": "Stores contact information and details associated with candidates, organized by type and group.",
+   "columnCount": 8
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_documents",
+   "description": "Stores uploaded document files, including their names, descriptions, file formats, and upload timestamps associated with specific employees and entities.",
+   "columnCount": 10
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_clients_stats",
+   "description": "Stores dated client statistics, status updates, and descriptive activity logs associated with specific employees and sales or financial channels.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_tf_reservations",
+   "description": "Stores reservation records linking candidates and agents to projects, categories, order assignments, and qualifications.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_tf_agent_nalog",
+   "description": "Stores associations linking agents to specific orders or tasks, categorized by order type.",
+   "columnCount": 4
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_analitika",
+   "description": "Stores analytical tracking records including timestamps, ratings, and unique analytics identifiers.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "beruf_mapping",
+   "description": "Maps free-text job titles to standardized occupational group IDs along with confidence scores and the extraction source.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_sms_messages",
+   "description": "Records sent SMS messages, including recipient phone numbers, message content, delivery statuses, response codes, and tracking timestamps.",
+   "columnCount": 13
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_documents_status_logs",
+   "description": "Stores audit logs tracking changes to document statuses, including the user who made the change, timestamps, and associated comments.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "rb_requests",
+   "description": "Records API or operation requests including execution timestamps, payload hashes, idempotency keys, and JSON results for tracking and idempotency management.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_candidate_verified_languages",
+   "description": "Records verified language qualifications for candidates, including course timelines, exam dates, certificate details, and verification status.",
+   "columnCount": 15
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_reminders",
+   "description": "Stores records of document-related reminders sent to candidates and assigned to CRM users, tracking their assignment, completion, and status.",
+   "columnCount": 12
+  },
+  {
+   "schema": "jsicrm",
+   "name": "rb_baselines",
+   "description": "Stores point-in-time baseline snapshots of entity revisions and their typed values for tracking and auditing changes.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_appointments",
+   "description": "Stores scheduled appointment details, including dates, locations, associated groups, and notification dispatch settings.",
+   "columnCount": 11
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_notification",
+   "description": "Stores user and candidate notifications, including message content, status, type, timestamp, and target redirect URLs.",
+   "columnCount": 7
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_pp_question_categories",
+   "description": "Stores question categories with their identifiers and names in English and German.",
+   "columnCount": 3
+  },
+  {
+   "schema": "jsicrm",
+   "name": "idk_timovi",
+   "description": "This table stores information about organizational teams, including their full and abbreviated names, assigned display colors, status, and registration dates.",
+   "columnCount": 6
+  },
+  {
+   "schema": "jsicrm",
+   "name": "rb_outbox",
+   "description": "Stores outbox event messages and tracks their delivery status, retry attempts, and processing leases for asynchronous dispatch.",
+   "columnCount": 7
+  }
+ ],
+ "schema": null,
+ "schemaFilters": null,
+ "metadata": null,
+ "metadataIncludedInText": false,
+ "errors": []
+}
