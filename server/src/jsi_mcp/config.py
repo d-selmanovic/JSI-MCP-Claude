@@ -83,6 +83,7 @@ class Config:
     write_employee_id: int
     lsp_izvor: int
     errors: list[str] = field(default_factory=list)
+    admin_password: str | None = None  # JSI_ADMIN_PASSWORD; /admin is off without it
 
     @property
     def writes_allowed(self) -> bool:
@@ -102,6 +103,14 @@ class Config:
 
 class StartupRefused(RuntimeError):
     pass
+
+
+def _admin_password(errors: list[str]) -> str | None:
+    pw = os.environ.get("JSI_ADMIN_PASSWORD") or None
+    if pw and len(pw) < 16:
+        errors.append("JSI_ADMIN_PASSWORD ist kürzer als 16 Zeichen – /admin bleibt deaktiviert.")
+        return None
+    return pw
 
 
 def _is_local_url(url: str | None) -> bool:
@@ -198,4 +207,5 @@ def _load() -> Config:
         write_employee_id=_int("JSI_WRITE_EMPLOYEE_ID", 0),
         lsp_izvor=_int("JSI_LSP_IZVOR", 1),
         errors=errors,
+        admin_password=_admin_password(errors),
     )

@@ -123,3 +123,7 @@ python3 -I scripts/gen_grants.py write    jsicrm jsi_mcp_mirror > sql/grants_mir
 11. Schreiben (Mirror, `JSI_WRITES_ENABLED=true`): `candidate_note_create` (dry_run=true) → dasselbe mit `dry_run=false preview_hash=…` an einem Testkandidaten → `change_log` zeigt Eintrag → Rücknahme per Update-Tool (Notizen: keine Löschung; Testnotiz kennzeichnen).
 12. `set_application_status` dry_run → ausführen → `pipeline_history kandidat_id=…` zeigt neue Zeile; vorherige Zeile hat `broj_dana`; zurücksetzen auf alten Status.
 13. Mit `JSI_WRITES_ENABLED=false` → jedes Schreib-Tool mit `dry_run=false` wird abgelehnt.
+
+## Admin-Status-Seite (`/admin`)
+
+Nur lesen. Aus, solange `JSI_ADMIN_PASSWORD` (≥ 16 Zeichen) nicht gesetzt ist; dann Login per Browser-Dialog mit Benutzer `admin` und diesem Passwort. Zeigt: Version, Laufzeit, DB-Ziel, DB erreichbar (mit Antwortzeit), CA-Zertifikat vorhanden, Schreibschalter, Auth-Modus, Konfigurationsfehler (ohne Werte), Aufrufe je Tool und letzte Aufrufe dieser Instanz (ohne Argumente/Ergebnisse), letzte 20 Schreibaktionen aus `mcp_aenderung` (ohne vorher/nachher). JSON: `/admin/status.json`. Ändern lässt sich dort nichts – Einstellungen und Secrets bleiben in Manufact (Server → Environment variables, danach Redeploy). Das Admin-Passwort öffnet **nicht** den MCP-Endpunkt (`/mcp` braucht weiter ein WorkOS-Token).

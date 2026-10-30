@@ -20,7 +20,7 @@ from starlette.responses import JSONResponse
 from starlette.routing import Route
 
 from . import config as config_mod
-from . import db, registry, tools_read, tools_tables, writes
+from . import admin, db, registry, tools_read, tools_tables, writes
 from .auth import WorkOSTokenVerifier, current_principal
 from .permissions import TOOL_PERMISSIONS, PermissionDenied, require
 from .sensitive import SensitiveColumnError
@@ -95,8 +95,10 @@ def tool_wrapper(cfg: config_mod.Config, name: str):
                 log.exception("tool %s failed", name)
                 raise ToolError(f"Interner Fehler / Interna greška ({type(e).__name__}).") from None
             finally:
+                ms = round((time.monotonic() - t0) * 1000)
                 calls.info(json.dumps({"event": "tool_call", "sub": p.sub, "tool": name, "status": status,
-                                       "duration_ms": round((time.monotonic() - t0) * 1000), "rows": rows}))
+                                       "duration_ms": ms, "rows": rows}))
+                admin.record(p.sub, name, status, ms, rows)
 
         # hide (cfg, p) from the schema: signature without the first two params
         sig = inspect.signature(fn)
@@ -332,6 +334,29 @@ def build_mcp(cfg: config_mod.Config) -> MCPServer:
     @mcp.custom_route("/health", methods=["GET"])
     async def health(request: Request):
         return JSONResponse(_health(cfg))
+
+    tool_names = [n for n, *_ in TOOLS] + [wt.name for wt in WRITE_TOOLS]
+
+    async def _admin(request: Request, as_json: bool):
+        from starlette.responses import HTMLResponse, Response
+        if not cfg.admin_password:
+            return Response("Not Found", status_code=404)
+        if not admin.authorized(cfg, request.headers.get("authorization")):
+            return Response("Anmeldung erforderlich", status_code=401, headers={
+                "WWW-Authenticate": 'Basic realm="JSI MCP admin", charset="UTF-8"', **admin.SECURITY_HEADERS})
+        import anyio
+        st = await anyio.to_thread.run_sync(admin.status, cfg, VERSION, tool_names)
+        if as_json:
+            return Response(admin.json_body(st), media_type="application/json", headers=admin.SECURITY_HEADERS)
+        return HTMLResponse(admin.page(st), headers=admin.SECURITY_HEADERS)
+
+    @mcp.custom_route("/admin", methods=["GET"])
+    async def admin_page(request: Request):
+        return await _admin(request, as_json=False)
+
+    @mcp.custom_route("/admin/status.json", methods=["GET"])
+    async def admin_json(request: Request):
+        return await _admin(request, as_json=True)
 
     if not cfg.auth_disabled:
         @mcp.custom_route("/.well-known/oauth-protected-resource", methods=["GET"])
