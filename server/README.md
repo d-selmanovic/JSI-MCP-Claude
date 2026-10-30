@@ -69,7 +69,7 @@ JSI_AUTH_DISABLED=true JSI_MCP_PUBLIC_URL=http://localhost:3000/mcp JSI_DB_SSL_R
   JSI_MIRROR_DB_HOST=127.0.0.1 JSI_MIRROR_DB_PORT=13306 JSI_MIRROR_DB_NAME=jsicrm_it \
   JSI_MIRROR_DB_USER=jsi_it_ro JSI_MIRROR_DB_PASSWORD=it-only-password-1 uv run jsi-mcp-server
 ```
-Hilfsskripte: `scripts/schema_ddl.py` (DDL aus `columns.json`), `scripts/gen_grants.py` (GRANTs), `scripts/render_sql.py` (Lese-SQL mit Literalen zum Gegenprüfen über BlazeSQL).
+Hilfsskripte: `scripts/schema_ddl.py` (DDL aus `columns.json`), `scripts/gen_grants.py` (GRANTs), `scripts/render_sql.py` (Lese-SQL mit Literalen zum Gegenprüfen direkt an der DB, z. B. mit dem mysql-Client).
 
 ## Deploy auf Manufact
 

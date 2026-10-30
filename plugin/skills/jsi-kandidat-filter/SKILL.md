@@ -1,6 +1,6 @@
 ---
 name: jsi-kandidat-filter
-description: "Filter-based candidate search for the JSI recruiting CRM (MySQL 'Mysql JSI' via BlazeSQL), like the filter panel of a UI. Use whenever the user wants to FIND, COUNT or LIST candidates by criteria, e.g. 'alle Elektriker mit Führerschein C', 'električari sa C kategorijom i njemačkim B1', 'automehaničari iz BiH 20-45 godina, slobodni', 'how many CE drivers with German A2'. Converts the request into a JSON filter spec and calls the JSI MCP tool search_candidates (server 'jsi'); fallback without the MCP server: scripts/build_query.py + BlazeSQL execute_sql – no manual search through the 190 tables."
+description: "Filter-based candidate search for the JSI recruiting CRM (via the JSI MCP server), like the filter panel of a UI. Use whenever the user wants to FIND, COUNT or LIST candidates by criteria, e.g. 'alle Elektriker mit Führerschein C', 'električari sa C kategorijom i njemačkim B1', 'automehaničari iz BiH 20-45 godina, slobodni', 'how many CE drivers with German A2'. Converts the request into a JSON filter spec and calls the JSI MCP tool search_candidates (server 'jsi'); without the MCP tools there is no data access (ask the user to sign in) – no manual search through the 190 tables."
 ---
 
 # JSI Kandidat-Filter
@@ -9,9 +9,11 @@ Turns a natural-language candidate search into a deterministic, tested SQL query
 
 ## Preferred path: JSI MCP server
 
-If the tools `search_candidates`, `filter_options`, `candidate_profile` (MCP server `jsi`, URL `https://calm-steel-onjlq.run.mcp-use.com/mcp`) are available, **use them instead of steps 2–3 below**: pass the filter spec keys from the table below directly as `search_candidates` arguments (same names, same validation – the server runs the identical `build_query.py`). Use `filter_options` for valid codes/occupations and `candidate_profile` for one candidate. The server enforces permissions (PII only with `jsi:kandidati:pii`) and never returns [TAJNO] columns. Exception: the free-text place-of-residence filter `grad` is **not** offered by the MCP server (location-linked personal data); filter by country with `drzava` instead. Only if the server is not connected, fall back to the local script + BlazeSQL.
+If the tools `search_candidates`, `filter_options`, `candidate_profile` (MCP server `jsi`, URL `https://calm-steel-onjlq.run.mcp-use.com/mcp`) are available, **use them instead of steps 2–3 below**: pass the filter spec keys from the table below directly as `search_candidates` arguments (same names, same validation – the server runs the identical `build_query.py`). Use `filter_options` for valid codes/occupations and `candidate_profile` for one candidate. The server enforces permissions (PII only with `jsi:kandidati:pii`) and never returns [TAJNO] columns. Exception: the free-text place-of-residence filter `grad` is **not** offered by the MCP server (location-linked personal data); filter by country with `drzava` instead. Only if the server is not connected, ask the user to sign in (skill `jsi-mcp`); the local script only prints SQL for review.
 
-## Workflow (fallback without MCP server)
+## Workflow without MCP tools (SQL for review only)
+
+There is no SQL connector anymore (BlazeSQL disconnected 2026-10-30). If the `jsi` tools are missing, ask the user to sign in (skill `jsi-mcp`). The script below only shows **which SQL the server would run** – for checking a filter, not for answering with numbers.
 
 1. **Parse the request into a filter spec** (JSON, keys below). Ask only if a criterion is genuinely ambiguous (e.g. "Elektriker" strict vs. broad incl. Elektrotechniker/Hilfselektriker – default strict).
 2. **Build the SQL**:
@@ -19,7 +21,7 @@ If the tools `search_candidates`, `filter_options`, `candidate_profile` (MCP ser
    python3 -I <skill-dir>/scripts/build_query.py --notes --spec '<json>'
    ```
    `--notes` prints the interpretation (stderr) – show it to the user in Bosnian so they see exactly how the filter was applied.
-3. **Run** the printed SQL with BlazeSQL `execute_sql` (single read-only statement). Typical runtime 5–20 s.
+3. **Do not run** the printed SQL – there is no SQL access. Give numbers only from `search_candidates`.
 4. **Answer in Bosnian** (unless asked otherwise): count first, then breakdown/list, then the applied filter notes and data-coverage caveats (see `references/filteri.md`).
 5. Default output is a **count**. Produce a list only when asked (`"izlaz": "lista"`). Names/phones/emails only with `"pii": true` **and** an explicit user request.
 

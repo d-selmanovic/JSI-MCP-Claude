@@ -13,7 +13,7 @@ Answer a data question, from a quick lookup to a full analysis to a formal repor
 
 ## Company Context (JSI)
 
-- **Database**: MySQL database "Mysql JSI", schema `jsicrm` (~99 tables), queried through the BlazeSQL tools (`list_schemas` → `list_tables` → `describe_tables` → `execute_sql`). Use **MySQL** syntax by default.
+- **Data access**: only through the JSI MCP server `jsi` (`search_candidates`, `kpis`, `orders_overview`, `pipeline_history`, `candidate_profile`, `filter_options`; schema `jsicrm`, MySQL). There is **no free SQL access** – BlazeSQL was disconnected on 2026-10-30. If a question needs data the tools cannot return, say so and suggest a new MCP tool instead of guessing; SQL written here is for review by the developers, not executed.
 - **Domain**: Recruiting/placement CRM — candidates (`idk_kandidati`, `idk_kandidat_*`), partners (`idk_pp_*`), client companies (`idk_clients`, `idk_companies`), projects (`idk_projects`, `idk_project_kandidati`), task force/reservations (`idk_tf_*`), documents and visas (`idk_pp_documents`, `idk_pp_visa_incomplete`, `idk_nostrifikovane_diplome`), invoices (`idk_racuni`). Many table and column names are Bosnian (e.g. `kandidat`, `nalog`, `racuni`, `jezici`), with German/English translation columns.
 - **Personal data**: candidate tables contain personal data (names, contacts, citizenship, documents). Prefer aggregates; don't output personal details unless the user explicitly needs them. Never query or output tokens/credentials (e.g. `idk_api_clients`, password fields in `users` / `idk_pp_users`).
 - **Report language**: write narratives, chart titles and dashboard labels in **Bosnian** unless the user asks otherwise.

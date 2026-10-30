@@ -1,4 +1,4 @@
-"""Render the read-tool SQL with literal parameters (for checking against the real DB via BlazeSQL).
+"""Render the read-tool SQL with literal parameters (for checking against the real DB, e.g. with the mysql client).
 
 No DB connection is made: db.query is replaced by a recorder. Usage: python3 scripts/render_sql.py > out.sql
 """

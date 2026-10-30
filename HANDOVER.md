@@ -144,7 +144,7 @@ Empfehlung jeweils in Klammern.
 - M13 **Grenzen:** max. Zeilen pro Antwort, Timeout, Aufruflimit? (empf.: 200 Standard / 5.000 max, 30 s, Paging)
 
 **Übergang**
-- M14 **BlazeSQL:** parallel behalten (für Ad-hoc und für die Erhebung bis der Server läuft) oder danach kündigen?
+- M14 **BlazeSQL:** parallel behalten (für Ad-hoc und für die Erhebung bis der Server läuft) oder danach kündigen? → **Entschieden 2026-10-30:** Verbindung BlazeSQL ↔ MySQL vom Nutzer getrennt; Skills/AGENTS.md verweisen nur noch auf den JSI-MCP-Server. Messwerte „über BlazeSQL“ in Doku/Rohdaten bleiben als Herkunftsangabe.
 - M15 **UI (Punkt 14):** später Filtermaske als MCP-App oder in eurer App – jetzt schon einplanen?
 
 ## 12. Geänderte Reihenfolge der Arbeit

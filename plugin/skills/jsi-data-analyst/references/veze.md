@@ -218,4 +218,4 @@ Indeksirane join kolone (brzo): `idk_kandidati(kandidat_dipl_id, kandidat_group,
 
 **Bez indeksa** (izbjegavati korelirane upite nad njima): `idk_kandidat_de.kde_kandidat_id`, `idk_kandidat_edukacija.ke_smjer_id`, `idk_kandidati.kandidat_ppa_partner_id / kandidat_datetime / kandidat_prijava_na / kandidat_vozacka_*`, `idk_racuni.racun_kandidat_id`, `idk_obracuni.*`, `idk_kandidat_financije.*`.
 
-**Pravilo**: korelirani `EXISTS` po `idk_kandidati` (122k) prelazi BlazeSQL timeout od 60 s. Uvijek prvo agregirati djecu u CTE (`SELECT DISTINCT kid ...`) pa joinati.
+**Pravilo**: korelirani `EXISTS` po `idk_kandidati` (122k) prelazi timeout (MCP-server 30 s). Uvijek prvo agregirati djecu u CTE (`SELECT DISTINCT kid ...`) pa joinati.
