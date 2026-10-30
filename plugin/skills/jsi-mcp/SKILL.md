@@ -12,7 +12,7 @@ The JSI CRM (MySQL `jsicrm`, mirror database) is reachable through the MCP serve
 | Question | Tool | Notes |
 |---|---|---|
 | Who am I, which permissions, server/DB status | `whoami` | Call first if a tool reports `forbidden`. |
-| Find / count / list candidates | `search_candidates` | Filter keys and examples: skill `jsi-kandidat-filter`. Default output is a count (`izlaz: "broj"`). |
+| Find / count / list candidates | `search_candidates` | Filter keys and examples: skill `jsi-kandidat-filter`. Default output is a count (`izlaz: "broj"`). Lists come in pages: always state `stranica.pregled` ("Prikazano 21–40 od 900") and offer the next page via `offset = stranica.sljedeci_offset`; never present a page as the full result. |
 | Valid filter values, codes, occupation catalogue | `filter_options` | Optional `section`, e.g. `berufsgruppen`, `status_prijave`, `katalog`. |
 | One candidate | `candidate_profile` | Needs `kandidat_id`. |
 | KPIs | `kpis` | `bereich`: vermittlungen, neue_kandidaten, pipeline_bestand, umsatz (needs `jsi:finansije:read`), task_force, casting, dipl_funnel (needs `jsi:dipl:read`). |
@@ -29,6 +29,7 @@ Metric definitions and status codes: skill `jsi-data-analyst`.
 - Personal data (name, phone, e-mail, note texts) only on explicit request (`pii=true`) and only with permission `jsi:kandidati:pii`. Never copy example values from the database into files.
 - Never ask for, select or log [TAJNO] columns (passwords, tokens, JMBG, passport, IBAN …) – the server refuses them anyway.
 - Report counts first, then breakdowns, then the filter notes the tool returns (data coverage caveats).
+- Every list result has `stranica`: report how many of how many are shown; if `ima_jos` is true, say that more exist.
 - If a tool returns `forbidden`, say which permission is missing (see `whoami`) – do not work around it with SQL.
 
 ## Wire it into the project (AGENTS.md)

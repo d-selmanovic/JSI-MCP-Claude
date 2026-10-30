@@ -28,6 +28,32 @@ class InputError(ValueError):
     pass
 
 
+def _page_info(total: int | None, offset: int, n: int, unit: str, sort: str | None = None,
+               more: bool | None = None) -> dict:
+    """Where this page sits in the full result, so the agent never mistakes a page for the whole set."""
+    shown_to = offset + n
+    has_more = (shown_to < total) if total is not None else bool(more)
+    info: dict[str, Any] = {"ukupno": total, "prikazano_od": offset + 1 if n else 0, "prikazano_do": shown_to,
+                            "ima_jos": has_more}
+    if total is not None:
+        info["sljedeci_offset"] = shown_to if has_more else None
+    if sort:
+        info["sortirano"] = sort
+    if total is not None:
+        txt = f"Prikazano {offset + 1}–{shown_to} od {total} {unit}" if n else f"Prikazano 0 od {total} {unit}"
+        if has_more:
+            txt += f"; sljedeća stranica: offset={shown_to}"
+    else:
+        txt = f"Prikazano {n} {unit}" + ("; ima još – povećaj limit ili suzi filter" if has_more else " (sve)")
+    info["pregled"] = txt + "."
+    return info
+
+
+def _cut(rows: list[dict], lim: int) -> tuple[list[dict], bool]:
+    """Queries fetch lim+1 rows; the extra row only signals that more exist."""
+    return rows[:lim], len(rows) > lim
+
+
 def _limit(limit: int | None) -> int:
     if limit is None:
         return ROW_LIMIT_DEFAULT
@@ -70,7 +96,7 @@ def _range(col: str, od: str | None, do: str | None, params: list) -> str:
 SPEC_KEYS = ["zanimanje", "vozacka", "jezik", "jezici", "obrazovanje", "iskustvo_u_struci", "drzava",
              "drzavljanstvo", "spol", "starost", "registriran", "status_prijave", "slobodni", "kandidat_status",
              "ukljuci_arhivu", "kontaktabilni", "nacin_odlaska", "nalog_id", "projekt_id", "nostrifikacija",
-             "izlaz", "limit", "pii", "sortiraj",
+             "izlaz", "limit", "offset", "pii", "sortiraj",
              # filter catalogue 2026-10-30 (filter_catalog.json)
              "porijeklo", "messenger_status", "bracno_stanje", "viza", "termin_za_vizu", "casting", "intervju", "odbijen",
              "dokument_status", "makler", "pp_partner_id", "tf_agent_id", "tf_status", "vjestina", "aktivan",
@@ -101,6 +127,14 @@ def search_candidates(cfg: Config, p: Principal, spec: dict[str, Any], include_s
         raise InputError(f"Ungültiger Filter / Neispravan filter: {e}") from None
     rows = db.query(cfg, sql, None, max_rows=ROW_LIMIT_MAX)
     out = {"rezultat": rows, "broj_redova": len(rows), "napomene": notes, "filter": spec, "stanje_podataka": DATA_NOTE}
+    if spec["izlaz"] in ("lista", "id"):
+        count_spec = {k: v for k, v in spec.items() if k not in ("limit", "offset", "sortiraj", "pii")}
+        count_sql, _ = bq.build({**count_spec, "izlaz": "broj"})
+        total = int(db.query(cfg, count_sql, None)[0]["broj_kandidata"])
+        sort = ("kandidat_id" if spec["izlaz"] == "id" else
+                "relevantnost (broj izvora zanimanja), zatim najnoviji" if spec.get("sortiraj", "relevantnost") == "relevantnost"
+                and spec.get("zanimanje") else "najnoviji registrirani prvi")
+        out["stranica"] = _page_info(total, spec.get("offset", 0), len(rows), "kandidata", sort)
     if include_sql:
         out["sql"] = sql
     return out
@@ -293,27 +327,27 @@ def kpis(cfg: Config, p: Principal, bereich: str, od: str | None = None, do: str
                "WHERE lsp_status_prijave_id = 9 GROUP BY lsp_kandidat_id) "
                f"SELECT {per} AS period, COUNT(*) AS potpisanih_ugovora FROM prvi WHERE 1=1"
                + _range("prvi.datum", od, do, params) + " GROUP BY period ORDER BY period LIMIT %s")
-        params.append(lim)
+        params.append(lim + 1)
         rows = db.query(cfg, sql, tuple(params))
         stock = db.query(cfg, "SELECT COUNT(*) AS plasirani_trenutno FROM idk_kandidati k JOIN idk_kandidat_status_prijave sp "
                          "ON sp.status_id = k.kandidat_status_prijave WHERE sp.redoslijed_statusa >= 7 AND k.kandidat_status <> 3", ())
         notes += ["Tok: prvi ulazak u status 9 'Potpisan ugovor' (idk_log_statusi_prijave, log od 2021-12-07).",
                   "Stanje: trenutni status redoslijed >= 7, bez arhive."]
-        return _kpi_out(bereich, rows, notes, extra={"stanje": stock[0] if stock else None})
+        return _kpi_out(lim, bereich, rows, notes, extra={"stanje": stock[0] if stock else None})
     if bereich == "neue_kandidaten":
         per = _period("kandidat_datetime", gruppierung)
         sql = (f"SELECT {per} AS period, kandidat_porijeklo AS porijeklo, COUNT(*) AS novih FROM idk_kandidati "
                "WHERE kandidat_datetime >= '2000-01-01' AND kandidat_status <> 3" + _range("kandidat_datetime", od, do, params)
                + " GROUP BY period, porijeklo ORDER BY period, novih DESC LIMIT %s")
-        params.append(lim)
+        params.append(lim + 1)
         notes.append("kandidat_porijeklo: 0 stari put, 1 DIPL, 2 DAK, 4 SveZaVize (ostali kodovi nedokumentovani).")
-        return _kpi_out(bereich, db.query(cfg, sql, tuple(params)), notes)
+        return _kpi_out(lim, bereich, db.query(cfg, sql, tuple(params)), notes)
     if bereich == "pipeline_bestand":
         sql = ("SELECT sp.redoslijed_statusa, sp.status_id, sp.status_naziv, COUNT(*) AS kandidata FROM idk_kandidati k "
                "LEFT JOIN idk_kandidat_status_prijave sp ON sp.status_id = k.kandidat_status_prijave "
                "WHERE k.kandidat_status <> 3 GROUP BY sp.redoslijed_statusa, sp.status_id, sp.status_naziv "
                "ORDER BY sp.redoslijed_statusa LIMIT %s")
-        return _kpi_out(bereich, db.query(cfg, sql, (lim,)), ["Trenutno stanje (bez vremenskog filtera), bez arhive."])
+        return _kpi_out(lim, bereich, db.query(cfg, sql, (lim + 1,)), ["Trenutno stanje (bez vremenskog filtera), bez arhive."])
     if bereich == "umsatz":
         p1, p2, p3 = [], [], []
         q1 = (f"SELECT 'kandidat_financije' AS izvor, {_period('kf_datum_placanja', gruppierung)} AS period, ROUND(SUM(kf_iznos),2) AS iznos, "
@@ -325,10 +359,10 @@ def kpis(cfg: Config, p: Principal, bereich: str, od: str | None = None, do: str
               "FROM idk_predracuni WHERE pr_status = 2 AND IFNULL(pr_stornirano,0) = 0" + _range("pr_datum_uplate", od, do, p3)
               + " GROUP BY 2")
         sql = f"SELECT * FROM ({q1} UNION ALL {q2} UNION ALL {q3}) u ORDER BY period, izvor LIMIT %s"
-        rows = db.query(cfg, sql, tuple(p1 + p2 + p3 + [lim]))
+        rows = db.query(cfg, sql, tuple(p1 + p2 + p3 + [lim + 1]))
         notes += ["Plaćeno: kf_placeno=3, nf_placeno=3, predračuni pr_status=2 i nisu stornirani.",
                   "Valuta kf_iznos/nf_iznos nije dokumentovana (pretpostavka EUR). idk_racuni se ne sabiraju (konačni računi za predračune)."]
-        return _kpi_out(bereich, rows, notes)
+        return _kpi_out(lim, bereich, rows, notes)
     if bereich == "task_force":
         sql = ("SELECT tf.tf_agent_id AS agent_id, CONCAT(e.employee_firstname, ' ', LEFT(e.employee_lastname, 1), '.') AS agent, "
                "v.category AS kategorija, COUNT(*) AS taskova, ROUND(100 * SUM(s.tfs_is_positive = 1) / COUNT(*), 1) AS pct_pozitivno "
@@ -336,10 +370,10 @@ def kpis(cfg: Config, p: Principal, bereich: str, od: str | None = None, do: str
                "LEFT JOIN idk_tf_vrste v ON v.id = tf.tf_vrsta_id LEFT JOIN idk_tf_statusi s ON s.tfs_id = tf.tf_status_id "
                "WHERE tf.tf_agent_id IS NOT NULL" + _range("tf.tf_doe", od, do, params)
                + " GROUP BY tf.tf_agent_id, agent, v.category ORDER BY taskova DESC LIMIT %s")
-        params.append(lim)
+        params.append(lim + 1)
         notes += ["'Pozitivno' = kandidat nastavlja proces (npr. 'Ne javlja se' je pozitivno), ne znači uspjeh.",
                   "Kategorije: 1 Casting, 2 Posredovanje, 3 Obrada."]
-        return _kpi_out(bereich, db.query(cfg, sql, tuple(params)), notes)
+        return _kpi_out(lim, bereich, db.query(cfg, sql, tuple(params)), notes)
     if bereich == "casting":
         per = _period("g.ppaq_start_date", gruppierung)
         sql = (f"SELECT {per} AS period, COUNT(*) AS rezervacija, SUM(r.tsr_status = 1) AS dosao, SUM(r.tsr_status = 2) AS nije_dosao, "
@@ -347,9 +381,9 @@ def kpis(cfg: Config, p: Principal, bereich: str, od: str | None = None, do: str
                "ROUND(100 * SUM(r.tsr_status = 1) / NULLIF(COUNT(*), 0), 1) AS pct_dosao FROM idk_tf_stats_reservations r "
                "JOIN idk_pp_appointment_groups g ON g.ppaq_id = r.tsr_interview_id WHERE 1=1"
                + _range("g.ppaq_start_date", od, do, params) + " GROUP BY period ORDER BY period LIMIT %s")
-        params.append(lim)
+        params.append(lim + 1)
         notes.append("Status 4/5 nedokumentovan (zasebno). Castinzi 2026 pokazuju 0 % 'Došao' – provjeriti da li je evidentirano.")
-        return _kpi_out(bereich, db.query(cfg, sql, tuple(params)), notes)
+        return _kpi_out(lim, bereich, db.query(cfg, sql, tuple(params)), notes)
     # dipl_funnel
     per = _period("d.vrijeme_kreiranja_nd_kandidata", gruppierung)
     sql = (f"SELECT {per} AS period, COUNT(*) AS novih_dipl, SUM(d.status_nd_kandidata = 6) AS zavrseno, "
@@ -357,13 +391,15 @@ def kpis(cfg: Config, p: Principal, bereich: str, od: str | None = None, do: str
            "FROM idk_nd_kandidata d LEFT JOIN idk_predracuni p ON p.pr_kandidat_id = d.id_broj_nd_kandidata "
            "AND p.pr_status = 2 AND IFNULL(p.pr_stornirano, 0) = 0 WHERE 1=1"
            + _range("d.vrijeme_kreiranja_nd_kandidata", od, do, params) + " GROUP BY period ORDER BY period LIMIT %s")
-    params.append(lim)
+    params.append(lim + 1)
     notes.append("DIPL ID prostor (idk_nd_kandidata.id_broj_nd_kandidata) – nije kandidat_id. DIPL posao praktično prestao 2024.")
-    return _kpi_out(bereich, db.query(cfg, sql, tuple(params)), notes)
+    return _kpi_out(lim, bereich, db.query(cfg, sql, tuple(params)), notes)
 
 
-def _kpi_out(bereich: str, rows: list[dict], notes: list[str], extra: dict | None = None) -> dict:
-    out = {"bereich": bereich, "rezultat": rows, "broj_redova": len(rows), "napomene": notes, "stanje_podataka": DATA_NOTE}
+def _kpi_out(lim: int, bereich: str, rows: list[dict], notes: list[str], extra: dict | None = None) -> dict:
+    rows, more = _cut(rows, lim)
+    out = {"bereich": bereich, "rezultat": rows, "broj_redova": len(rows), "napomene": notes, "stanje_podataka": DATA_NOTE,
+           "stranica": _page_info(None, 0, len(rows), "redova", more=more)}
     if extra:
         out.update(extra)
     return out
@@ -397,9 +433,9 @@ def orders_overview(cfg: Config, p: Principal, nalog_status: list[int] | None = 
            + ("WHERE " + " AND ".join(where) + " " if where else "")
            + "GROUP BY n.nalog_id, n.nalog_broj, n.nalog_naziv, c.company_id, c.company_name, n.nalog_status, kreiran, potrebno"
            + having + " ORDER BY potpisano_ili_dalje DESC, n.nalog_id DESC LIMIT %s")
-    params.append(lim)
-    rows = db.query(cfg, sql, tuple(params))
-    return {"rezultat": rows, "broj_redova": len(rows),
+    params.append(lim + 1)
+    rows, more = _cut(db.query(cfg, sql, tuple(params)), lim)
+    return {"rezultat": rows, "broj_redova": len(rows), "stranica": _page_info(None, 0, len(rows), "naloga", more=more),
             "napomene": ["nalog_status kodovi 1,3–8,10–12 nisu dokumentovani u bazi (pitati korisnika).",
                          "Kandidati po kandidat_nalog_id, bez arhive; 'potpisano_ili_dalje' = redoslijed_statusa >= 7."]}
 
@@ -418,8 +454,9 @@ def pipeline_history(cfg: Config, p: Principal, kandidat_id: int | None = None, 
     od, do = _date(od, "od"), _date(do, "do")
     if kandidat_id is not None:
         _int(kandidat_id, "kandidat_id")
-        rows = _history_rows(cfg, kandidat_id, lim)
+        rows, more = _cut(_history_rows(cfg, kandidat_id, lim + 1), lim)
         return {"kandidat_id": kandidat_id, "rezultat": rows, "broj_redova": len(rows),
+                "stranica": _page_info(None, 0, len(rows), "promjena statusa", more=more),
                 "napomene": ["Log statusa prijave od 2021-12-07 (idk_log_statusi_prijave)."]}
     params: list = []
     where = ["1=1"]
@@ -435,9 +472,9 @@ def pipeline_history(cfg: Config, p: Principal, kandidat_id: int | None = None, 
            "LEFT JOIN idk_kandidat_status_prijave sp ON sp.status_id = l.lsp_status_prijave_id WHERE "
            + " AND ".join(where) + _range("l.lsp_datetime", od, do, params)
            + " GROUP BY period, l.lsp_status_prijave_id, sp.status_naziv ORDER BY period, status_id LIMIT %s")
-    params.append(lim)
-    rows = db.query(cfg, sql, tuple(params))
-    return {"rezultat": rows, "broj_redova": len(rows),
+    params.append(lim + 1)
+    rows, more = _cut(db.query(cfg, sql, tuple(params)), lim)
+    return {"rezultat": rows, "broj_redova": len(rows), "stranica": _page_info(None, 0, len(rows), "redova", more=more),
             "napomene": ["Broj prelaza u status po periodu (log od 2021-12-07).", DATA_NOTE]}
 
 
@@ -460,7 +497,8 @@ def change_log(cfg: Config, p: Principal, tabelle: str | None = None, kandidat_i
     cols = "a_id, a_zeit, a_werkzeug, a_aktion, a_tabelle, a_datensatz_id, a_kandidat_id, a_art, a_zustand, a_freigabe_code, a_ausgefuehrt_zeit, a_notiz"
     if mit_werten:
         cols += ", a_vorher, a_nachher"
-    params.append(lim)
+    params.append(lim + 1)
     rows = db.query(cfg, f"SELECT {cols} FROM mcp_aenderung WHERE " + " AND ".join(where) + " ORDER BY a_id DESC LIMIT %s",
                     tuple(params))
-    return {"rezultat": rows, "broj_redova": len(rows)}
+    rows, more = _cut(rows, lim)
+    return {"rezultat": rows, "broj_redova": len(rows), "stranica": _page_info(None, 0, len(rows), "promjena", more=more)}

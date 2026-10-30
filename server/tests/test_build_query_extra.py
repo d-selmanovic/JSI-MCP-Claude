@@ -163,6 +163,20 @@ if __name__ == "__main__":
     unittest.main()
 
 
+def test_offset_paging_sql():
+    from jsi_mcp import build_query as bq
+    sql, _ = bq.build({"izlaz": "lista", "limit": 20, "offset": 40})
+    assert sql.rstrip().endswith("LIMIT 20 OFFSET 40")
+    assert "k.kandidat_id DESC" in sql  # tie-breaker keeps pages stable
+    sql0, _ = bq.build({"izlaz": "lista", "limit": 20})
+    assert "OFFSET" not in sql0
+    for bad in (-1, True, "5", 2_000_000):
+        try:
+            bq.build({"izlaz": "lista", "offset": bad})
+        except bq.SpecError:
+            continue
+        raise AssertionError(f"offset {bad!r} accepted")
+
 def test_every_occupation_union_part_has_aliases():
     """Regression: free-text parts without catalog match lacked 'AS kid, AS izvor' → MySQL 1054."""
     import re

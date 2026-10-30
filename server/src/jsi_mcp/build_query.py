@@ -543,7 +543,7 @@ def build(spec):
     allowed = {"zanimanje", "vozacka", "jezici", "jezik", "obrazovanje", "iskustvo_u_struci", "drzava",
                "drzavljanstvo", "spol", "starost", "registriran", "status_prijave", "slobodni",
                "kandidat_status", "ukljuci_arhivu", "kontaktabilni", "nacin_odlaska", "nalog_id", "projekt_id",
-               "nostrifikacija", "izlaz", "limit", "pii", "sortiraj",
+               "nostrifikacija", "izlaz", "limit", "offset", "pii", "sortiraj",
                # added 2026-10-30 (filter catalogue, see references/filteri.md)
                "porijeklo", "messenger_status", "bracno_stanje", "viza", "termin_za_vizu", "casting", "intervju",
                "odbijen", "dokument_status", "makler", "pp_partner_id", "tf_agent_id", "tf_status", "vjestina", "grad",
@@ -722,6 +722,10 @@ def build(spec):
     limit = spec.get("limit", 200)
     if not isinstance(limit, int) or not 1 <= limit <= 5000:
         raise SpecError("limit must be 1..5000")
+    offset = spec.get("offset", 0)
+    if isinstance(offset, bool) or not isinstance(offset, int) or not 0 <= offset <= 1_000_000:
+        raise SpecError("offset must be 0..1000000")
+    page = f"LIMIT {limit}" + (f" OFFSET {offset}" if offset else "") + "\n"
 
     with_sql = ("WITH\n" + ",\n".join(ctes) + "\n") if ctes else ""
     from_sql = "FROM idk_kandidati k\n" + ("\n".join(joins) + "\n" if joins else "")
@@ -738,7 +742,7 @@ def build(spec):
         tail = "GROUP BY occ.izvori\nORDER BY broj_kandidata DESC\n"
     elif izlaz == "id":
         select = "SELECT k.kandidat_id\n"
-        tail = f"ORDER BY k.kandidat_id\nLIMIT {limit}\n"
+        tail = "ORDER BY k.kandidat_id\n" + page
     else:
         cols = ["k.kandidat_id"]
         if spec.get("pii"):
@@ -763,9 +767,9 @@ def build(spec):
         select = "SELECT " + ",\n       ".join(cols) + "\n"
         order = spec.get("sortiraj", "relevantnost")
         if order == "relevantnost" and has_occ:
-            tail = f"ORDER BY occ.broj_izvora DESC, k.kandidat_datetime DESC\nLIMIT {limit}\n"
+            tail = "ORDER BY occ.broj_izvora DESC, k.kandidat_datetime DESC, k.kandidat_id DESC\n" + page
         else:
-            tail = f"ORDER BY k.kandidat_datetime DESC\nLIMIT {limit}\n"
+            tail = "ORDER BY k.kandidat_datetime DESC, k.kandidat_id DESC\n" + page
 
     sql = with_sql + select + from_sql + where_sql + tail
     return sql.strip(), notes
