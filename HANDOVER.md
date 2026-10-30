@@ -76,10 +76,13 @@ Tests: `python3 -I -m unittest discover -s plugin/skills/jsi-kandidat-filter/scr
 - Polymorphe Verknüpfungen `*_group`+`*_dataid` (notes, documents, timeline, tasks, *_info): Bedeutung der Gruppen unbekannt.
 - **Sicherheit:** BlazeSQL-Metadaten zeigen Beispielwerte, inkl. Klartext-Passwörter. Niemals Spalten aus `osjetljive_kolone.md` selektieren oder in Doku übernehmen; Personendaten nur auf ausdrücklichen Wunsch.
 
-## 7. Ehrlicher Vollständigkeitsstand
-- Vollständig: Tabellen-/Spaltenliste, Zeilenzahlen, Zeiträume (107 Tabellen).
-- **Verknüpfungen: 76 gemessen auf 71 Spalten von ≈460 möglichen (≈15 %)** – Kernbeziehungen abgedeckt, Rest offen.
-- **Filter: 19** (+4 Ausgabeoptionen), nach Ermessen gewählt, nutzen ≈25 von 288 Spalten der 20 Kandidaten-Tabellen. Berufskatalog 27 von 194 Gruppen.
+## 7. Ehrlicher Vollständigkeitsstand (aktualisiert 2026-10-30, Branch `feature/filter-katalog`)
+- Vollständig: Tabellen-/Spaltenliste, Zeilenzahlen, Zeiträume (107 Tabellen); **Klassifikation aller 1.809 Spalten** (`docs/rohdaten/verweis_kandidaten.tsv`).
+- **Verknüpfungen: 368 von 381 verweisartigen Spalten gemessen (96,6 %)**, 395 Hypothesen; 312 belegt (≥ 98 %), 13 wahrscheinlich, 5 schwach, 3 falsch, 15 nur NULL/0, 9 leere Tabellen, 11 polymorph je Gruppe. Nicht gemessen: 5 ID-Listen, 8 `rb_*`/`mcp_aenderung` (≤ 4 Zeilen). → `docs/rohdaten/veze_komplett.tsv`, `plugin/.../veze.md`.
+- **Spaltenprofil: 279 Spalten in 17 Kandidaten-Tabellen** (`kandidat_profil.tsv`, `docs/KANDIDAT_PROFIL.md`). Code-Werteverteilungen für 64 filterrelevante Code-Spalten; die übrigen ~355 CODE-Spalten nur klassifiziert.
+- **Filter: 48** (vorher 19) + 4 Ausgabeoptionen, alle im JSON-Schema von `search_candidates`, Katalog `filter_catalog.json` + `references/filteri.md`. **Berufskatalog: 28 Berufe mit Synonymen + alle 194 Berufsgruppen** direkt nutzbar.
+- **Automationen: 26 Regeln/Muster aus Daten abgeleitet (14 belegt, 8 wahrscheinlich, 4 vermutet)** (`docs/AUTOMATIONEN.md`), ohne Quellcode – vor Schreiben weiterhin CRM-Code/API nötig.
+- Tests: Server 193 grün (127 + 66), Plugin 33 grün. Abnahme-Beispiele gegen BlazeSQL: 3.199 / 45 / 0 / 15.
 
 ## 8. Offene Punkte – Gruppe A (relevant für Plugin/Tool)
 **A1 Entscheidungen (Nutzer):**

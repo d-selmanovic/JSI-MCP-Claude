@@ -70,7 +70,12 @@ def _range(col: str, od: str | None, do: str | None, params: list) -> str:
 SPEC_KEYS = ["zanimanje", "vozacka", "jezik", "jezici", "obrazovanje", "iskustvo_u_struci", "drzava",
              "drzavljanstvo", "spol", "starost", "registriran", "status_prijave", "slobodni", "kandidat_status",
              "ukljuci_arhivu", "kontaktabilni", "nacin_odlaska", "nalog_id", "projekt_id", "nostrifikacija",
-             "izlaz", "limit", "pii", "sortiraj"]
+             "izlaz", "limit", "pii", "sortiraj",
+             # filter catalogue 2026-10-30 (filter_catalog.json)
+             "porijeklo", "messenger_status", "bracno_stanje", "viza", "termin_za_vizu", "casting", "intervju", "odbijen",
+             "dokument_status", "makler", "pp_partner_id", "tf_agent_id", "tf_status", "vjestina", "grad", "aktivan",
+             "status_historija", "faza_min", "ima_biljeske", "ima_dokumente", "firma_id", "dipl", "cv_de", "profil_de",
+             "ugovor", "pocetak_rada_potvrden", "grupa_id", "radno_iskustvo", "glossa", "nalog_izvor"]
 
 
 def search_candidates(cfg: Config, p: Principal, spec: dict[str, Any], include_sql: bool = False) -> dict:
@@ -79,6 +84,8 @@ def search_candidates(cfg: Config, p: Principal, spec: dict[str, Any], include_s
         require(p, [KANDIDATI_PII])
         if spec.get("izlaz", "broj") != "lista":
             raise InputError("pii=true ist nur mit izlaz='lista' sinnvoll")
+    if isinstance(spec.get("dipl"), dict) and spec["dipl"].get("status") is not None:
+        require(p, [DIPL_READ])  # DIPL status is DIPL data, even as a filter
     spec.setdefault("izlaz", "broj")
     if spec["izlaz"] in ("lista", "id"):
         spec["limit"] = _limit(spec.get("limit"))
@@ -94,6 +101,14 @@ def search_candidates(cfg: Config, p: Principal, spec: dict[str, Any], include_s
 
 
 # ---------------------------------------------------------------- filter_options
+def load_filter_catalog() -> dict:
+    import json
+    import os
+
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "filter_catalog.json"), encoding="utf-8") as f:
+        return json.load(f)
+
+
 def filter_options(cfg: Config, p: Principal, section: str | None = None) -> dict:
     catalog = bq.load_occupations()
     static = {
@@ -115,14 +130,31 @@ def filter_options(cfg: Config, p: Principal, section: str | None = None) -> dic
         "status_prijave": bq.STATUS_PRIJAVE,
         "slobodni_statusi": bq.FREE_STATUSES,
         "nacin_odlaska": {0: "Stručni kadar / EU", 2: "Zapadno-balkanski sistem"},
+        "drzavljanstvo_zemlje": {k: v for k, v in bq.CITIZENSHIP_REGEX.items()},
+        "porijeklo": bq.PORIJEKLO,
+        "messenger_status": bq.MESSENGER_STATUS,
+        "bracno_stanje": bq.BRACNO_STANJE,
+        "viza": ["ima", "nema", "dobio", "odbijena", "dopuna"],
+        "casting_status": bq.CASTING_STATUS,
+        "intervju_preporuka": list(bq.INTERVJU_PREPORUKA),
+        "odbio": list(bq.ODBIO),
+        "nostrifikacija": list(bq.NOSTR_PRIZNANJE),
+        "glossa": bq.GLOSSA,
+        "nalog_izvor": ["kandidat", "projekt", "oba"],
+        "ugovor": ["potpisan", "postoji"],
+        "berufsgruppen_svih": bq.load_berufsgruppen(),
+        "katalog_filtera": "filter_catalog.json (izvor, join, fill rate, zamke) – section='katalog'",
         "izlaz": ["broj", "izvori", "lista", "id"],
         "sortiraj": ["relevantnost", "novi"],
         "limit": {"default": ROW_LIMIT_DEFAULT, "max": ROW_LIMIT_MAX},
     }
-    if section and section not in static and section not in ("berufsgruppen", "grupe", "db"):
-        raise InputError(f"section unbekannt; erlaubt: {sorted(static) + ['berufsgruppen', 'grupe']}")
+    if section == "katalog":
+        return {"katalog": load_filter_catalog()}
+    db_sections = ("berufsgruppen", "grupe", "db", "razlozi_odbijanja", "dokument_status", "tf_status", "makleri", "dipl_status")
+    if section and section not in static and section not in db_sections:
+        raise InputError(f"section unbekannt; erlaubt: {sorted(static) + list(db_sections) + ['katalog']}")
     out: dict[str, Any] = {k: v for k, v in static.items() if not section or k == section}
-    want_db = section in (None, "berufsgruppen", "grupe", "status_prijave", "kandidat_status", "db")
+    want_db = section in (None, "status_prijave", "kandidat_status") + db_sections
     if want_db:
         try:
             if section in (None, "berufsgruppen", "db"):
@@ -134,6 +166,22 @@ def filter_options(cfg: Config, p: Principal, section: str | None = None) -> dic
             if section in (None, "status_prijave", "db"):
                 out["status_prijave_db"] = db.query(cfg, "SELECT status_id, status_naziv, status_aktivan, rezervisanje, "
                                                          "redoslijed_statusa FROM idk_kandidat_status_prijave ORDER BY redoslijed_statusa, status_id", ())
+            if section in (None, "razlozi_odbijanja", "db"):
+                out["razlozi_odbijanja"] = db.query(cfg, "SELECT rr_id, rr_name_bs, rr_name_de, rr_rejected_by, rr_status "
+                                                         "FROM idk_reject_reasons ORDER BY rr_id", ())
+            if section in (None, "dokument_status", "db"):
+                out["dokument_status"] = db.query(cfg, "SELECT ds_id, ds_name, ds_name_de FROM idk_pp_documents_statuses ORDER BY ds_id", ())
+            if section in (None, "tf_status", "db"):
+                out["tf_status"] = db.query(cfg, "SELECT s.tfs_id, s.tfs_name, s.tfs_vrsta_id, v.name AS vrsta, s.tfs_status_prijave "
+                                                 "FROM idk_tf_statusi s LEFT JOIN idk_tf_vrste v ON v.id = s.tfs_vrsta_id ORDER BY s.tfs_id", ())
+            if section in ("makleri", "db"):  # only IDs + number of candidates, no partner names (PII)
+                out["makleri"] = db.query(cfg, "SELECT kandidat_partnerid AS makler_id, COUNT(*) AS kandidata FROM idk_kandidati "
+                                               "WHERE kandidat_partnerid > 0 GROUP BY kandidat_partnerid ORDER BY kandidata DESC LIMIT 200", ())
+            if section in ("dipl_status", "db"):
+                require(p, [DIPL_READ])
+                out["dipl_status"] = db.query(cfg, "SELECT nd.status_nd_kandidata AS status, COUNT(*) AS kandidata FROM idk_kandidati k "
+                                                   "JOIN idk_nd_kandidata nd ON nd.id_broj_nd_kandidata = k.kandidat_dipl_id "
+                                                   "GROUP BY nd.status_nd_kandidata ORDER BY status", ())
         except (db.DbNotConfigured, db.DbError) as e:
             out["db_hinweis"] = f"Werte aus der DB nicht verfügbar: {e}"
     return out
