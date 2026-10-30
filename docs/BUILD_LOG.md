@@ -25,3 +25,13 @@
 - Erledigt/gestrichen: Hinweis auf `dsactivi-2/manufact-db-roleback-mcp` (laut Nutzer alte Version, nicht relevant).
 - Erledigt: Doppelung mit `Manufact-DB-Roleback-MCP` – laut Nutzer/Orchestrator vergessenes Altprojekt, nicht relevant; Vermerk in HANDOVER §13.3.
 - Repo `d-selmanovic/JSI-MCP-Claude` seit 2026-10-30 ~02:45 UTC privat (API geprüft) → `main` (Arbeitsstand) und `feature/server-v1` gepusht, Draft-PR #1.
+
+## Manufact-Deploy 2026-10-30
+- Server `JSI-MCP-Claude` (Org „Job Step“, ID `9a8db71b-dde7-455d-874b-baf8db40448f`), Branch `feature/server-v1`, `rootDir server`, Port 3000, Region AUTO (EU erst ab Plan „Startup“). Zweiter Server für Variantentest **abgelehnt: „Project limit reached (1)“** → beide Varianten auf demselben Server getestet.
+- MCP-URL Produktion: `https://calm-steel-onjlq.run.mcp-use.com/mcp`. Gesetzt (nicht geheim): `JSI_DB_TARGET=mirror`, `JSI_WRITES_ENABLED=false`, `JSI_MCP_PUBLIC_URL` = diese URL (nur Umgebung production).
+- #1 (dockerfilePath `server/Dockerfile`): Pfad wird relativ zu `rootDir` aufgelöst → nicht gefunden → stille Rückfallebene Python-Auto-Erkennung; Build ok, Start `python app.py` → „can't open file '/app/app.py'“ → failed. Fix: `server/app.py`.
+- #3 (dockerfilePath `Dockerfile`): „Using your Dockerfile: server/Dockerfile“, Server startet, aber Deploy-Check (MCP initialize) scheitert an **503** (ohne WorkOS). Fix: ohne WorkOS-Konfiguration 401 + `WWW-Authenticate`.
+- **#4 / #7 Dockerfile-Variante: running** („Server is up (authentication required)“).
+- Auch mit dockerfilePath = null nimmt Manufact ein vorhandenes `Dockerfile` im `rootDir` automatisch → Auto-Variante auf Test-Branch `test/pyproject-auto` (ohne Dockerfile) getestet: **#9 pyproject-Variante: running**, Preview `https://calm-steel-onjlq--br-test-pyproject-auto.run.mcp-use.com/mcp` (Start über `python app.py`).
+- Beobachtungen Manufact: öffentliches `/health` liefert Plattform-Antwort `{"status":"healthy",…}` statt der App-Antwort; 401-Header wird um `resource_metadata` ergänzt. An Manufact per `send_feedback` gemeldet.
+- Fremder Branch `feature/filter-katalog` (nicht aus dieser Session) erzeugt Preview-Deploys (#6, #8 failed) – nicht angefasst.

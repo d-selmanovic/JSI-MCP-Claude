@@ -74,8 +74,13 @@ Hilfsskripte: `scripts/schema_ddl.py` (DDL aus `columns.json`), `scripts/gen_gra
 
 ## Deploy auf Manufact
 
-`create_server`: Org „Job Step“, GitHub-Verbindung des Kontos `d-selmanovic`, Repo `d-selmanovic/JSI-MCP-Claude`, Branch `feature/server-v1`, `rootDir server`, Name `JSI-MCP-Claude`, Port 3000, Region `AUTO` (EU/US/APAC erst ab Plan „Startup“). Build: `Dockerfile` in `server/` (alternativ Python-Erkennung über `pyproject.toml`; Start `jsi-mcp-server`).
-Danach `JSI_MCP_PUBLIC_URL` auf die von Manufact vergebene URL + `/mcp` setzen.
+Server `JSI-MCP-Claude`, Org „Job Step“, Repo `d-selmanovic/JSI-MCP-Claude`, Branch `feature/server-v1`, `rootDir server`, Port 3000, Region `AUTO` (EU/US/APAC erst ab Plan „Startup“). Produktion: `https://calm-steel-onjlq.run.mcp-use.com/mcp`.
+
+Beide Build-Varianten sind getestet und laufen:
+- **Dockerfile:** `dockerfilePath` **relativ zu `rootDir`** angeben (`Dockerfile`, nicht `server/Dockerfile` – sonst stille Rückfallebene auf Auto-Erkennung). Liegt ein `Dockerfile` im `rootDir`, nutzt Manufact es auch ohne Einstellung.
+- **Automatisch (pyproject.toml):** Manufact installiert mit `uv sync --frozen --no-dev` und startet `python app.py` → `server/app.py` startet den Server (lenkt auf `.venv` um). Wirkt nur, wenn kein `Dockerfile` im `rootDir` liegt.
+
+Manufact prüft nach dem Deploy per MCP-`initialize` auf `/mcp`: 401 (Auth verlangt) gilt als gesund, 503 als Fehler. Öffentliches `/health` liefert eine Plattform-Antwort, nicht die der App (App-Health nur in den Runtime-Logs/intern).
 
 ## WorkOS AuthKit einrichten
 
