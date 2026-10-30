@@ -1,8 +1,8 @@
 import pytest
 
 from jsi_mcp import config
-from jsi_mcp.auth import WorkOSTokenVerifier
-from jsi_mcp.permissions import Principal
+from jsi_mcp.auth import WorkOSTokenVerifier, current_principal
+from jsi_mcp.permissions import Principal, admin_test_permissions, permissions_from_claims
 
 from jwt_helpers import AUDIENCE, ISSUER, OTHER_KEY, FakeJWKClient, mint
 
@@ -84,3 +84,43 @@ def test_writes_only_on_mirror():
 def test_domain_normalised():
     cfg = config.load({"WORKOS_AUTHKIT_DOMAIN": "https://x.authkit.app/", "JSI_MCP_PUBLIC_URL": "https://a/mcp"})
     assert cfg.issuer == "https://x.authkit.app" and cfg.jwks_url == "https://x.authkit.app/oauth2/jwks"
+
+
+def test_role_map_when_permissions_missing():
+    assert permissions_from_claims({"roles": ["jsi-reader"]}) == frozenset({
+        "jsi:kandidati:read", "jsi:kennzahlen:read",
+    })
+    analyst = permissions_from_claims({"roles": ["admin", "jsi-analyst"]})
+    assert analyst == frozenset({
+        "jsi:kandidati:read", "jsi:kennzahlen:read", "jsi:finansije:read", "jsi:dipl:read",
+    })
+    assert "jsi:kandidati:pii" not in analyst
+    assert permissions_from_claims({"roles": ["admin", "crm-writer-approval"]}) == frozenset()
+    assert permissions_from_claims({"role": "jsi-admin-test"}) == admin_test_permissions()
+    assert len(admin_test_permissions()) == 25
+
+
+def test_explicit_permissions_stay_authoritative():
+    assert permissions_from_claims({
+        "permissions": ["jsi:dipl:read"],
+        "roles": ["jsi-admin-test"],
+    }) == frozenset({"jsi:dipl:read"})
+    assert permissions_from_claims({
+        "permissions": [],
+        "roles": ["jsi-reader"],
+    }) == frozenset({"jsi:kandidati:read", "jsi:kennzahlen:read"})
+    assert permissions_from_claims({"permissions": "jsi:audit:read"}) == frozenset({"jsi:audit:read"})
+
+
+def test_current_principal_uses_role_fallback(monkeypatch):
+    from mcp.server.auth.provider import AccessToken
+
+    cfg = config.load({"WORKOS_AUTHKIT_DOMAIN": "x.authkit.app", "JSI_MCP_PUBLIC_URL": "https://a/mcp"})
+    tok = AccessToken(
+        token="t", client_id="client_test", scopes=[], expires_at=None,
+        subject="user_01TEST", claims={"roles": ["jsi-admin-test"], "org_id": "org_1"},
+    )
+    monkeypatch.setattr("jsi_mcp.auth.get_access_token", lambda: tok)
+    p = current_principal(cfg)
+    assert p.sub == "user_01TEST" and p.org_id == "org_1"
+    assert p.permissions == admin_test_permissions()
