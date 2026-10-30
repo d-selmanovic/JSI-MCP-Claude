@@ -8,14 +8,14 @@ Auftraggeber: Orchestrator-Session (Claude) im Auftrag des Nutzers. Sprache mit 
 - Authentifizierung **WorkOS AuthKit** (OAuth, Server = Resource Server), Berechtigungen pro Tool aus dem JWT-Claim `permissions` (Slugs siehe HANDOVER §13.1). Ohne gültiges Token → 401 + `WWW-Authenticate` mit `resource_metadata`.
 - Lesen + **alle sinnvollen Schreibaktionen** über ein Schreib-Register (HANDOVER §13.2), jede mit `dry_run`, Transaktion, Audit in `mcp_aenderung` (Fehler in `mcp_fehler`), kein hartes Löschen. Schreiben nur, wenn `JSI_WRITES_ENABLED=true` **und** `JSI_DB_TARGET=mirror`.
 - Kein freies SQL-Tool. Toolnamen Englisch, Beschreibungen Deutsch + Bosnisch. Limits: 200 Zeilen Standard, 5.000 max, 30 s Timeout.
-- Personendaten (Name, Telefon, E-Mail) nur mit Permission `jsi:kandidati:pii`. Spalten aus `plugin/skills/jsi-data-analyst/references/schema/osjetljive_kolone.md` **niemals** lesen/ausgeben.
+- Personendaten (Name, Telefon, E-Mail) nur mit Permission `jsi:kandidati:pii`. Spalten aus `server/src/jsi_mcp/skills/jsi-data-analyst/references/schema/osjetljive_kolone.md` **niemals** lesen/ausgeben.
 - Abnahme der echten DB-Verbindung und der Schreib-Tools erfolgt **nach dem Deploy über den MCP selbst** (Nutzer bindet Connector ein). Claude-Cloud-Sessions erreichen MySQL nicht direkt (nur Port 443).
 
 ## Schritte
 0. **Sicherheitscheck:** `gh api repos/d-selmanovic/JSI-MCP-Claude --jq .private` muss `true` sein. Sonst NICHTS pushen, Nutzer bitten, das Repo auf privat zu stellen, und warten.
 1. Arbeitsstand übernehmen: `git clone --depth 1 https://github.com/dsactivi-2/jsi-mcp-claude /home/user/arbeitsstand-src` (öffentlich, nur lesen). Ins Ziel-Repo kopieren: `HANDOVER.md`, `CLAUDE.md`, `README.md`, `.gitignore`, `.env.example`, `plugin/`, `docs/`. `HANDOVER.md` + `CLAUDE.md` lesen.
 2. Branch `feature/server-v1`. Server unter `server/` (eigenes `pyproject.toml` mit `uv.lock`, Python 3.12; Manufact erkennt Python über `pyproject.toml`). Port aus `PORT` (Default 3000), Pfad `/mcp`, Health `/health`.
-3. **Lese-Tools** (v1), Logik aus `plugin/skills/jsi-kandidat-filter/scripts/build_query.py` (unverändert als Modul übernehmen, Tests mitnehmen):
+3. **Lese-Tools** (v1), Logik aus `plugin/skills/jsi-kandidat-filter/scripts/build_query.py` (heute `server/src/jsi_mcp/build_query.py`) (unverändert als Modul übernehmen, Tests mitnehmen):
    - `search_candidates` (alle Filter-Spec-Schlüssel aus `jsi-kandidat-filter/SKILL.md`; `izlaz` broj/izvori/lista/id; `pii` nur mit Permission)
    - `filter_options` (gültige Werte/Codes je Filter, Berufskatalog aus `occupations.json`, Länder, Status-Codes)
    - `candidate_profile` (ein Kandidat, ohne PII außer mit Permission; nie [TAJNO])

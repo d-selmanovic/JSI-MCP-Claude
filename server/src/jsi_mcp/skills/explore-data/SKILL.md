@@ -6,19 +6,18 @@ argument-hint: "<table or file>"
 
 # /explore-data - Profile and Explore a Dataset
 
-> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](../../CONNECTORS.md).
 
 Generate a comprehensive data profile for a table or uploaded file. Understand its shape, quality, and patterns before diving into analysis.
 
 
 ## Company Context (JSI)
 
-- **Data access**: only through the JSI MCP server `jsi` (`search_candidates`, `kpis`, `orders_overview`, `pipeline_history`, `candidate_profile`, `filter_options`; schema `jsicrm`, MySQL). There is **no free SQL access** – BlazeSQL was disconnected on 2026-10-30. If a question needs data the tools cannot return, say so and suggest a new MCP tool instead of guessing; SQL written here is for review by the developers, not executed.
+- **Data access**: only through the JSI MCP server `jsi` (`search_candidates`, `kpis`, `orders_overview`, `pipeline_history`, `candidate_profile`, `filter_options`, `table_describe`/`table_read` for all other tables; schema `jsicrm`, MySQL). There is **no free SQL access** – BlazeSQL was disconnected on 2026-10-30. If a question needs data the tools cannot return, say so and suggest a new MCP tool instead of guessing; SQL written here is for review by the developers, not executed.
 - **Domain**: Recruiting/placement CRM — candidates (`idk_kandidati`, `idk_kandidat_*`), partners (`idk_pp_*`), client companies (`idk_clients`, `idk_companies`), projects (`idk_projects`, `idk_project_kandidati`), task force/reservations (`idk_tf_*`), documents and visas (`idk_pp_documents`, `idk_pp_visa_incomplete`, `idk_nostrifikovane_diplome`), invoices (`idk_racuni`). Many table and column names are Bosnian (e.g. `kandidat`, `nalog`, `racuni`, `jezici`), with German/English translation columns.
 - **Personal data**: candidate tables contain personal data (names, contacts, citizenship, documents). Prefer aggregates; don't output personal details unless the user explicitly needs them. Never query or output tokens/credentials (e.g. `idk_api_clients`, password fields in `users` / `idk_pp_users`).
 - **Report language**: write narratives, chart titles and dashboard labels in **Bosnian** unless the user asks otherwise.
-- **Searching/counting candidates by criteria** (occupation, driving licence, language, …): use the `jsi-kandidat-filter` skill instead of hand-written SQL.
-- **Before querying JSI data, load the `jsi-data-analyst` skill** — it has status code meanings, the default filter (`kandidat_status <> 3`), metric definitions and known data-quality issues.
+- **Searching/counting candidates by criteria** (occupation, driving licence, language, …): use the `jsi-kandidat-filter` skill (`skill_lesen(skill='jsi-kandidat-filter')`) instead of hand-written SQL.
+- **Before querying JSI data, load the `jsi-data-analyst` skill** (`skill_lesen(skill='jsi-data-analyst')`) — it has status code meanings, the default filter (`kandidat_status <> 3`), metric definitions and known data-quality issues.
 
 ## Usage
 

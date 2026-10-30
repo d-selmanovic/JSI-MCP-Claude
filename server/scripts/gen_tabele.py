@@ -1,7 +1,7 @@
 """Generate src/jsi_mcp/tabele_katalog.json: readable tables per area for table_read/table_describe.
 
 Sources: docs/rohdaten/columns.json (schema), docs/rohdaten/counts.tsv (row counts),
-plugin/skills/jsi-data-analyst/references/schema/NN_*.md (area of each table), sensitive.SENSITIVE ([TAJNO]).
+src/jsi_mcp/skills/jsi-data-analyst/references/schema/NN_*.md (area of each table), sensitive.SENSITIVE ([TAJNO]).
 [TAJNO] columns are left out entirely. Columns holding personal data are marked "pii" (shown only with
 jsi:kandidati:pii). Review the printed PII list after changes – the rules are name based.
 
@@ -88,7 +88,7 @@ def main() -> None:
         p = line.rstrip("\n").split("\t")
         if len(p) >= 2 and p[1].isdigit():
             counts[p[0]] = int(p[1])
-    schema_dir = os.path.join(REPO, "plugin", "skills", "jsi-data-analyst", "references", "schema")
+    schema_dir = os.path.join(ROOT, "src", "jsi_mcp", "skills", "jsi-data-analyst", "references", "schema")
     out = {"_doc": "Generiert von scripts/gen_tabele.py – nicht von Hand ändern. [TAJNO]-Spalten fehlen absichtlich.",
            "podrucja": {}}
     pii_list = []

@@ -46,7 +46,7 @@ If the `jsi` tools are missing, the user must sign in once (skill `jsi-mcp`). Th
 **Added 2026-10-30 (29 keys, full table with sources/fill rates/pitfalls in `references/filteri.md`, machine-readable via `filter_options(section='katalog')`):**
 `porijeklo` (channel), `messenger_status`, `bracno_stanje`, `viza` (ima|nema|dobio|odbijena|dopuna), `termin_za_vizu`, `casting` {status,nalog_id,od,do}, `intervju` {preporuka hire|reject|not_sure}, `odbijen` {razlog_id, odbio kandidat|poslodavac}, `dokument_status`, `makler`, `pp_partner_id`, `tf_agent_id`, `tf_status`, `vjestina`, `grad`, `aktivan` {od,do}, `status_historija` {status,od,do,nalog_id,projekt_id}, `faza_min` (7 = contract signed or later), `ima_biljeske`, `ima_dokumente`, `firma_id`, `dipl` {povezan,status}, `cv_de`, `profil_de`, `ugovor` (postoji|potpisan), `pocetak_rada_potvrden`, `grupa_id`, `radno_iskustvo` {min_godina, zanimanje}, `glossa`, `nalog_izvor` (kandidat|projekt|oba). Extended: `drzavljanstvo` by country (BIH, SRB …), `nostrifikacija` (potpuno|djelimicno|status_2|bilo_koje), `obrazovanje.skola_id/smjer_id`, languages es/fr/ru/ar/tr, all 194 `berufsgruppe_id` as `zanimanje`.
 
-Status codes and occupation catalog: `references/filteri.md`. Full database documentation: `../jsi-data-analyst/references/schema/README.md`, wiring: `../jsi-data-analyst/references/veze.md`.
+Status codes and occupation catalog: `references/filteri.md`. Full database documentation and wiring live in the skill `jsi-data-analyst`: `skill_lesen(skill='jsi-data-analyst', datei='references/schema/README.md')` and `skill_lesen(skill='jsi-data-analyst', datei='references/veze.md')`.
 
 ## Examples
 

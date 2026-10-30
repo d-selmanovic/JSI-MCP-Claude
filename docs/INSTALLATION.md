@@ -1,6 +1,6 @@
 # Installation: JSI-MCP-Server + Skills (Plugin `jsi-crm`)
 
-Ein Repo, ein Plugin (`plugin/`), alle Plattformen. Wer das Plugin installiert, bekommt den MCP-Server `jsi` (`https://calm-steel-onjlq.run.mcp-use.com/mcp`) **automatisch konfiguriert** und dazu die Skills `jsi-mcp`, `jsi-kandidat-filter`, `jsi-data-analyst` (+ allgemeine Analyse-Skills).
+Ein Repo, ein Plugin (`plugin/`), alle Plattformen. Wer das Plugin installiert, bekommt den MCP-Server `jsi` (`https://calm-steel-onjlq.run.mcp-use.com/mcp`) **automatisch konfiguriert** und dazu den Skill `jsi-mcp`. Das Fachwissen (`jsi-data-analyst`, `jsi-kandidat-filter`, Analyse-Skills) liefert **der Server selbst** – mit der Verbindung ist es da, ohne Plugin-Update: über das Tool `skill_lesen` (alle Clients) und die MCP-Skills-Extension `io.modelcontextprotocol/skills` (`skills/list`, `skill://…`) für Hosts, die sie unterstützen.
 
 Das Plugin bringt außerdem **Hooks** mit (Kontext, Bestätigung vor Schreibzugriffen, Seitenhinweis, Personendaten-Schutz, JMBG/IBAN-Sperre) – Einrichten/Abschalten: `docs/HOOKS.md`.
 
@@ -31,7 +31,7 @@ Quellen: https://code.claude.com/docs/en/plugins-reference · https://code.claud
 ## claude.ai / Cowork / Claude Desktop
 
 - **Plugin:** Customize → Plugins → Add → „Add marketplace“ → `d-selmanovic/JSI-MCP-Claude` → `jsi-crm` installieren. Der Server erscheint im Connectors-Tab des Plugins; **Connect** klicken (Installation verbindet nicht automatisch).
-- **Ohne Plugin:** Customize → Connectors → „+ Add“ → „Add custom connector“ → URL oben → „Use Claude's published identity“ oder „Register automatically“. Skills dann einzeln als ZIP: Customize → Skills → „Upload a skill“ (Ordner `plugin/skills/<name>` zippen; Code-Ausführung muss aktiv sein).
+- **Ohne Plugin:** Customize → Connectors → „+ Add“ → „Add custom connector“ → URL oben → „Use Claude's published identity“ oder „Register automatically“. Das Fachwissen kommt über den Connector (`skill_lesen`); der Skill `jsi-mcp` kann optional als ZIP hochgeladen werden: Customize → Skills → „Upload a skill“ (Ordner `plugin/skills/jsi-mcp` zippen).
 Quellen: https://claude.com/docs/plugins/build · https://claude.com/docs/cowork/guide/plugins
 
 ## Codex (CLI / Desktop)

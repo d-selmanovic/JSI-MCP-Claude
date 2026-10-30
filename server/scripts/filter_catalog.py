@@ -3,7 +3,7 @@
 
 Writes:
   server/src/jsi_mcp/filter_catalog.json                       (maschinenlesbar, vom Server ausgeliefert)
-  plugin/skills/jsi-kandidat-filter/references/filteri.md     (Doku, aus derselben Quelle generiert)
+  server/src/jsi_mcp/skills/jsi-kandidat-filter/references/filteri.md  (Doku, aus derselben Quelle generiert)
 Fill rates and pitfalls come from docs/rohdaten/kandidat_profil.tsv and veze_komplett.tsv.
 Run: python3 -I server/scripts/filter_catalog.py   (after changing a filter in server/src/jsi_mcp/build_query.py)
 """
@@ -152,7 +152,7 @@ def main():
            '| Schweißer aus BiH 25–45, frei, C/CE | `{"zanimanje":"Schweißer","drzava":"BIH","starost":{"od":25,"do":45},"slobodni":true,"vozacka":["C","CE"]}` | 45 | 45 |',
            '| Pflegekräfte, DE-Zertifikat B1, Nostrifikation abgeschlossen | `{"zanimanje":["krankenpfleger","pflegehelfer"],"jezik":{"jezik":"de","min_nivo":"B1","certifikat":true},"nostrifikacija":true}` | 0 | 0 (auch ohne Niveau 0; DIPL-Zertifikat 0) |',
            '| Auftrag 254, Status Vertrag unterschrieben | `{"nalog_id":[254],"status_prijave":[9]}` | 15 | 15 (Phase ≥ 7: 165; jemals Status 9 im Auftrag: 276) |', ""]
-    with open(os.path.join(REPO, "plugin", "skills", "jsi-kandidat-filter", "references", "filteri.md"), "w", encoding="utf-8") as f:
+    with open(os.path.join(REPO, "server", "src", "jsi_mcp", "skills", "jsi-kandidat-filter", "references", "filteri.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(md))
     print(len(F), "Filter geschrieben")
 

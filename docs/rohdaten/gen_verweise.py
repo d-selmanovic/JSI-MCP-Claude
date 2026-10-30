@@ -406,7 +406,7 @@ X[("idk_pp_users", "pu_lname")] = ("PII", "Nachname")
 X[("idk_sms_messages", "sms_number")] = ("PII", "Telefonnummer")
 
 SENS = set()
-with open(os.path.join(HERE, "..", "..", "plugin", "skills", "jsi-data-analyst", "references", "schema", "osjetljive_kolone.md"),
+with open(os.path.join(HERE, "..", "..", "server", "src", "jsi_mcp", "skills", "jsi-data-analyst", "references", "schema", "osjetljive_kolone.md"),
           encoding="utf-8") as f:
     for line in f:
         m = re.match(r"\|\s*`([^`]+)`\s*\|\s*`([^`]+)`\s*\|", line)

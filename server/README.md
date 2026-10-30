@@ -9,7 +9,7 @@ Kein freies SQL. Alle Abfragen sind fest oder werden von `build_query.py` erzeug
 | Tool | Permission (WorkOS) | Zweck |
 |---|---|---|
 | `whoami` | – (nur gültiges Token) | eigene `sub`/Permissions, Serverstatus, Konfigurationsfehler |
-| `search_candidates` | `jsi:kandidati:read` (+ `jsi:kandidati:pii` für `pii=true`) | alle Filter aus `jsi-kandidat-filter/SKILL.md`; `izlaz` broj/izvori/lista/id |
+| `search_candidates` | `jsi:kandidati:read` (+ `jsi:kandidati:pii` für `pii=true`) | alle Filter aus `src/jsi_mcp/skills/jsi-kandidat-filter/SKILL.md`; `izlaz` broj/izvori/lista/id |
 | `filter_options` | `jsi:kandidati:read` | Codes, Berufskatalog, Länder, Status, Schreib-Register |
 | `candidate_profile` | `jsi:kandidati:read` (+ `pii`, + `jsi:dipl:read` für DIPL-Block) | ein Kandidat ohne PII; nie [TAJNO] |
 | `kpis` | `jsi:kennzahlen:read`; `umsatz` + `jsi:finansije:read`; `dipl_funnel` + `jsi:dipl:read` | vermittlungen, neue_kandidaten, pipeline_bestand, umsatz, task_force, casting, dipl_funnel |

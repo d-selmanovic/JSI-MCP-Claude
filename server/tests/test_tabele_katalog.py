@@ -61,7 +61,7 @@ def test_filter_catalog_matches_generator():
     """filter_catalog.json (server) and filteri.md (skill doc) are exactly what scripts/filter_catalog.py writes."""
     repo = os.path.join(HERE, "..", "..")
     files = [os.path.join(repo, "server", "src", "jsi_mcp", "filter_catalog.json"),
-             os.path.join(repo, "plugin", "skills", "jsi-kandidat-filter", "references", "filteri.md")]
+             os.path.join(repo, "server", "src", "jsi_mcp", "skills", "jsi-kandidat-filter", "references", "filteri.md")]
     before = [open(f, encoding="utf-8").read() for f in files]
     subprocess.run([sys.executable, "-I", os.path.join(HERE, "..", "scripts", "filter_catalog.py")], check=True,
                    capture_output=True)
