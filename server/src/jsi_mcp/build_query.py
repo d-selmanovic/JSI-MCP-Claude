@@ -230,27 +230,27 @@ def occupation_ctes(occ_spec, catalog):
             parts.append(f"SELECT k.kandidat_id AS kid, 'prijava' AS izvor FROM idk_kandidati k "
                          f"JOIN beruf_mapping bm ON bm.freitext_wert = k.kandidat_prijava_na WHERE bm.berufsgruppe_id IN ({g})")
         if keywords:
-            parts.append(f"SELECT k.kandidat_id, 'prijava' FROM idk_kandidati k WHERE {kw('k.kandidat_prijava_na')} OR {kw('k.kandidat_pp_pozicija')}")
+            parts.append(f"SELECT k.kandidat_id AS kid, 'prijava' AS izvor FROM idk_kandidati k WHERE {kw('k.kandidat_prijava_na')} OR {kw('k.kandidat_pp_pozicija')}")
     if "grupa" in sources and kg_ids:
-        parts.append(f"SELECT k.kandidat_id, 'grupa' FROM idk_kandidati k WHERE k.kandidat_group IN ({int_list(sorted(kg_ids))})")
+        parts.append(f"SELECT k.kandidat_id AS kid, 'grupa' AS izvor FROM idk_kandidati k WHERE k.kandidat_group IN ({int_list(sorted(kg_ids))})")
     if "iskustvo" in sources:
         if g:
-            parts.append(f"SELECT r.kri_kandidat_id, 'iskustvo' FROM idk_kandidat_radno_iskustvo r "
+            parts.append(f"SELECT r.kri_kandidat_id AS kid, 'iskustvo' AS izvor FROM idk_kandidat_radno_iskustvo r "
                          f"JOIN beruf_mapping bm ON bm.freitext_wert = r.kri_pozicija WHERE bm.berufsgruppe_id IN ({g})")
         if keywords:
-            parts.append(f"SELECT r.kri_kandidat_id, 'iskustvo' FROM idk_kandidat_radno_iskustvo r WHERE {kw('r.kri_pozicija')} OR {kw('r.kri_pozicija_de')}")
+            parts.append(f"SELECT r.kri_kandidat_id AS kid, 'iskustvo' AS izvor FROM idk_kandidat_radno_iskustvo r WHERE {kw('r.kri_pozicija')} OR {kw('r.kri_pozicija_de')}")
     if "kvalifikacija" in sources:
         if g:
-            parts.append(f"SELECT e.ke_kandidat_id, 'kvalifikacija' FROM idk_kandidat_edukacija e "
+            parts.append(f"SELECT e.ke_kandidat_id AS kid, 'kvalifikacija' AS izvor FROM idk_kandidat_edukacija e "
                          f"JOIN beruf_mapping bm ON bm.freitext_wert = e.ke_naziv_kvalifikacije WHERE bm.berufsgruppe_id IN ({g})")
         if keywords:
-            parts.append(f"SELECT e.ke_kandidat_id, 'kvalifikacija' FROM idk_kandidat_edukacija e WHERE {kw('e.ke_naziv_kvalifikacije')}")
+            parts.append(f"SELECT e.ke_kandidat_id AS kid, 'kvalifikacija' AS izvor FROM idk_kandidat_edukacija e WHERE {kw('e.ke_naziv_kvalifikacije')}")
     if "smjer" in sources and smjer_kw:
         skw = " OR ".join(f"s.ss_naziv LIKE '%{esc_like(k)}%' OR s.ss_naziv_de LIKE '%{esc_like(k)}%'" for k in sorted(smjer_kw))
-        parts.append(f"SELECT e.ke_kandidat_id, 'smjer' FROM idk_kandidat_edukacija e "
+        parts.append(f"SELECT e.ke_kandidat_id AS kid, 'smjer' AS izvor FROM idk_kandidat_edukacija e "
                      f"JOIN idk_skole_smjerovi s ON s.ss_id = e.ke_smjer_id WHERE {skw}")
     if "de_profil" in sources and keywords:
-        parts.append(f"SELECT d.kde_kandidat_id, 'de_profil' FROM idk_kandidat_de d WHERE {kw('d.kde_prijava_na')}")
+        parts.append(f"SELECT d.kde_kandidat_id AS kid, 'de_profil' AS izvor FROM idk_kandidat_de d WHERE {kw('d.kde_prijava_na')}")
     if not parts:
         raise SpecError("no occupation source produced a condition")
     cte = ("occ_raw AS (\n  " + "\n  UNION\n  ".join(parts) + "\n),\n"
