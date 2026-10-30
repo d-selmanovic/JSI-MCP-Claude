@@ -1,5 +1,9 @@
 {
   "mcpServers": {
+    "jsi": {
+      "type": "http",
+      "url": "https://calm-steel-onjlq.run.mcp-use.com/mcp"
+    },
     "amplitude": {
       "type": "http",
       "url": "https://mcp.amplitude.com/mcp"

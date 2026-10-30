@@ -1,0 +1,14 @@
+{
+  "name": "jsi",
+  "owner": {
+    "name": "JSI / activi.io"
+  },
+  "description": "JSI Recruiting-CRM: MCP-Server und Skills",
+  "plugins": [
+    {
+      "name": "jsi-crm",
+      "source": "./plugin",
+      "description": "JSI-MCP-Server (Kandidaten, Kennzahlen, Aufträge, Pipeline) + JSI-Skills"
+    }
+  ]
+}

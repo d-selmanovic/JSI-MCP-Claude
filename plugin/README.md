@@ -1,13 +1,13 @@
-# Data Analyst Plugin
+# JSI CRM Plugin (`jsi-crm`)
 
-A data analyst plugin primarily designed for [Cowork](https://claude.com/product/cowork), Anthropic's agentic desktop application — though it also works in Claude Code. SQL queries, data exploration, visualization, dashboards, and insight generation. Works with any data warehouse, any SQL dialect, and any analytics stack.
+Connects the agent to the **JSI MCP server** (`jsi`, `https://calm-steel-onjlq.run.mcp-use.com/mcp`, OAuth via WorkOS) and ships the JSI skills (`jsi-mcp`, `jsi-kandidat-filter`, `jsi-data-analyst`) plus general data-analysis skills (based on Anthropic's data plugin, Apache-2.0, see `LICENSE`).
 
 ## Installation
 
 ```
-claude plugin marketplace add anthropics/knowledge-work-plugins
-claude plugin install data@knowledge-work-plugins
+/plugin install jsi-crm --marketplace d-selmanovic/JSI-MCP-Claude
 ```
+or `claude plugin marketplace add d-selmanovic/JSI-MCP-Claude` + `claude plugin install jsi-crm@jsi`. Then `/mcp` → `jsi` → Authenticate. Codex, ChatGPT, Hermes, Grok, claude.ai: see `../docs/INSTALLATION.md`.
 
 ## What It Does
 
