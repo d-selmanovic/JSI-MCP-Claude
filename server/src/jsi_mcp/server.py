@@ -264,6 +264,21 @@ def t_set_application_status(cfg, p,
     return writes.set_application_status(cfg, p, kandidat_id, status_id, projekt_id, dry_run, preview_hash, grund)
 
 
+# Display titles (Claude.ai requires tool.title).
+TOOL_TITLES: dict[str, str] = {
+    "whoami": "Wer bin ich",
+    "search_candidates": "Kandidaten suchen",
+    "filter_options": "Filterwerte",
+    "candidate_profile": "Kandidatenprofil",
+    "kpis": "Kennzahlen",
+    "orders_overview": "Auftragsübersicht",
+    "pipeline_history": "Pipeline-Verlauf",
+    "change_log": "Änderungsprotokoll",
+    "record_preview": "Schreibvorschau",
+    "record_write": "Datensatz schreiben",
+    "set_application_status": "Bewerbungsstatus setzen",
+}
+
 TOOLS: list[tuple[str, Any, str, ToolAnnotations]] = [
     ("whoami", t_whoami, "Wer bin ich, welche Permissions, Serverstatus. / Ko sam, ovlaštenja, status servera.", RO),
     ("search_candidates", t_search_candidates,
@@ -289,7 +304,8 @@ def build_mcp(cfg: config_mod.Config) -> MCPServer:
         kwargs["token_verifier"] = WorkOSTokenVerifier(cfg.issuer, cfg.public_url, cfg.jwks_url)
     mcp = MCPServer(name="JSI-MCP-Claude", title="JSI CRM", version=VERSION, instructions=INSTRUCTIONS, **kwargs)
     for name, fn, desc, ann in TOOLS:
-        mcp.add_tool(tool_wrapper(cfg, name)(fn), name=name, description=desc, annotations=ann, structured_output=False)
+        mcp.add_tool(tool_wrapper(cfg, name)(fn), name=name, title=TOOL_TITLES[name], description=desc, annotations=ann,
+                     structured_output=False)
 
     @mcp.custom_route("/health", methods=["GET"])
     async def health(request: Request):

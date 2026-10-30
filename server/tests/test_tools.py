@@ -28,6 +28,7 @@ async def test_tool_list_and_schemas():
     assert set(tools) == EXPECTED == set(TOOL_PERMISSIONS)
     for t in tools.values():
         assert " / " in t.description, f"{t.name}: description must be DE / BS"
+        assert t.title, f"{t.name}: Claude.ai requires a display title"
         props = t.input_schema.get("properties", {})
         assert "cfg" not in props and "p" not in props
     sc = tools["search_candidates"].input_schema["properties"]
