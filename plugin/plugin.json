@@ -1,6 +1,6 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "jsi-crm",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "JSI Recruiting-CRM: Kandidatensuche, Kennzahlen, Aufträge und Pipeline über den JSI-MCP-Server (OAuth über WorkOS), plus Analyse-Skills."
 }

@@ -16,8 +16,6 @@ Answer a data question, from a quick lookup to a full analysis to a formal repor
 - **Database**: MySQL database "Mysql JSI", schema `jsicrm` (~99 tables), queried through the BlazeSQL tools (`list_schemas` → `list_tables` → `describe_tables` → `execute_sql`). Use **MySQL** syntax by default.
 - **Domain**: Recruiting/placement CRM — candidates (`idk_kandidati`, `idk_kandidat_*`), partners (`idk_pp_*`), client companies (`idk_clients`, `idk_companies`), projects (`idk_projects`, `idk_project_kandidati`), task force/reservations (`idk_tf_*`), documents and visas (`idk_pp_documents`, `idk_pp_visa_incomplete`, `idk_nostrifikovane_diplome`), invoices (`idk_racuni`). Many table and column names are Bosnian (e.g. `kandidat`, `nalog`, `racuni`, `jezici`), with German/English translation columns.
 - **Personal data**: candidate tables contain personal data (names, contacts, citizenship, documents). Prefer aggregates; don't output personal details unless the user explicitly needs them. Never query or output tokens/credentials (e.g. `idk_api_clients`, password fields in `users` / `idk_pp_users`).
-- **Product analytics**: Amplitude project `default` (appId `100063413`).
-- **Project tracker**: Notion.
 - **Report language**: write narratives, chart titles and dashboard labels in **Bosnian** unless the user asks otherwise.
 - **Searching/counting candidates by criteria** (occupation, driving licence, language, …): use the `jsi-kandidat-filter` skill instead of hand-written SQL.
 - **Before querying JSI data, load the `jsi-data-analyst` skill** — it has status code meanings, the default filter (`kandidat_status <> 3`), metric definitions and known data-quality issues.

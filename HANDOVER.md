@@ -30,7 +30,7 @@ Beispiel des Nutzers: „alle Elektriker mit Führerschein C“ → Filter → S
 ## 2. Umgebung
 - Datenzugriff: **BlazeSQL-Connector** (claude.ai) → MySQL **8.4.11** „Mysql JSI“, Schema `jsicrm`, **190 Tabellen, 1.809 Spalten**, InnoDB, `ONLY_FULL_GROUP_BY` + Strict-Modus. Tools: `list_schemas`, `list_tables`, `describe_tables`, `execute_sql` (Timeout **60 s**).
 - Seit 2026-10-29 sind **alle** Tabellen freigegeben (vorher 99).
-- Amplitude verbunden (Org `white-unit-100243`, Projekt `default` appId 100063413, ungenutzt). Notion: Konto verbunden, in Sitzung nicht freigeschaltet.
+- Amplitude und Notion: am 2026-10-30 aus dem Plugin entfernt (waren nie genutzt; nicht mit dem JSI-MCP-Server verbunden).
 - Firma: JobStep-Gruppe (Jobstep GmbH DE / Jobstep Int GmbH CH), Teams JS, GC, WE, SSC, JSI, NTH; Filialen BiH/SRB/DE/CH. Zwei Geschäftsfelder: **Vermittlung** (Kandidaten → deutsche Arbeitgeber) und **DIPL** (Diplom-Nostrifikation, von Kandidaten bezahlt).
 
 ## 3. Inhalt dieses Pakets
@@ -50,7 +50,7 @@ Neu generieren: `python3 -I rohdaten/gen_schema.py <ordner-mit-columns.json,coun
 Tests: `python3 -I -m unittest discover -s plugin/skills/jsi-kandidat-filter/scripts -p 'test_*.py'`.
 
 ## 4. Was am Plugin geändert wurde
-- `CONNECTORS.md`, `.mcp.json` (Amplitude + Notion; Snowflake/Databricks/BigQuery/Hex/Definite/Atlassian entfernt), `README.md`.
+- `CONNECTORS.md`, `.mcp.json` (Snowflake/Databricks/BigQuery/Hex/Definite/Atlassian entfernt; seit 1.2.1 auch Amplitude + Notion – `.mcp.json` enthält nur noch `jsi`), `README.md`.
 - Firmenkontext-Block in `analyze`, `write-query`, `explore-data`, `build-dashboard`, `create-viz` (MySQL, Bosnisch, PII-Regeln, Verweis auf beide JSI-Skills).
 - `data-context-extractor`: Platzhalter `~~data warehouse` → BlazeSQL/MySQL.
 - Neue Skills `jsi-data-analyst`, `jsi-kandidat-filter`. Plugin-Name/Struktur unverändert. Original im Sync-Ordner unverändert.
@@ -110,7 +110,7 @@ Tests: `python3 -I -m unittest discover -s plugin/skills/jsi-kandidat-filter/scr
 - 3 31 sensible Spalten in BlazeSQL sperren.
 - 22 Plugin sichern (Download erfolgt? Nutzer hatte Download-Probleme mit `.plugin`; ZIP-Kopie geliefert).
 - 23 Plugin in Desktop-App installieren und testen (nie getestet).
-- 24 Notion-Connector neu anmelden (falls genutzt). 25 Amplitude behalten/entfernen? 26 BlazeSQL nicht in `.mcp.json`.
+- 24/25 erledigt: Notion und Amplitude aus dem Plugin entfernt (2026-10-30). 26 BlazeSQL nicht in `.mcp.json`.
 
 ## 9. Gruppe B – zurückgestellt (nicht Plugin-Bau)
 - 1 ViciDial-Passwörter ändern ⚠️ dringend · 2 API-Tokens Bridge/Glossa/Lilium erneuern ⚠️ dringend · 4 MD5 → bcrypt/argon2 · 5 Datenschutz/AVV für BlazeSQL/KI
