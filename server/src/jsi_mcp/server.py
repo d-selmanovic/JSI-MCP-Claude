@@ -335,28 +335,13 @@ def build_mcp(cfg: config_mod.Config) -> MCPServer:
     async def health(request: Request):
         return JSONResponse(_health(cfg))
 
-    tool_names = [n for n, *_ in TOOLS] + [wt.name for wt in WRITE_TOOLS]
-
-    async def _admin(request: Request, as_json: bool):
-        from starlette.responses import HTMLResponse, Response
-        if not cfg.admin_password:
-            return Response("Not Found", status_code=404)
-        if not admin.authorized(cfg, request.headers.get("authorization")):
-            return Response("Anmeldung erforderlich", status_code=401, headers={
-                "WWW-Authenticate": 'Basic realm="JSI MCP admin", charset="UTF-8"', **admin.SECURITY_HEADERS})
-        import anyio
-        st = await anyio.to_thread.run_sync(admin.status, cfg, VERSION, tool_names)
-        if as_json:
-            return Response(admin.json_body(st), media_type="application/json", headers=admin.SECURITY_HEADERS)
-        return HTMLResponse(admin.page(st), headers=admin.SECURITY_HEADERS)
-
     @mcp.custom_route("/admin", methods=["GET"])
     async def admin_page(request: Request):
-        return await _admin(request, as_json=False)
+        return await _admin_response(cfg, request, as_json=False)
 
     @mcp.custom_route("/admin/status.json", methods=["GET"])
     async def admin_json(request: Request):
-        return await _admin(request, as_json=True)
+        return await _admin_response(cfg, request, as_json=True)
 
     if not cfg.auth_disabled:
         @mcp.custom_route("/.well-known/oauth-protected-resource", methods=["GET"])
@@ -405,6 +390,22 @@ def _health(cfg: config_mod.Config) -> dict:
             "tools": [t[0] for t in TOOLS]}
 
 
+async def _admin_response(cfg: config_mod.Config, request: Request, as_json: bool):
+    """/admin and /admin/status.json – also served when auth is unconfigured, where the status page helps most."""
+    from starlette.responses import HTMLResponse, Response
+    if not cfg.admin_password:
+        return Response("Not Found", status_code=404)
+    if not admin.authorized(cfg, request.headers.get("authorization")):
+        return Response("Anmeldung erforderlich", status_code=401, headers={
+            "WWW-Authenticate": 'Basic realm="JSI MCP admin", charset="UTF-8"', **admin.SECURITY_HEADERS})
+    import anyio
+    tool_names = [n for n, *_ in TOOLS] + [wt.name for wt in WRITE_TOOLS]
+    st = await anyio.to_thread.run_sync(admin.status, cfg, VERSION, tool_names)
+    if as_json:
+        return Response(admin.json_body(st), media_type="application/json", headers=admin.SECURITY_HEADERS)
+    return HTMLResponse(admin.page(st), headers=admin.SECURITY_HEADERS)
+
+
 def _unconfigured_app(cfg: config_mod.Config) -> Starlette:
     async def health(request: Request):
         return JSONResponse(_health(cfg))
@@ -417,7 +418,14 @@ def _unconfigured_app(cfg: config_mod.Config) -> Starlette:
         return JSONResponse({"error": "server_not_configured", "error_description": "; ".join(cfg.errors)}, status_code=401,
                             headers={"WWW-Authenticate": f'Bearer error="invalid_token", error_description="{desc}"'})
 
-    return Starlette(routes=[Route("/health", health), Route("/mcp", mcp_unavailable, methods=["GET", "POST", "DELETE"])])
+    async def admin_page(request: Request):
+        return await _admin_response(cfg, request, as_json=False)
+
+    async def admin_json(request: Request):
+        return await _admin_response(cfg, request, as_json=True)
+
+    return Starlette(routes=[Route("/health", health), Route("/mcp", mcp_unavailable, methods=["GET", "POST", "DELETE"]),
+                             Route("/admin", admin_page), Route("/admin/status.json", admin_json)])
 
 
 def main() -> None:

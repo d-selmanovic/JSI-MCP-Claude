@@ -75,3 +75,16 @@ def test_mcp_still_needs_bearer(make_client):
                    headers={**basic("admin", PW), "Accept": "application/json, text/event-stream",
                             "Content-Type": "application/json"})
         assert r.status_code == 401  # the admin password never opens the MCP endpoint
+
+
+def test_admin_also_when_auth_unconfigured(monkeypatch):
+    """Broken auth config → MCP unavailable, but the status page still explains why."""
+    monkeypatch.setattr(admin, "_db_check", lambda cfg: {"ok": False, "fehler": "x"})
+    monkeypatch.setattr(admin, "_writes", lambda cfg: {"verfuegbar": False})
+    env = {k: v for k, v in ENV.items() if k != "WORKOS_AUTHKIT_DOMAIN"}
+    cfg = config.load({**env, "JSI_ADMIN_PASSWORD": PW})
+    with TestClient(server.build_app(cfg), base_url="https://jsi-mcp.example.com") as c:
+        assert c.post("/mcp", json={}).status_code == 401
+        assert c.get("/admin").status_code == 401
+        j = c.get("/admin/status.json", headers=basic("admin", PW)).json()
+        assert any("WORKOS_AUTHKIT_DOMAIN" in e for e in j["konfiguration"]["fehler"])
