@@ -47,7 +47,7 @@ Beispiel des Nutzers: „alle Elektriker mit Führerschein C“ → Filter → S
 | `docs/rohdaten/gen_schema.py` | Generator für `references/schema/` (aus columns/counts/dates) |
 
 Neu generieren: `python3 -I rohdaten/gen_schema.py <ordner-mit-columns.json,counts.tsv,dates.tsv,gen/tables_meta.json> <ziel>` (Pfade im Skript ggf. anpassen).
-Tests: `python3 -I -m unittest discover -s plugin/skills/jsi-kandidat-filter/scripts -p 'test_*.py'`.
+Tests: seit 2026-10-30 nur im Server (`server/tests/`); `build_query.py` + Kataloge liegen nur noch in `server/src/jsi_mcp/`, Generator `server/scripts/filter_catalog.py`.
 
 ## 4. Was am Plugin geändert wurde
 - `CONNECTORS.md`, `.mcp.json` (Snowflake/Databricks/BigQuery/Hex/Definite/Atlassian entfernt; seit 1.2.1 auch Amplitude + Notion – `.mcp.json` enthält nur noch `jsi`), `README.md`.

@@ -47,7 +47,7 @@ Without a data warehouse connection, paste SQL results or upload CSV/Excel files
 | `statistical-analysis` | Descriptive stats, trend analysis, outlier detection, and hypothesis testing |
 | `data-validation` | Pre-delivery QA, sanity checks, and documentation standards |
 | `interactive-dashboard-builder` | HTML/JS dashboard construction with Chart.js, filters, and styling |
-| `jsi-kandidat-filter` | Filter-based candidate search (occupation across 6 sources, driving licence with EU rules, language/certificate, education, country, age, availability) – builds tested SQL via `scripts/build_query.py` |
+| `jsi-kandidat-filter` | Filter-based candidate search (occupation across 6 sources, driving licence with EU rules, language/certificate, education, country, age, availability) – runs on the MCP server (`search_candidates`) |
 | `jsi-data-analyst` | JSI recruiting CRM context: entities, status codes, metric definitions, standard filters and tested MySQL queries |
 
 ## Example Workflows
