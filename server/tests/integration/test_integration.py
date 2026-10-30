@@ -323,3 +323,30 @@ def test_change_log(rw_cfg):
     assert r["broj_redova"] >= 1 and "a_vorher" not in r["rezultat"][0]
     r = tools_read.change_log(rw_cfg, ALL, mit_werten=True, limit=1)
     assert "a_nachher" in r["rezultat"][0]
+
+
+def test_paging_reports_total_and_next_offset(ro_cfg):
+    """Eine Seite darf nie wie das Gesamtergebnis aussehen: stranica nennt X–Y von N und den nächsten offset."""
+    total = tools_read.search_candidates(ro_cfg, READER, {"izlaz": "broj"})["rezultat"][0]["broj_kandidata"]
+    assert total >= 3
+    seen, offset = [], 0
+    while True:
+        r = tools_read.search_candidates(ro_cfg, READER, {"izlaz": "lista", "limit": 2, "offset": offset})
+        st = r["stranica"]
+        assert st["ukupno"] == total
+        assert st["prikazano_od"] == offset + 1 and st["prikazano_do"] == offset + len(r["rezultat"])
+        assert st["pregled"].startswith(f"Prikazano {offset + 1}–{offset + len(r['rezultat'])} od {total}")
+        seen += [x["kandidat_id"] for x in r["rezultat"]]
+        if not st["ima_jos"]:
+            assert st["sljedeci_offset"] is None
+            break
+        assert st["sljedeci_offset"] == offset + 2
+        offset = st["sljedeci_offset"]
+    assert len(seen) == len(set(seen)) == total  # stabile Sortierung: keine Doppelten, keine Lücken
+
+
+def test_other_tools_flag_truncation(ro_cfg):
+    r = tools_read.pipeline_history(ro_cfg, ALL, gruppierung="monat", limit=1)
+    st = r["stranica"]
+    assert st["ukupno"] is None and st["prikazano_do"] == len(r["rezultat"]) <= 1
+    assert "ima_jos" in st and st["pregled"].startswith("Prikazano")

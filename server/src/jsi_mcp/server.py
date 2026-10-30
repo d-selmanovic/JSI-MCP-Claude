@@ -36,7 +36,8 @@ calls = logging.getLogger("jsi_mcp.calls")
 
 INSTRUCTIONS = (
     "JSI CRM (JobStep) – feste Tools statt SQL. Kandidaten suchen/zählen: search_candidates (Standard izlaz='broj'; "
-    "zuerst izlaz='izvori' für die Beweisstärke). Gültige Werte: filter_options. Ein Kandidat: candidate_profile. "
+    "zuerst izlaz='izvori' für die Beweisstärke). Bei Listen immer stranica.pregled nennen ('Prikazano X–Y od N'); "
+    "weitere Seiten mit offset, nie eine Seite als Gesamtergebnis ausgeben. Gültige Werte: filter_options. Ein Kandidat: candidate_profile. "
     "Kennzahlen: kpis. Aufträge: orders_overview. Pipeline: pipeline_history. Schreiben nur auf ausdrücklichen Wunsch: je "
     "Entität/Aktion ein eigenes Tool (z. B. candidate_update, candidate_note_create) bzw. set_application_status – immer "
     "zuerst dry_run=true (Vorschau + preview_hash), nach Bestätigung dry_run=false mit preview_hash. "
@@ -140,6 +141,8 @@ def t_search_candidates(
     nostrifikacija: Annotated[bool | Literal["potpuno", "djelimicno", "status_2", "bilo_koje"] | None, Field(description="Nostrifikation: true/'potpuno' = voll anerkannt, 'djelimicno' = teilweise, 'bilo_koje' = Bescheid vorhanden")] = None,
     izlaz: Annotated[Literal["broj", "izvori", "lista", "id"], Field(description="Ausgabe: broj=Anzahl, izvori=Anzahl je Berufsquelle, lista=Liste, id=nur IDs")] = "broj",
     limit: Annotated[int | None, Field(ge=1, le=5000, description="Zeilen für lista/id (Standard 200, max 5000)")] = None,
+    offset: Annotated[int | None, Field(ge=0, le=1_000_000, description="Seite für lista/id: so viele Treffer überspringen "
+                                        "(nächste Seite = stranica.sljedeci_offset)")] = None,
     pii: Annotated[bool, Field(description="Name/Telefon/E-Mail in 'lista' – nur auf ausdrücklichen Wunsch, Permission jsi:kandidati:pii")] = False,
     sortiraj: Annotated[Literal["relevantnost", "novi"] | None, Field(description="Sortierung der Liste")] = None,
     nalog_izvor: Annotated[Literal["kandidat", "projekt", "oba"] | None, Field(description="nalog_id gilt für: kandidat=aktuell zugeordnet (Standard) | projekt=Mitglied eines Projekts des Auftrags | oba=beides")] = None,
@@ -177,7 +180,7 @@ def t_search_candidates(
                 iskustvo_u_struci=iskustvo_u_struci, drzava=drzava, drzavljanstvo=drzavljanstvo, spol=spol, starost=starost,
                 registriran=registriran, status_prijave=status_prijave, slobodni=slobodni, kandidat_status=kandidat_status,
                 ukljuci_arhivu=ukljuci_arhivu, kontaktabilni=kontaktabilni, nacin_odlaska=nacin_odlaska, nalog_id=nalog_id,
-                projekt_id=projekt_id, nostrifikacija=nostrifikacija, izlaz=izlaz, limit=limit, pii=pii or None, sortiraj=sortiraj,
+                projekt_id=projekt_id, nostrifikacija=nostrifikacija, izlaz=izlaz, limit=limit, offset=offset or None, pii=pii or None, sortiraj=sortiraj,
                 nalog_izvor=nalog_izvor, porijeklo=porijeklo, messenger_status=messenger_status, bracno_stanje=bracno_stanje,
                 viza=viza, termin_za_vizu=termin_za_vizu, casting=casting, intervju=intervju, odbijen=odbijen,
                 dokument_status=dokument_status, makler=makler, pp_partner_id=pp_partner_id, tf_agent_id=tf_agent_id,

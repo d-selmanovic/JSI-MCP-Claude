@@ -164,6 +164,7 @@ Alle Filter werden mit UND kombiniert; Kindtabellen immer als CTE (`SELECT DISTI
 |---|---|
 | `izlaz` | broj | izvori | lista | id |
 | `limit` | 1–5000 (Standard 200) |
+| `offset` | 0–1000000 (Standard 0): Seite – so viele Treffer überspringen. Der MCP-Server liefert dazu `stranica` (ukupno, prikazano_od/do, sljedeci_offset, pregled „Prikazano X–Y od N“). |
 | `pii` | Name/Telefon/E-Mail nur mit jsi:kandidati:pii |
 | `sortiraj` | relevantnost | novi |
 
