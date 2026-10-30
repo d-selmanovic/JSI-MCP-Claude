@@ -76,10 +76,13 @@ Tests: `python3 -I -m unittest discover -s plugin/skills/jsi-kandidat-filter/scr
 - Polymorphe Verknüpfungen `*_group`+`*_dataid` (notes, documents, timeline, tasks, *_info): Bedeutung der Gruppen unbekannt.
 - **Sicherheit:** BlazeSQL-Metadaten zeigen Beispielwerte, inkl. Klartext-Passwörter. Niemals Spalten aus `osjetljive_kolone.md` selektieren oder in Doku übernehmen; Personendaten nur auf ausdrücklichen Wunsch.
 
-## 7. Ehrlicher Vollständigkeitsstand
-- Vollständig: Tabellen-/Spaltenliste, Zeilenzahlen, Zeiträume (107 Tabellen).
-- **Verknüpfungen: 76 gemessen auf 71 Spalten von ≈460 möglichen (≈15 %)** – Kernbeziehungen abgedeckt, Rest offen.
-- **Filter: 19** (+4 Ausgabeoptionen), nach Ermessen gewählt, nutzen ≈25 von 288 Spalten der 20 Kandidaten-Tabellen. Berufskatalog 27 von 194 Gruppen.
+## 7. Ehrlicher Vollständigkeitsstand (aktualisiert 2026-10-30, Branch `feature/filter-katalog`)
+- Vollständig: Tabellen-/Spaltenliste, Zeilenzahlen, Zeiträume (107 Tabellen); **Klassifikation aller 1.809 Spalten** (`docs/rohdaten/verweis_kandidaten.tsv`).
+- **Verknüpfungen: 368 von 381 verweisartigen Spalten gemessen (96,6 %)**, 395 Hypothesen; 312 belegt (≥ 98 %), 13 wahrscheinlich, 5 schwach, 3 falsch, 15 nur NULL/0, 9 leere Tabellen, 11 polymorph je Gruppe. Nicht gemessen: 5 ID-Listen, 8 `rb_*`/`mcp_aenderung` (≤ 4 Zeilen). → `docs/rohdaten/veze_komplett.tsv`, `plugin/.../veze.md`.
+- **Spaltenprofil: 279 Spalten in 17 Kandidaten-Tabellen** (`kandidat_profil.tsv`, `docs/KANDIDAT_PROFIL.md`). Code-Werteverteilungen für 64 filterrelevante Code-Spalten; die übrigen ~355 CODE-Spalten nur klassifiziert.
+- **Filter: 48** (vorher 19) + 4 Ausgabeoptionen, alle im JSON-Schema von `search_candidates`, Katalog `filter_catalog.json` + `references/filteri.md`. **Berufskatalog: 28 Berufe mit Synonymen + alle 194 Berufsgruppen** direkt nutzbar.
+- **Automationen: 26 Regeln/Muster aus Daten abgeleitet (14 belegt, 8 wahrscheinlich, 4 vermutet)** (`docs/AUTOMATIONEN.md`), ohne Quellcode – vor Schreiben weiterhin CRM-Code/API nötig.
+- Tests: Server 193 grün (127 + 66), Plugin 33 grün. Abnahme-Beispiele gegen BlazeSQL: 3.199 / 45 / 0 / 15.
 
 ## 8. Offene Punkte – Gruppe A (relevant für Plugin/Tool)
 **A1 Entscheidungen (Nutzer):**
@@ -217,6 +220,8 @@ Empfehlung jeweils in Klammern.
 **Abnahme-Plan (✅ entschieden 2026-10-30):** Echte Verbindung und Schreib-Tools werden **beim Deploy-Test über den MCP-Server selbst** geprüft: Server auf Cloudflare deployen (`JSI_DB_TARGET=mirror`) → Nutzer bindet ihn in claude.ai als **Custom Connector** ein und meldet sich über WorkOS an (OAuth kann Claude nicht selbst durchführen) → neue Claude-Session nutzt die Tools über HTTPS (Port 443, aus der Cloud erlaubt) → Abnahmeliste abarbeiten: Lese-Tools gegen BlazeSQL-Referenzwerte, Schreib-Tools mit `dry_run` → Ausführung → Prüfung in `mcp_aenderung` → Rücknahme. Für den Test eine WorkOS-Rolle mit allen `jsi:*`-Permissions anlegen.
 
 ### 13.3 BEFUND 2026-10-30: Es existiert bereits ein produktiver CRM-MCP (Manufact)
+> **ERLEDIGT 2026-10-30 (Entscheidung Nutzer):** `Manufact-DB-Roleback-MCP` ist ein vergessenes Altprojekt und für dieses Projekt nicht relevant. JSI-MCP-Claude ist das einzige relevante Projekt. Doppelungsfrage und Hinweis auf `dsactivi-2/manufact-db-roleback-mcp` nicht weiter verfolgen. Der folgende Abschnitt bleibt nur als Historie stehen.
+
 Manufact-Org „Activi“ enthält: **`Manufact-DB-Roleback-MCP`** (läuft, `https://mcp.activi.io/mcp`, Repo `dsactivi-2/Manufact-DB-Roleback-MCP`, TypeScript/mcp-use) und `cloud-crm-mcp` (läuft, älter, Repo `dsactivi-2/Naufact-kopie-710-0232`) sowie zwei inaktive Einträge.
 Der Rollback-MCP hat bereits (laut Repo-Doku, Stand 14.–16.10.2026): Weg MCP → Cloudflare Worker → Hyperdrive (TLS verifiziert, Cache aus) → Aiven `jsicrm`; eingeschränkter MySQL-Benutzer (Spalten-GRANTs); **WorkOS-OAuth** (Staging, Org Activi; Rollen Admin / `crm-writer-approval` / `crm-approver`, Mapping in `src/permissions.ts`); Tools `crm_search_kandidaten` (Name, EU, Alter, Position, Sprache/Niveau, Archiv, Telefon, Filterketten), XML-Export, Firmen, Aufträge, Berufsreport, Profil, Stats, Tabellen-Metadaten; **Schreiben mit Preview → Approval (Vier-Augen) → Apply**, History, selektiver Restore, Idempotenz, Outbox → R2; `rb_*`-Tabellen gehören zu diesem Projekt; kein Delete/Drop, kein freies SQL. Schreib-Entitäten: candidate, company, order, candidate_group (+ Insert: education, language, experience).
 **Was dort fehlt (= unser Beitrag):** Führerschein (EU-Logik), Bildung/Schule, Wohnland, Staatsangehörigkeit, Geschlecht, Registrierungszeitraum, Pipeline-/Freiheitsstatus, Auftrag/Projekt, Nostrifikation, Kontaktierbarkeit, Zertifikate, Berufssuche über 6 Quellen + `beruf_mapping`, Kennzahlen (Vermittlungen, Umsatz, TF, DIPL), Schema-/Verknüpfungsdoku.

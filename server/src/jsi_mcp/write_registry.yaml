@@ -1,0 +1,191 @@
+# Schreib-Register JSI-MCP-Server (v1)
+# Quelle: docs/rohdaten/columns.json (Snapshot 2026-10-29, live verifiziert) + column_defaults.json (2026-10-30),
+# fachlich konservativ kuratiert. Nur hier gelistete Spalten sind beschreibbar.
+# Nie beschreibbar (vom Validator erzwungen): [TAJNO]-Spalten, Primärschlüssel, Log-/Audit-/Event-Tabellen.
+#
+# Spalten-Typen: int, str (max_len), text, date, datetime, enum (values), licence_list
+# Flags: required_on_create, create_only (nach Anlage unveränderlich), nullable, pii, references {table, column}
+# Platzhalter in create_defaults/fixed: "@now" = NOW(), "@employee_id" = JSI_WRITE_EMPLOYEE_ID
+# Permission je Aktion: jsi:write:<entitaet>:<create|update|archive>
+version: 1
+
+entities:
+  candidate:
+    label: "Kandidat / Kandidat"
+    table: idk_kandidati
+    pk: kandidat_id
+    candidate_ref: kandidat_id
+    actions: [create, update, archive]
+    archive: {kandidat_status: 3}
+    create_defaults: {kandidat_check: "", kandidat_slika: "", kandidat_status: 0, kandidat_datetime: "@now"}
+    columns:
+      kandidat_ime: {type: str, max_len: 150, pii: true, required_on_create: true}
+      kandidat_prezime: {type: str, max_len: 150, pii: true, required_on_create: true}
+      kandidat_email: {type: str, max_len: 250, pii: true, nullable: true}
+      kandidat_mobitel: {type: str, max_len: 100, pii: true, nullable: true}
+      kandidat_grad: {type: str, max_len: 150, nullable: true}
+      kandidat_prijava_na: {type: str, max_len: 250, required_on_create: true}
+      kandidat_spol: {type: enum, values: ["Muško", "Žensko"], nullable: true}
+      kandidat_datumrodjenja: {type: date, nullable: true}
+      kandidat_drzavljanstvo_vrsta: {type: enum, values: ["EU državljanin", "NON-EU državljanin"], nullable: true}
+      kandidat_drzavljanstvo: {type: str, max_len: 150, nullable: true}
+      kandidat_drzava: {type: str, max_len: 150, nullable: true}
+      kandidat_status: {type: enum, values: [0, 1, 2, 4, 5, 6, 7, 8]}   # 3 (Arhiviran) nur über action=archive
+      kandidat_group: {type: int, references: {table: idk_kandidati_grupe, column: kg_id}}
+      kandidat_iskustvo_u_struci: {type: enum, values: [0, 1], nullable: true}
+      kandidat_iskustvo_u_struci_trajanje: {type: enum, values: [0, 1, 2, 3, 4, 5, 6], nullable: true}
+      kandidat_nacin_odlaska: {type: enum, values: [0, 2]}
+      kandidat_bracno_stanje: {type: enum, values: [0, 1, 2, 3, 4]}
+      kandidat_pogresan_broj: {type: enum, values: [0, 1]}
+      kandidat_nedostupan: {type: enum, values: [0, 1]}
+      kandidat_ima_nostrifikaciju: {type: enum, values: [0, 1], nullable: true}
+
+  candidate_driving_licence:
+    label: "Führerschein / Vozačka dozvola"
+    table: idk_kandidati
+    pk: kandidat_id
+    candidate_ref: kandidat_id
+    actions: [update]
+    columns:
+      kandidat_vozacka_kategorija: {type: licence_list, max_len: 25, nullable: true}
+      kandidat_vozacka_dozvola: {type: enum, values: ["Da", "Ne", "B", "C", "CE", "C1", "BE", "C1E"], nullable: true}
+
+  candidate_language:
+    label: "Kandidat-Sprache / Jezik kandidata"
+    table: idk_kandidat_jezici
+    pk: kj_id
+    candidate_ref: kj_kandidatid
+    actions: [create, update]
+    columns:
+      kj_kandidatid: {type: int, required_on_create: true, create_only: true, references: {table: idk_kandidati, column: kandidat_id}}
+      kj_naziv: {type: enum, values: ["Njemački", "Engleski", "Talijanski", "Španjolski", "Francuski", "Ruski", "Arapski"], required_on_create: true}
+      kj_slusanje: {type: enum, values: &lvl ["A1", "A2", "B1", "B2", "C1", "C2", "Bez znanja"], required_on_create: true}
+      kj_citanje: {type: enum, values: *lvl, required_on_create: true}
+      kj_govorna_interakcija: {type: enum, values: *lvl, required_on_create: true}
+      kj_govorna_produkcija: {type: enum, values: *lvl, required_on_create: true}
+      kj_pisanje: {type: enum, values: *lvl, required_on_create: true}
+      kj_ustanova: {type: enum, values: [0, 1, 2, 3, 4], nullable: true}
+
+  candidate_education:
+    label: "Ausbildung / Obrazovanje"
+    table: idk_kandidat_edukacija
+    pk: ke_id
+    candidate_ref: ke_kandidat_id
+    actions: [create, update]
+    columns:
+      ke_kandidat_id: {type: int, required_on_create: true, create_only: true, references: {table: idk_kandidati, column: kandidat_id}}
+      ke_naziv_kvalifikacije: {type: str, max_len: 100, required_on_create: true}
+      ke_vrsta_obrazovanja: {type: enum, values: ["srednje", "visoko", "ostalo"], nullable: true}
+      ke_naziv: {type: str, max_len: 100, nullable: true}
+      ke_skola_id: {type: int, nullable: true, references: {table: idk_skole, column: skola_id}}
+      ke_smjer_id: {type: int, nullable: true, references: {table: idk_skole_smjerovi, column: ss_id}}
+      ke_datumod: {type: date, nullable: true}
+      ke_datumdo: {type: date, nullable: true}
+      ke_aktuelno: {type: enum, values: [0, 1]}
+      ke_grad: {type: str, max_len: 50, nullable: true}
+      ke_drzava: {type: str, max_len: 100, nullable: true}
+      ke_opis: {type: text, nullable: true}
+
+  candidate_experience:
+    label: "Berufserfahrung / Radno iskustvo"
+    table: idk_kandidat_radno_iskustvo
+    pk: kri_id
+    candidate_ref: kri_kandidat_id
+    actions: [create, update]
+    columns:
+      kri_kandidat_id: {type: int, required_on_create: true, create_only: true, references: {table: idk_kandidati, column: kandidat_id}}
+      kri_pozicija: {type: str, max_len: 250, required_on_create: true}
+      kri_naziv: {type: str, max_len: 100, required_on_create: true}
+      kri_darum_od: {type: date, required_on_create: true}
+      kri_datum_do: {type: date, nullable: true}
+      kri_aktuelno: {type: enum, values: [0, 1]}
+      kri_grad: {type: str, max_len: 100, nullable: true}
+      kri_drzava: {type: str, max_len: 100, nullable: true}
+      kri_opis: {type: text, nullable: true}
+
+  candidate_note:
+    label: "Notiz zum Kandidaten / Bilješka"
+    table: idk_notes
+    pk: note_id
+    candidate_ref: note_dataid
+    actions: [create]
+    # note_group 2 = Kandidat (gemessen 2026-10-30: 182.808 von 182.850 Notizen zeigen auf kandidat_id; nicht dokumentiert)
+    fixed: {note_group: 2, note_datetime: "@now", note_employeeid: "@employee_id"}
+    columns:
+      note_dataid: {type: int, required_on_create: true, create_only: true, references: {table: idk_kandidati, column: kandidat_id}}
+      note_txt: {type: text, max_len: 5000, required_on_create: true}
+
+  candidate_order:
+    label: "Auftrag-Zuordnung / Dodjela naloga"
+    table: idk_kandidati
+    pk: kandidat_id
+    candidate_ref: kandidat_id
+    actions: [update]
+    columns:
+      kandidat_nalog_id: {type: int, nullable: true, references: {table: idk_nalozi, column: nalog_id}}
+
+  project_member:
+    label: "Projekt-Mitglied / Kandidat u projektu"
+    table: idk_project_kandidati
+    pk: pk_id
+    candidate_ref: pk_kandidatid
+    actions: [create]
+    unique_together: [pk_projectid, pk_kandidatid]
+    columns:
+      pk_projectid: {type: int, required_on_create: true, create_only: true, references: {table: idk_projects, column: project_id}}
+      pk_kandidatid: {type: int, required_on_create: true, create_only: true, references: {table: idk_kandidati, column: kandidat_id}}
+
+  candidate_dipl_link:
+    label: "DIPL-Verknüpfung / Povezivanje s DIPL"
+    table: idk_kandidati
+    pk: kandidat_id
+    candidate_ref: kandidat_id
+    actions: [update]
+    unique_nonzero: [kandidat_dipl_id]   # eine DIPL-ID darf nur an einem Kandidaten hängen (33 Altdubletten bekannt)
+    columns:
+      kandidat_dipl_id: {type: int, references: {table: idk_nd_kandidata, column: id_broj_nd_kandidata, allow_zero: true}}
+      povezan_na_dipl: {type: enum, values: [0, 1]}
+
+  company:
+    label: "Firma / Firma"
+    table: idk_companies
+    pk: company_id
+    actions: [create, update]
+    create_defaults: {company_datetime: "@now", company_status: 1}
+    columns:
+      company_name: {type: str, max_len: 150, required_on_create: true}
+      company_type: {type: str, max_len: 50, nullable: true}
+      company_address: {type: str, max_len: 250, nullable: true}
+      company_zipcode: {type: str, max_len: 50, nullable: true}
+      company_city: {type: str, max_len: 150, nullable: true}
+      company_state: {type: str, max_len: 150, nullable: true}
+      company_country: {type: str, max_len: 150, nullable: true}
+      company_info: {type: text, nullable: true}
+      company_size: {type: str, max_len: 255, nullable: true}
+      company_status: {type: enum, values: [0, 1, 2, 3, 4, 5], nullable: true}   # Bedeutung undokumentiert (1 = 97 %)
+
+  contact:
+    label: "Kontakt (Firma) / Kontakt"
+    table: idk_contacts
+    pk: contact_id
+    actions: [create, update]
+    create_defaults: {contact_datetime: "@now", contact_status: 1}
+    columns:
+      contact_firstname: {type: str, max_len: 150, pii: true, required_on_create: true}
+      contact_lastname: {type: str, max_len: 150, pii: true, nullable: true}
+      contact_companyid: {type: int, required_on_create: true, references: {table: idk_companies, column: company_id}}
+      contact_job_title: {type: str, max_len: 255, nullable: true}
+      contact_city: {type: str, max_len: 150, nullable: true}
+      contact_country: {type: str, max_len: 150, nullable: true}
+      contact_info: {type: text, pii: true, nullable: true}
+      contact_status: {type: enum, values: [0, 1]}   # Bedeutung undokumentiert (1 = 96 %)
+
+  application_status:
+    label: "Bewerbungs-/Pipeline-Status / Status prijave"
+    table: idk_kandidati
+    pk: kandidat_id
+    candidate_ref: kandidat_id
+    actions: [update]
+    process_tool: set_application_status   # nur über das Prozess-Tool (schreibt idk_log_statusi_prijave mit)
+    columns:
+      kandidat_status_prijave: {type: int, nullable: true, references: {table: idk_kandidat_status_prijave, column: status_id}}
