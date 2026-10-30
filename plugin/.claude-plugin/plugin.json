@@ -1,8 +1,8 @@
 {
-  "name": "data",
-  "version": "1.1.0",
-  "description": "Write SQL, explore datasets, and generate insights faster. Build visualizations and dashboards, and turn raw data into clear stories for stakeholders.",
-  "author": {
-    "name": "Anthropic"
-  }
+  "name": "jsi-crm",
+  "version": "1.2.0",
+  "description": "JSI Recruiting-CRM: Kandidatensuche, Kennzahlen, Aufträge und Pipeline über den JSI-MCP-Server (OAuth über WorkOS), plus Analyse-Skills.",
+  "author": { "name": "JSI / activi.io" },
+  "repository": "https://github.com/d-selmanovic/JSI-MCP-Claude",
+  "keywords": ["jsi", "crm", "recruiting", "mcp"]
 }

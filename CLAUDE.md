@@ -7,3 +7,5 @@
 - Schreibzugriffe nur gegen die Mirror-DB und nur über die definierten Schreib-Tools (mit `dry_run` + Audit). Nie gegen Produktion.
 - BlazeSQL-Tools können je Session anders heißen (`mcp__<id>__execute_sql`); per ToolSearch „blaze sql execute“ finden. Timeout 60 s → Kindtabellen in CTEs voraggregieren, kein korreliertes EXISTS über `idk_kandidati`.
 - Tests: `python3 -I -m unittest discover -s plugin/skills/jsi-kandidat-filter/scripts -p 'test_*.py'`.
+
+@AGENTS.md

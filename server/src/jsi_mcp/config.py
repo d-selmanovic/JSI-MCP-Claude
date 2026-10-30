@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import os
+import re
+import ssl
 from dataclasses import dataclass, field
 from urllib.parse import urlparse
 
@@ -20,6 +22,35 @@ def _bool(name: str, default: bool = False) -> bool:
     if v is None or v.strip() == "":
         return default
     return v.strip().lower() in ("1", "true", "yes", "on")
+
+
+_PEM_BLOCK = re.compile(r"-----BEGIN CERTIFICATE-----(.*?)-----END CERTIFICATE-----", re.S)
+
+
+def normalize_pem(raw: str | None) -> str | None:
+    """Repairs a CA certificate pasted into an env var (quotes, literal \\n, newlines replaced by spaces,
+    body without BEGIN/END lines). Returns a clean PEM string or None if nothing certificate-like is found."""
+    if not raw:
+        return None
+    s = raw.strip().strip("'\"").replace("\\r", "").replace("\\n", "\n").replace("\r", "")
+    bodies = _PEM_BLOCK.findall(s)
+    if not bodies and re.fullmatch(r"[A-Za-z0-9+/=\s]+", s):
+        bodies = [s]
+    out = []
+    for b in bodies:
+        b64 = re.sub(r"\s+", "", b)
+        if b64:
+            out.append("-----BEGIN CERTIFICATE-----\n" + "\n".join(b64[i:i + 64] for i in range(0, len(b64), 64))
+                       + "\n-----END CERTIFICATE-----\n")
+    return "".join(out) or None
+
+
+def pem_is_valid(pem: str) -> bool:
+    try:
+        ssl.create_default_context(cadata=pem)
+        return True
+    except (ssl.SSLError, ValueError):
+        return False
 
 
 @dataclass
@@ -111,12 +142,16 @@ def _load() -> Config:
         name=os.environ.get(prefix + "NAME") or None,
         user=os.environ.get(prefix + "USER") or None,
         password=os.environ.get(prefix + "PASSWORD") or None,
-        ca_pem=os.environ.get("JSI_DB_CA_CERT") or None,
+        ca_pem=normalize_pem(os.environ.get("JSI_DB_CA_CERT")),
         ca_file=ca_file if os.path.isfile(ca_file) else None,
         ssl_required=_bool("JSI_DB_SSL_REQUIRED", True),
     )
     for m in db.missing():
         errors.append(f"Datenbank nicht konfiguriert: {prefix}{m.upper()} fehlt.")
+    if os.environ.get("JSI_DB_CA_CERT") and not (db.ca_pem and pem_is_valid(db.ca_pem)):
+        errors.append("JSI_DB_CA_CERT ist gesetzt, enthält aber kein gültiges PEM-Zertifikat "
+                      "(-----BEGIN CERTIFICATE----- … -----END CERTIFICATE-----).")
+        db = DbConfig(**{**db.__dict__, "ca_pem": None})
     if db.ssl_required and not (db.ca_pem or db.ca_file):
         errors.append("TLS verlangt, aber kein CA-Zertifikat: JSI_DB_CA_CERT (PEM-Inhalt) oder certs/aiven-ca.pem fehlt.")
 

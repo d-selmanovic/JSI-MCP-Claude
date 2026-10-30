@@ -32,8 +32,7 @@ def _ca_path(cfg: Config) -> str | None:
         if _CA_TMP is None or not os.path.exists(_CA_TMP):
             fd, path = tempfile.mkstemp(prefix="jsi-ca-", suffix=".pem")
             with os.fdopen(fd, "w") as f:
-                pem = cfg.db.ca_pem.replace("\\n", "\n")
-                f.write(pem if pem.endswith("\n") else pem + "\n")
+                f.write(cfg.db.ca_pem)  # normalized in config.normalize_pem
             _CA_TMP = path
         return _CA_TMP
     return cfg.db.ca_file

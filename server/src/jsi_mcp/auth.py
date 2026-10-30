@@ -1,7 +1,8 @@
 """WorkOS AuthKit token verification (this server is an OAuth Resource Server).
 
 Tokens are JWTs signed by AuthKit. We check signature (JWKS), `iss`, `aud` (= JSI_MCP_PUBLIC_URL)
-and `exp`. Permissions come from the `permissions` claim.
+and `exp`. A non-empty `permissions` claim is used as-is. Connect/MCP tokens omit it, so known
+JSI role slugs (`roles` / `role`) are mapped locally. Other roles grant nothing.
 """
 from __future__ import annotations
 
@@ -14,7 +15,7 @@ from mcp.server.auth.middleware.auth_context import get_access_token
 from mcp.server.auth.provider import AccessToken
 
 from .config import Config
-from .permissions import Principal
+from .permissions import Principal, permissions_from_claims
 
 log = logging.getLogger("jsi_mcp.auth")
 
@@ -79,12 +80,9 @@ def current_principal(cfg: Config) -> Principal:
         # The bearer middleware rejects unauthenticated requests before tools run; this is a safeguard.
         return Principal(sub="anonymous", permissions=frozenset())
     claims = tok.claims or {}
-    perms = claims.get("permissions") or []
-    if isinstance(perms, str):
-        perms = perms.split()
     return Principal(
         sub=tok.subject or "unknown",
-        permissions=frozenset(str(p) for p in perms),
+        permissions=permissions_from_claims(claims),
         client_id=tok.client_id,
         org_id=claims.get("org_id"),
     )

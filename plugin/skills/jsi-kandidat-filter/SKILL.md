@@ -1,13 +1,17 @@
 ---
 name: jsi-kandidat-filter
-description: "Filter-based candidate search for the JSI recruiting CRM (MySQL 'Mysql JSI' via BlazeSQL), like the filter panel of a UI. Use whenever the user wants to FIND, COUNT or LIST candidates by criteria, e.g. 'alle Elektriker mit Führerschein C', 'električari sa C kategorijom i njemačkim B1', 'automehaničari iz BiH 20-45 godina, slobodni', 'how many CE drivers with German A2'. Converts the request into a JSON filter spec, builds a tested SQL query with scripts/build_query.py and runs it with BlazeSQL execute_sql – no manual search through the 190 tables."
+description: "Filter-based candidate search for the JSI recruiting CRM (MySQL 'Mysql JSI' via BlazeSQL), like the filter panel of a UI. Use whenever the user wants to FIND, COUNT or LIST candidates by criteria, e.g. 'alle Elektriker mit Führerschein C', 'električari sa C kategorijom i njemačkim B1', 'automehaničari iz BiH 20-45 godina, slobodni', 'how many CE drivers with German A2'. Converts the request into a JSON filter spec and calls the JSI MCP tool search_candidates (server 'jsi'); fallback without the MCP server: scripts/build_query.py + BlazeSQL execute_sql – no manual search through the 190 tables."
 ---
 
 # JSI Kandidat-Filter
 
 Turns a natural-language candidate search into a deterministic, tested SQL query. The heavy lifting (which tables, which columns, synonyms, licence rules, data-quality workarounds, performance) lives in `scripts/build_query.py` and `scripts/occupations.json` – do not hand-write candidate search SQL.
 
-## Workflow
+## Preferred path: JSI MCP server
+
+If the tools `search_candidates`, `filter_options`, `candidate_profile` (MCP server `jsi`, URL `https://calm-steel-onjlq.run.mcp-use.com/mcp`) are available, **use them instead of steps 2–3 below**: pass the filter spec keys from the table below directly as `search_candidates` arguments (same names, same validation – the server runs the identical `build_query.py`). Use `filter_options` for valid codes/occupations and `candidate_profile` for one candidate. The server enforces permissions (PII only with `jsi:kandidati:pii`) and never returns [TAJNO] columns. Only if the server is not connected, fall back to the local script + BlazeSQL.
+
+## Workflow (fallback without MCP server)
 
 1. **Parse the request into a filter spec** (JSON, keys below). Ask only if a criterion is genuinely ambiguous (e.g. "Elektriker" strict vs. broad incl. Elektrotechniker/Hilfselektriker – default strict).
 2. **Build the SQL**:
