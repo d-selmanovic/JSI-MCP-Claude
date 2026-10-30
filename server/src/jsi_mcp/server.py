@@ -291,7 +291,12 @@ def _unconfigured_app(cfg: config_mod.Config) -> Starlette:
         return JSONResponse(_health(cfg))
 
     async def mcp_unavailable(request: Request):
-        return JSONResponse({"error": "server_not_configured", "error_description": "; ".join(cfg.errors)}, status_code=503)
+        # 401 like a protected server (hosts' MCP health checks accept an auth challenge, not a 503);
+        # no tool can run until WorkOS is configured.
+        auth_errors = [e for e in cfg.errors if e.startswith("Auth")] or cfg.errors
+        desc = "; ".join(auth_errors).replace('"', "'")
+        return JSONResponse({"error": "server_not_configured", "error_description": "; ".join(cfg.errors)}, status_code=401,
+                            headers={"WWW-Authenticate": f'Bearer error="invalid_token", error_description="{desc}"'})
 
     return Starlette(routes=[Route("/health", health), Route("/mcp", mcp_unavailable, methods=["GET", "POST", "DELETE"])])
 

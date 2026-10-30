@@ -55,7 +55,7 @@ Schreiben nur wenn `JSI_WRITES_ENABLED=true` **und** `JSI_DB_TARGET=mirror`.
 | `JSI_AUTH_DISABLED` | nein | **nur lokal**; Start wird verweigert, wenn `JSI_MCP_PUBLIC_URL` nicht `http://localhost…`/`http://127.0.0.1…` ist; bindet dann nur an 127.0.0.1 |
 | `JSI_DEV_PERMISSIONS` | nein | nur mit `JSI_AUTH_DISABLED`: kommagetrennte Permissions (Standard `*`) |
 
-Ohne DB- oder WorkOS-Konfiguration startet der Server trotzdem: `/health` meldet `degraded` + Liste der Fehler; ohne WorkOS antwortet `/mcp` mit 503 und Klartext-Grund, ohne DB liefern die Tools klare Fehlermeldungen.
+Ohne DB- oder WorkOS-Konfiguration startet der Server trotzdem: `/health` meldet `degraded` + Liste der Fehler; ohne WorkOS antwortet `/mcp` mit 401 (`WWW-Authenticate` mit Klartext-Grund; 503 würde den MCP-Health-Check von Manufact scheitern lassen), ohne DB liefern die Tools klare Fehlermeldungen.
 
 ## Lokal
 

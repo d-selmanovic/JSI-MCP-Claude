@@ -116,4 +116,5 @@ def test_unconfigured_app_reports_errors():
     h = c.get("/health").json()
     assert h["status"] == "degraded" and any("WORKOS_AUTHKIT_DOMAIN" in e for e in h["konfigurationsfehler"])
     r = c.post("/mcp", json={})
-    assert r.status_code == 503 and "WORKOS_AUTHKIT_DOMAIN" in r.json()["error_description"]
+    assert r.status_code == 401 and "WORKOS_AUTHKIT_DOMAIN" in r.json()["error_description"]
+    assert "WORKOS_AUTHKIT_DOMAIN" in r.headers["www-authenticate"]
