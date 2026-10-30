@@ -176,3 +176,13 @@ def test_offset_paging_sql():
         except bq.SpecError:
             continue
         raise AssertionError(f"offset {bad!r} accepted")
+
+def test_every_occupation_union_part_has_aliases():
+    """Regression: free-text parts without catalog match lacked 'AS kid, AS izvor' → MySQL 1054."""
+    import re
+    from jsi_mcp import build_query as bq
+    for spec in ({"zanimanje": "zzzz-unbekannt"}, {"zanimanje": {"keywords": ["abc"], "sources": list(bq.OCC_SOURCES)}}):
+        sql, _ = bq.build({**spec, "izlaz": "broj"})
+        raw = sql.split("occ_raw AS (", 1)[1].split("\n),", 1)[0]
+        for part in raw.split("UNION"):
+            assert re.search(r"SELECT \S+ AS kid, '\w+' AS izvor", part), part
