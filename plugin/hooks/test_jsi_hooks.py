@@ -58,6 +58,8 @@ class HooksJson(unittest.TestCase):
             self.assertFalse(re.search(pre["confirm_write"], fmt.format("search_candidates")))
             self.assertTrue(re.search(post["paging_reminder"], fmt.format("search_candidates")))
             self.assertTrue(re.search(post["pii_mark"], fmt.format("candidate_profile")))
+            self.assertTrue(re.search(post["pii_mark"], fmt.format("table_read")))
+            self.assertTrue(re.search(post["paging_reminder"], fmt.format("table_read")))
         for tool in ("Bash", "mcp__Gmail__send_email", "mcp__slack__post_message", "WebFetch"):
             self.assertTrue(re.search(pre["pii_guard"], tool), tool)
         self.assertFalse(re.search(pre["pii_guard"], "Read"))

@@ -16,6 +16,10 @@ Kein freies SQL. Alle Abfragen sind fest oder werden von `build_query.py` (unver
 | `orders_overview` | `jsi:kennzahlen:read` | Auftrag: Bedarf / Kandidaten / unterschrieben |
 | `pipeline_history` | `jsi:kennzahlen:read` | Verlauf eines Kandidaten oder Statuswechsel je Periode |
 | `change_log` | `jsi:audit:read` (+ `pii` für vorher/nachher) | `mcp_aenderung` lesen |
+| `table_describe` | – (Details: Bereichs-Permission) | Bereiche, Tabellen, Spalten, Typen, Beschreibungen, `pii`-Kennzeichen |
+| `table_read` | `jsi:tabele:<bereich>` (+ `jsi:finansije:read` für Finanztabellen, + `jsi:kandidati:pii` für pii-Spalten) | eine Tabelle lesen/auswerten: Spalten, Filter (`eq ne lt le gt ge in not_in like between is_null not_null`), Sortierung, Gruppieren mit `count/count_distinct/sum/avg/min/max`, Seiten. Kein freies SQL: Bezeichner nur aus `tabele_katalog.json`, Werte als Parameter. |
+
+**Tabellen-Katalog:** `src/jsi_mcp/tabele_katalog.json` – 7 Bereiche, 135 Tabellen; erzeugt mit `python3 -I scripts/gen_tabele.py` aus `docs/rohdaten/columns.json` + Schema-Doku; [TAJNO]-Spalten fehlen, Personendaten-Spalten (`pii`) nach Namensregeln + Freitext-Spalten. Rollen: `jsi-reader` → kandidati, pipeline, taskforce, firme, partner_portal; `jsi-analyst` → zusätzlich komunikacija, dipl. Nach einem neuen Schema-Scan `columns.json`/`counts.tsv` ersetzen und das Skript erneut laufen lassen.
 | `<entität>_<aktion>` (z. B. `candidate_update`, `candidate_note_create`, `company_create`, `candidate_archive`; 18 Tools aus `write_registry.yaml`) | `jsi:write:<entität>:<aktion>` | je Tool eigenes Schema mit den Register-Spalten; **Standard `dry_run=true`** = Vorschau vorher/nachher + `preview_hash`, `dry_run=false` + `preview_hash` = ausführen. Ersetzt die früheren generischen `record_preview`/`record_write` (OpenAI-Plugin-Richtlinie „tool independence“). |
 | `set_application_status` | `jsi:write:application_status:update` | Pipeline-Status + `idk_log_statusi_prijave`; Standard `dry_run=true` |
 

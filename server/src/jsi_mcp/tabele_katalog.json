@@ -1,0 +1,7750 @@
+{
+ "_doc": "Generiert von scripts/gen_tabele.py – nicht von Hand ändern. [TAJNO]-Spalten fehlen absichtlich.",
+ "podrucja": {
+  "kandidati": {
+   "naziv": "Kandidaten / Kandidati",
+   "permission": "jsi:tabele:kandidati",
+   "tabele": {
+    "beruf_mapping": {
+     "redova_cca": 35701,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "freitext_wert": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "berufsgruppe_id": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "confidence": {
+       "tip": "decimal(3,2)",
+       "opis": "",
+       "pii": false
+      },
+      "quelle": {
+       "tip": "varchar(20)",
+       "opis": "",
+       "pii": false
+      },
+      "created_at": {
+       "tip": "timestamp",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_candidate_language_logs": {
+     "redova_cca": 5796,
+     "pk": [
+      "cll_id"
+     ],
+     "kolone": {
+      "cll_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "cll_candidate_id": {
+       "tip": "int",
+       "opis": "FK iz tabele idk_kandidati",
+       "pii": false
+      },
+      "cll_cvl_id": {
+       "tip": "int",
+       "opis": "FK iz tabele kandidat_jezici, ujedno i iz tabele candidate_verified_languages",
+       "pii": false
+      },
+      "cll_status": {
+       "tip": "int",
+       "opis": "status na kojeg prelazi jezik (Napomena: mozda bude FK iz tabele statusa, za sad je ta info samo u tabeli candidate_verified_languages)",
+       "pii": false
+      },
+      "cll_date": {
+       "tip": "datetime",
+       "opis": "vrijeme mijenjanja statusa",
+       "pii": false
+      },
+      "cll_employee_id": {
+       "tip": "int",
+       "opis": "FK iz tabele employees, zaposlenik koji je promijenio status ili 0 ako je Cron/sistem prebacio",
+       "pii": false
+      },
+      "cll_days_count": {
+       "tip": "int",
+       "opis": "broj dana na tom statusu",
+       "pii": false
+      }
+     }
+    },
+    "idk_candidate_verified_languages": {
+     "redova_cca": 3897,
+     "pk": [
+      "cvl_id"
+     ],
+     "kolone": {
+      "cvl_id": {
+       "tip": "int",
+       "opis": "foreign key iz tabele kandidat_jezici",
+       "pii": false
+      },
+      "cvl_status": {
+       "tip": "int",
+       "opis": "status jezika: 1-samoprocjena, 2-samostalno uči, 3- pohađa kurs podnivo 1, 4-pohađa kurs podnivo 2, 5-čeka datum polaganja, 6-čeka polaganje(ima termin), 7-čeka se rezultat, 8-ima certfikat, 9-certifikat istekao, 10-napreduje na veći nivo, 11-nije položen, 12- odustao, 13-arhiva, 14-motive    Napome",
+       "pii": false
+      },
+      "cvl_active": {
+       "tip": "int",
+       "opis": "podatak koji određuje da li je aktivan taj nivo, i jedan kandidat ce moci imati samo jedan red u ovoj tabeli gdje je ovaj atribut = 1",
+       "pii": false
+      },
+      "cvl_course1_started": {
+       "tip": "date",
+       "opis": "datum pocetka kursa podnivoa 1",
+       "pii": false
+      },
+      "cvl_course1_ended": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "cvl_course2_started": {
+       "tip": "date",
+       "opis": "datum pocetka kursa podnivoa 2",
+       "pii": false
+      },
+      "cvl_course2_ended": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "cvl_motive_start": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "cvl_motive_end": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "cvl_exam_date": {
+       "tip": "date",
+       "opis": "datum polaganja ispita",
+       "pii": false
+      },
+      "cvl_certificate_path": {
+       "tip": "text",
+       "opis": "putanja do file-a certifikata",
+       "pii": true
+      },
+      "cvl_certificate_upload_date": {
+       "tip": "datetime",
+       "opis": "vrijeme uploadanja certifikata",
+       "pii": false
+      },
+      "cvl_certficate_creation_date": {
+       "tip": "date",
+       "opis": "datum izdavanja certfikata",
+       "pii": false
+      },
+      "cvl_certificate_expiration_date": {
+       "tip": "date",
+       "opis": "datum isteka certifikata",
+       "pii": false
+      },
+      "cvl_last_updated": {
+       "tip": "datetime",
+       "opis": "vrijeme zadnjeg update-a statusa nivoa jezika",
+       "pii": false
+      }
+     }
+    },
+    "idk_documents": {
+     "redova_cca": 23614,
+     "pk": [
+      "document_id"
+     ],
+     "kolone": {
+      "document_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "document_name": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": true
+      },
+      "document_special_type": {
+       "tip": "int",
+       "opis": "1 - dokazivo radno iskustvo;  2 - dokaz o zavrsenoj srednjoj skoli",
+       "pii": false
+      },
+      "document_desc": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": true
+      },
+      "document_file": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": true
+      },
+      "document_icon": {
+       "tip": "varchar(5)",
+       "opis": "",
+       "pii": false
+      },
+      "document_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "document_group": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "document_dataid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "document_employeeid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidat_akademija": {
+     "redova_cca": 0,
+     "pk": [
+      "ka_id"
+     ],
+     "kolone": {
+      "ka_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ka_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ka_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ka_status": {
+       "tip": "int",
+       "opis": "1 - ici ce,  2 - krenuo,  3 - završio,  4 - odustao,  5 - arhiva",
+       "pii": false
+      },
+      "ka_date_from": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "ka_date_to": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "ka_note": {
+       "tip": "text",
+       "opis": "Biljeska koja se unosi na Zavrsio.",
+       "pii": true
+      },
+      "ka_rating": {
+       "tip": "int",
+       "opis": "Ocjena koja se unosi na Zavrsio 1-5.",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidat_cv": {
+     "redova_cca": 1,
+     "pk": [
+      "kcv_id"
+     ],
+     "kolone": {
+      "kcv_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kcv_kandidatid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kcv_ba": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": true
+      },
+      "kcv_de": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": true
+      }
+     }
+    },
+    "idk_kandidat_de": {
+     "redova_cca": 3332,
+     "pk": [
+      "kde_id"
+     ],
+     "kolone": {
+      "kde_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kde_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kde_prijava_na": {
+       "tip": "varchar(400)",
+       "opis": "",
+       "pii": false
+      },
+      "kde_spol": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kde_drzavljanstvo": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kde_vozacka": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidat_edukacija": {
+     "redova_cca": 149473,
+     "pk": [
+      "ke_id"
+     ],
+     "kolone": {
+      "ke_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ke_orderid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ke_datumod": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "ke_datumdo": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "ke_aktuelno": {
+       "tip": "int",
+       "opis": "default 0, 1 aktuelno",
+       "pii": false
+      },
+      "ke_smjer_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ke_naziv_kvalifikacije": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "ke_naziv_kvalifikacije_de": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "ke_skola_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ke_naziv": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "ke_naziv_de": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "ke_grad": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "ke_grad_de": {
+       "tip": "varchar(200)",
+       "opis": "",
+       "pii": false
+      },
+      "ke_drzava": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "ke_opis": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "ke_opis_de": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "ke_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ke_vrsta_obrazovanja": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "ke_prikaz_pp": {
+       "tip": "int",
+       "opis": "0 - onemogucen prikaz, 1 - omogucen prikaz",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidat_financije": {
+     "redova_cca": 1067,
+     "pk": [
+      "kf_id"
+     ],
+     "kolone": {
+      "kf_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "projekt_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kf_datum": {
+       "tip": "date",
+       "opis": "Datum aktiviranja.",
+       "pii": false
+      },
+      "kf_datum_stvarni": {
+       "tip": "date",
+       "opis": "Datum aktiviranja.",
+       "pii": false
+      },
+      "kf_nalog_rata_id": {
+       "tip": "int",
+       "opis": "FK iz tabele idk_nalozi_rate. Za fakture za nostrifikaciju će biti null.",
+       "pii": false
+      },
+      "kf_type": {
+       "tip": "int",
+       "opis": "Tip rate/fakture: 0-nostrifikacija, 1-ugovor, 2-dobio vizu, 3-pocetak rada, 4-mjeseci nakon, 5-akademija",
+       "pii": false
+      },
+      "kf_iznos": {
+       "tip": "double",
+       "opis": "Iznos fakture",
+       "pii": false
+      },
+      "kf_placeno": {
+       "tip": "int",
+       "opis": "Status fakture: 0-NDF, 1-treba fakturisati, 2-fakturisano, 3-placeno.",
+       "pii": false
+      },
+      "kf_datum_fakturisanja": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "kf_datum_placanja": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "kf_status": {
+       "tip": "int",
+       "opis": "Status za zamjene: default 1-normalna rata za kandidata koji nije zamijenjen, 2-rata za kandidata koji je zamijenjen, 3-rata za kandidata koji je višak",
+       "pii": false
+      },
+      "kf_zamjena_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     },
+     "dodatna_permission": "jsi:finansije:read"
+    },
+    "idk_kandidat_jezici": {
+     "redova_cca": 82474,
+     "pk": [
+      "kj_id"
+     ],
+     "kolone": {
+      "kj_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kj_naziv": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "kj_naziv_de": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kj_slusanje": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "kj_slusanje_de": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kj_citanje": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "kj_citanje_de": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kj_govorna_interakcija": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "kj_govorna_interakcija_de": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kj_govorna_produkcija": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "kj_govorna_produkcija_de": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kj_pisanje": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "kj_pisanje_de": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kj_kandidatid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kj_ustanova": {
+       "tip": "int",
+       "opis": "Ustanova preko koje kandidat uci jezik: 0-samostalno, 1-preklo Glose, 2,3 ...  ",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidat_kontakt_info": {
+     "redova_cca": 172673,
+     "pk": [
+      "kki_id"
+     ],
+     "kolone": {
+      "kki_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kki_orderid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kki_grupa": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kki_naziv": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "kki_naziv_de": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kki_podatak": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": true
+      },
+      "kki_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kki_primary": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidat_pozicija": {
+     "redova_cca": 133,
+     "pk": [
+      "kp_id"
+     ],
+     "kolone": {
+      "kp_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kp_ime": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "kp_ime_de": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "kp_ime_en": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "kp_ime_rs": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "kp_opis": {
+       "tip": "text",
+       "opis": "",
+       "pii": false
+      },
+      "kp_created_by": {
+       "tip": "int",
+       "opis": "If source is 1 this is employee id, if source is 2 this is partner id.",
+       "pii": false
+      },
+      "kp_source": {
+       "tip": "int",
+       "opis": "1 - CRM, 2 - Partner app",
+       "pii": false
+      },
+      "kp_active": {
+       "tip": "int",
+       "opis": "1 - Aktivan, 0 - Arhiviran",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidat_projekcije": {
+     "redova_cca": 88,
+     "pk": [
+      "kandidat_id"
+     ],
+     "kolone": {
+      "kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "proracunati_pocetak_rada": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidat_radno_iskustvo": {
+     "redova_cca": 87844,
+     "pk": [
+      "kri_id"
+     ],
+     "kolone": {
+      "kri_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kri_order": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kri_darum_od": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "kri_datum_do": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "kri_aktuelno": {
+       "tip": "int",
+       "opis": "default 0, 1 aktuelno",
+       "pii": false
+      },
+      "kri_pozicija": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "kri_pozicija_de": {
+       "tip": "varchar(400)",
+       "opis": "",
+       "pii": false
+      },
+      "kri_pozicija_en": {
+       "tip": "varchar(400)",
+       "opis": "",
+       "pii": false
+      },
+      "kri_naziv": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "kri_naziv_de": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "kri_grad": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "kri_grad_de": {
+       "tip": "varchar(200)",
+       "opis": "",
+       "pii": false
+      },
+      "kri_drzava": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "kri_adresa": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": true
+      },
+      "kri_telefon": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": true
+      },
+      "kri_email": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": true
+      },
+      "kri_web": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "kri_opis": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "kri_opis_de": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "kri_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kri_prikaz_pp": {
+       "tip": "int",
+       "opis": "0 - onemogucen prikaz, 1 - omogucen prikaz",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidat_status": {
+     "redova_cca": 9,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "status_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "status_naziv": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidat_status_prijave": {
+     "redova_cca": 16,
+     "pk": [
+      "status_id"
+     ],
+     "kolone": {
+      "status_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "status_naziv": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "status_aktivan": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "rezervisanje": {
+       "tip": "int",
+       "opis": "0-nije, 1-jeste, ako je kandidat pod statusom koji ima ovdje 1 onda je on rezervisan za nalog",
+       "pii": false
+      },
+      "redoslijed_statusa": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidat_vjestine": {
+     "redova_cca": 10211,
+     "pk": [
+      "kv_id"
+     ],
+     "kolone": {
+      "kv_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kv_naziv": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "kv_naziv_de": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "kv_grupa": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kv_opis": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "kv_opis_de": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "kv_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidati": {
+     "redova_cca": 122006,
+     "pk": [
+      "kandidat_id"
+     ],
+     "kolone": {
+      "kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_check": {
+       "tip": "varchar(200)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_ime": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": true
+      },
+      "kandidat_prezime": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": true
+      },
+      "kandidat_prijava_na": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_spol": {
+       "tip": "varchar(10)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_djevojackoprezime": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_datumrodjenja": {
+       "tip": "date",
+       "opis": "",
+       "pii": true
+      },
+      "kandidat_mjestorodjenja": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_drzavljanstvo_vrsta": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_drzavarodjenja": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_drzavljanstvo": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_bracnostanje": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_bracnostanjeod": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_adresa": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "kandidat_grad": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_pbroj": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_drzava": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_email": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": true
+      },
+      "kandidat_mobitel": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": true
+      },
+      "kandidat_vozacka_dozvola": {
+       "tip": "varchar(20)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_vozacka_kategorija": {
+       "tip": "varchar(25)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_korisnickoime": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_slika": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": true
+      },
+      "kandidat_status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_status_messenger": {
+       "tip": "int",
+       "opis": "0 - default (nije nista rađeno u vezi messengera - stari kandidati koji nisu reagovali na poruke za instaliranje messengera)    1 - Poslan SMS za instalaciju Messengera - Na čekanju!    2 - Logirao se    3 - Odbio instalirati (nakon više slanja poruka za instalaciju)    4 - Italijanske prijave - nek",
+       "pii": false
+      },
+      "kandidat_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_visitedurl": {
+       "tip": "int",
+       "opis": "",
+       "pii": true
+      },
+      "kandidat_group": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_mailsent": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "datum_termina": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_bio_na_terminu": {
+       "tip": "int",
+       "opis": "1-da, 0-ne",
+       "pii": false
+      },
+      "datum_aplikacije": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_procjenatermina": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_viza": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_viza_vrijedi_od": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_viza_vrijedi_do": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "boravak_eu": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_status_prijave": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_zaposlen_kod": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "cv_ba": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "cv_de": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "profile_ba": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "profile_de": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_datum_ugovora": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_datum_ugovora_mjesec": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_datum_pocetakrada": {
+       "tip": "date",
+       "opis": "Kolona koja je sluzila za pocetak rada koja se unosila  preko edit_candidate a prvenstveno je sluzila za finansije",
+       "pii": false
+      },
+      "kandidat_datum_pocetakrada_mjesec": {
+       "tip": "date",
+       "opis": "Kolona koja je sluzila za finansije a ovisila je o koloni kandidat_datum_pocetakrada",
+       "pii": false
+      },
+      "kandidat_potencijalni_pocetak_rada": {
+       "tip": "varchar(100)",
+       "opis": "Kolona koja je bila privremeno rješenje za unos potencijalnog pocetka rada koji se prikazivao poslodavcima",
+       "pii": false
+      },
+      "kandidat_dogovoreni_pocetak_rada": {
+       "tip": "date",
+       "opis": "Kolona koja će služiti za \"proces odlaska\"",
+       "pii": false
+      },
+      "kandidat_potvrden_pocetak_rada": {
+       "tip": "int",
+       "opis": "1 - potvrden pocetak rada, 0 - kandidat nije poceo sa radom za dogovoreni datum, NULL (default) nema nikakve informacije",
+       "pii": false
+      },
+      "kandidat_partnerid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_partner_status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_poslan_sms": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_sms_id": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_pogledao_link_prijave": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_poslan_dipl": {
+       "tip": "int",
+       "opis": "slanje obavijesti kandidatima o diplu: 1=poslana notifikacija na bot, 11= poslana notf na bot po drugi put 2=poslan sms/viber, 3=notifikacija nije prosla, 4-poslan sms za ios korisnike; 21 - poslan sms/viber i pogledan link; 22 poslan SMS/viber(ima dipl); 23 - poslan SMS/viber (nema_dip)",
+       "pii": false
+      },
+      "povezan_na_dipl": {
+       "tip": "int",
+       "opis": "1-povezan, 0-nije povezan",
+       "pii": false
+      },
+      "kandidat_porijeklo": {
+       "tip": "int",
+       "opis": "0=kandidat usao starim putem, 1=kandidat_dosao_sa_dipla, 2=dosao sa dak-a, 3 = dosao po preporuci partnera (Partner -> Dipl -> Kandidati), 4=dosao sa svezavize web (SZV->DIPL->KAN), 5=dosao sa JobStep web (JS->DIPL->KAN)",
+       "pii": false
+      },
+      "struka_sa_prijave": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_latest_reserved_time": {
+       "tip": "datetime",
+       "opis": "Vrijeme kada je posljednji put kandidat prebačen u projekat ili status koji kandidata čini rezervisanim",
+       "pii": false
+      },
+      "kandidat_ppa_partner_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_pp_lokacija": {
+       "tip": "varchar(400)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_pp_pozicija": {
+       "tip": "varchar(400)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_pp_plata": {
+       "tip": "varchar(40)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_pp_povezao_user_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_pp_razlog_odbijanja": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_pp_datum_prihvatanja": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_dipl_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_ima_nostrifikaciju": {
+       "tip": "int",
+       "opis": "1 - ima, 0 - nema",
+       "pii": false
+      },
+      "kandidat_glossa": {
+       "tip": "int",
+       "opis": "0 - nije glossa lead, 1 - glossa lead, 2 - prihvacen glossa lead, 3 - potencijalni glosa lead (nije otiso, ali je oznaceno pa ce otici na potpis ugovora)  ",
+       "pii": false
+      },
+      "kandidat_tf_status": {
+       "tip": "int",
+       "opis": "Status kandidata u task force-u. Ako je null znači da nema aktivnih taskova.",
+       "pii": false
+      },
+      "kandidat_iskustvo_u_struci": {
+       "tip": "int",
+       "opis": "null - nije unešena informacija; 0 - nema radno iskustvo u struci; 1 - ima radno iskustvo u struci",
+       "pii": false
+      },
+      "kandidat_iskustvo_u_struci_trajanje": {
+       "tip": "int",
+       "opis": "null-nije unesena informacija, 0-nema u zadnjih 5 godina, 1-manje od 1 godine,2,3,4,5,6. Sprema se samo ako je kandidat_iskustvo_u_struci 1. Ako je 0 ovdje ide null.",
+       "pii": false
+      },
+      "kandidat_termin_za_vizu": {
+       "tip": "int",
+       "opis": "default null - nije uneseno; 1 - ima termin za vizu: 2 - nema termin za vizu  ",
+       "pii": false
+      },
+      "tf_reserved_agent": {
+       "tip": "int",
+       "opis": "Zaposlenik ID(agent) za kojeg je rezervisan kroz TF",
+       "pii": false
+      },
+      "kandidat_nacin_odlaska": {
+       "tip": "int",
+       "opis": "0 - Stručni kadar(normalni tok)/EU kandidat  2 - Zapadno-balkanski sistem    1 je rezervisana za EU kandidate za ispis na frontendu, ali 0 igra ulogu fallbacka ukoliko kandidat nema definisan specifican nacin odlaska, a u to upada EU.   ",
+       "pii": false
+      },
+      "kandidat_bracno_stanje": {
+       "tip": "int",
+       "opis": "0- Nepoznato; 1- Neoženjen/Neudana; 2- Oženjen/Udana; 3- Udovac/Udovica; 4- Razveden/Razvedena;",
+       "pii": false
+      },
+      "kandidat_dostavljen_ugovor_jobstepu": {
+       "tip": "int",
+       "opis": "1 - dostavljen ugovor",
+       "pii": false
+      },
+      "kandidat_zeljena_regija": {
+       "tip": "int",
+       "opis": "NULL-nedefinisano, 1-nema preferenciju, ostalo FK iz idk_pp_regions",
+       "pii": false
+      },
+      "kandidat_zeljeni_grad": {
+       "tip": "int",
+       "opis": "NULL-Nedefinisano, 0-nema preferenciju, ostalo FK iz idk_pp_city",
+       "pii": false
+      },
+      "kandidat_partner_lead_status": {
+       "tip": "int",
+       "opis": "1 - Lead; 2 - Klijent; 3 - Nije Zainteresiran;",
+       "pii": false
+      },
+      "zaduzeni_makler_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "zaduzen_makleru_datum": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "zaduzeni_makler_reminder_datum": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_nivo_obrazovanja": {
+       "tip": "int",
+       "opis": "null - nepoznato, 1 - fakultet, 2 - srednja škola",
+       "pii": false
+      },
+      "kandidat_partner_lead_biljeska": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "kandidat_destinacija_grad": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_destinacija_postanski_broj": {
+       "tip": "varchar(10)",
+       "opis": "",
+       "pii": true
+      },
+      "assigned_to_makler": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat_paralelno_zb": {
+       "tip": "int",
+       "opis": "Kandidat paralelno aplicira za zapadni balkan. Value: {0 - NE, 1 - DA}",
+       "pii": false
+      },
+      "kandidat_pogresan_broj": {
+       "tip": "int",
+       "opis": " Comment 1-pogresan broj, 0-nije pogresan broj",
+       "pii": false
+      },
+      "kandidat_nedostupan": {
+       "tip": "int",
+       "opis": "1-nedostupan, 0-nije nedostupan",
+       "pii": false
+      },
+      "kandidat_atu_paket": {
+       "tip": "int",
+       "opis": "1 - Paket 1, 2 - Paket 2, 3 - Paket 3",
+       "pii": false
+      },
+      "exported": {
+       "tip": "tinyint(1)",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidati_contracts": {
+     "redova_cca": 2103,
+     "pk": [
+      "kc_id"
+     ],
+     "kolone": {
+      "kc_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kc_file_name": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": true
+      },
+      "kc_candidate_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kc_source": {
+       "tip": "int",
+       "opis": "1 - crm  2 - PP",
+       "pii": false
+      },
+      "kc_user_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kc_upload_time": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "kc_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kc_partner_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kc_signed": {
+       "tip": "int",
+       "opis": "0 - nije potpisan   1 - potpisan",
+       "pii": false
+      },
+      "kc_visibility_status": {
+       "tip": "int",
+       "opis": "0 - arhiva  1 - nevidljiv  2 - vidljiv",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidati_grupe": {
+     "redova_cca": 77,
+     "pk": [
+      "kg_id"
+     ],
+     "kolone": {
+      "kg_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kg_title": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kg_title_de": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kg_title_it": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kg_date": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "kg_employeeid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kg_status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_kandidati_reject_reasons": {
+     "redova_cca": 1832,
+     "pk": [
+      "krr_id"
+     ],
+     "kolone": {
+      "krr_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "krr_reason_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "krr_candidate_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "krr_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "krr_partner_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "krr_apointment_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "krr_description": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "krr_source": {
+       "tip": "int",
+       "opis": "1 - crm  2 - PP",
+       "pii": false
+      },
+      "krr_done_by": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "krr_date": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "krr_last_status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_notes": {
+     "redova_cca": 188224,
+     "pk": [
+      "note_id"
+     ],
+     "kolone": {
+      "note_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "note_txt": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "note_files": {
+       "tip": "text",
+       "opis": "Sprema se naziv priloga dodanog na biljesku. Filovi se nalaze na putanji: files/prilozi_kandidati\t",
+       "pii": true
+      },
+      "note_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "note_group": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "note_dataid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "note_employeeid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_razlozi_odbijanja": {
+     "redova_cca": 24,
+     "pk": [
+      "ro_id"
+     ],
+     "kolone": {
+      "ro_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ro_naziv": {
+       "tip": "text",
+       "opis": "",
+       "pii": false
+      },
+      "ro_naziv_de": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "ro_blok": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "ro_dio_bloka": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_reject_reasons": {
+     "redova_cca": 8,
+     "pk": [
+      "rr_id"
+     ],
+     "kolone": {
+      "rr_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "rr_name_bs": {
+       "tip": "text",
+       "opis": "",
+       "pii": false
+      },
+      "rr_name_de": {
+       "tip": "text",
+       "opis": "",
+       "pii": false
+      },
+      "rr_name_en": {
+       "tip": "text",
+       "opis": "",
+       "pii": false
+      },
+      "rr_rejected_by": {
+       "tip": "int",
+       "opis": "1 - kandidat  2 - poslodavac",
+       "pii": false
+      },
+      "rr_user_id": {
+       "tip": "int",
+       "opis": "Uvijek će biti iz tabele employees CRM",
+       "pii": false
+      },
+      "rr_status": {
+       "tip": "int",
+       "opis": "0 - aktivan  1 - neaktivan",
+       "pii": false
+      },
+      "rr_doe": {
+       "tip": "datetime",
+       "opis": "doe - date of entry",
+       "pii": false
+      }
+     }
+    },
+    "idk_timeline": {
+     "redova_cca": 1051,
+     "pk": [
+      "timeline_id"
+     ],
+     "kolone": {
+      "timeline_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "timeline_type": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "timeline_txt": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "timeline_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "timeline_group": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "timeline_dataid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "timeline_employeeid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_validnosti_inputa": {
+     "redova_cca": 82280,
+     "pk": [
+      "vi_id"
+     ],
+     "kolone": {
+      "vi_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vi_razlog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vi_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vi_status": {
+       "tip": "int",
+       "opis": "1-validan, 2-nije validan, 3-korigovan i ceka validaciju",
+       "pii": false
+      },
+      "vi_employee_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vi_podatak_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vi_vrsta_podatka": {
+       "tip": "varchar(25)",
+       "opis": "",
+       "pii": false
+      },
+      "vi_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "users": {
+     "redova_cca": 111121,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "bigint unsigned",
+       "opis": "",
+       "pii": false
+      },
+      "phone": {
+       "tip": "varchar(191)",
+       "opis": "",
+       "pii": true
+      },
+      "name": {
+       "tip": "varchar(191)",
+       "opis": "",
+       "pii": true
+      },
+      "nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "email": {
+       "tip": "varchar(191)",
+       "opis": "",
+       "pii": true
+      },
+      "kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "last_online": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "sim_id": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "type": {
+       "tip": "varchar(15)",
+       "opis": "",
+       "pii": false
+      },
+      "ne_viza": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ne_srednja": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ne_visoka": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ne_dodatna": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ne_iskustvo": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ne_diploma": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ne_pripravnicki": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ne_strucni": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ne_cert_jezik": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ponovno_slanje": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "dipl_obavijest": {
+       "tip": "int",
+       "opis": "1 - zainteresiran(nema nostrificiranu dipl); 2 - nezainteresiran(ima nostrf dipl); 3 - ceka se da kandidat otvori notf; 4 - nije prosla notf; 5 - kandidat otvorio notf, ali nije nista odabrao",
+       "pii": false
+      },
+      "notifikacije": {
+       "tip": "int",
+       "opis": "1 i 4: notf za dipl obradjenim kandidatima, 2 i 5: notf za dipl doradjenim; 3 i 6: notf za dipl nezavrsenim; 7-automatski nakon obrade, 10 - notf za kontrolu(datum rod) - nije prosla, 11 notf za kontrolu jeste prosla, 12 - notf za kontorolu ios",
+       "pii": false
+      },
+      "jezik": {
+       "tip": "varchar(10)",
+       "opis": "",
+       "pii": false
+      },
+      "notf_new_year": {
+       "tip": "int",
+       "opis": "1 - poslana, 2 - pogledana, 3 - nije prosla, 4 - ios",
+       "pii": false
+      }
+     }
+    }
+   }
+  },
+  "pipeline": {
+   "naziv": "Pipeline-Logs / Logovi statusa",
+   "permission": "jsi:tabele:pipeline",
+   "tabele": {
+    "idk_duration_per_status": {
+     "redova_cca": 19,
+     "pk": [
+      "dpr_id"
+     ],
+     "kolone": {
+      "dpr_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "dpr_group": {
+       "tip": "int",
+       "opis": "1 - Status prijave prije potpisa ugovora; 2 - Status nostrifikacije; 3 - Status jezika; 4 - Status prijave nakon potpisa ugovora",
+       "pii": false
+      },
+      "dpr_status": {
+       "tip": "varchar(10)",
+       "opis": "Ukoliko je vrijednost 0 onda su to dani koji se odnose na ostale statuse te grupe.",
+       "pii": false
+      },
+      "dpr_duration": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "dpr_description": {
+       "tip": "varchar(400)",
+       "opis": "",
+       "pii": false
+      },
+      "dpr_status_name": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_log_kandidat_statusi": {
+     "redova_cca": 242032,
+     "pk": [
+      "lks_id"
+     ],
+     "kolone": {
+      "lks_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lks_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lks_status_obrade": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lks_status_messenger": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lks_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "lks_employee_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lks_broj_dana": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lks_link_id": {
+       "tip": "int",
+       "opis": "ID linka na kojeg se kandidat prijavio. Unosi se samo kod statusa 1 i 9\t",
+       "pii": false
+      }
+     }
+    },
+    "idk_log_statusi_prijave": {
+     "redova_cca": 361201,
+     "pk": [
+      "lsp_id"
+     ],
+     "kolone": {
+      "lsp_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lsp_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lsp_projekt_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lsp_status_prijave_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lsp_employee_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lsp_izvor": {
+       "tip": "int",
+       "opis": "1-CRM, 2-PP, 3-bot, 4-queue, 5-automatski cronom, 6-Transfer kandidata    ",
+       "pii": false
+      },
+      "lsp_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "lsp_broj_dana": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_logs": {
+     "redova_cca": 3006939,
+     "pk": [
+      "log_id"
+     ],
+     "kolone": {
+      "log_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "log_employeeid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "log_desc": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "log_date": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "log_type": {
+       "tip": "int",
+       "opis": "Log za skladiste - $log_type = 1, Log za pozicije - $log_type = 2, Log za biljeske - $log_type = 3, Log za financije - $log_type = 4, Log za IP-ove 5 i 6(bot),  7- dak, 8 klijentin, 10-PP, 11-nivoi jezika, 12-log za remindere na CRM-u, 13-log za bridge sistem API  ",
+       "pii": false
+      }
+     }
+    }
+   }
+  },
+  "taskforce": {
+   "naziv": "Task Force & Casting",
+   "permission": "jsi:tabele:taskforce",
+   "tabele": {
+    "idk_agenti_activity": {
+     "redova_cca": 7848,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "employee_id": {
+       "tip": "int",
+       "opis": "agentov id",
+       "pii": false
+      },
+      "activity_status": {
+       "tip": "int",
+       "opis": "0 - idle | 1 - pauza | 2 - live | 3 - viber | 4 - obuka | 5. inbound ",
+       "pii": false
+      },
+      "activity_pocetak": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "activity_kraj": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "activity_ukupno": {
+       "tip": "time",
+       "opis": "",
+       "pii": false
+      },
+      "activity_aktivan": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_appointment_invite_links": {
+     "redova_cca": 4570,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "candidate_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "interview_id": {
+       "tip": "int",
+       "opis": "pca_id iz idk_cand_appts",
+       "pii": false
+      },
+      "link_status": {
+       "tip": "int",
+       "opis": "1 - poslano, 2 - otvoreno, 3 - potvrđeno, 0 - arhivirano",
+       "pii": false
+      },
+      "date_sent": {
+       "tip": "datetime",
+       "opis": "Datum slanja / DOE",
+       "pii": false
+      },
+      "date_open": {
+       "tip": "datetime",
+       "opis": "Datum otvaranja linka od strane kandidata",
+       "pii": false
+      },
+      "date_confirmed": {
+       "tip": "datetime",
+       "opis": "Datum prihvatanja",
+       "pii": false
+      },
+      "date_archived": {
+       "tip": "datetime",
+       "opis": "Datum arhiviranja",
+       "pii": false
+      },
+      "sent_days_before": {
+       "tip": "int",
+       "opis": "Vrijeme termina - Trenutno vrijeme = sent_days_before",
+       "pii": false
+      },
+      "counter_sent": {
+       "tip": "int",
+       "opis": "1 - prvo slanje; 2 - drugo slanje; n - n slanje",
+       "pii": false
+      }
+     }
+    },
+    "idk_nedostupan_log": {
+     "redova_cca": 10122,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kandidat": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nalog": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "agent": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "brojac": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "status": {
+       "tip": "int",
+       "opis": "1-aktivan, 0-neaktivan",
+       "pii": false
+      },
+      "doe": {
+       "tip": "timestamp",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_appointment_groups": {
+     "redova_cca": 92,
+     "pk": [
+      "ppaq_id"
+     ],
+     "kolone": {
+      "ppaq_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ppaq_start_date": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "ppaq_end_date": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "ppaq_casting_cron_executed": {
+       "tip": "tinyint(1)",
+       "opis": "0 - Nije izvršen cron za casting 1 - izvršen cron za casting",
+       "pii": false
+      },
+      "ppaq_interview_cron_executed": {
+       "tip": "tinyint(1)",
+       "opis": "0 - Nije izvršen cron za interview 1 - izvršen cron za inteview  ",
+       "pii": false
+      },
+      "papq_name": {
+       "tip": "varchar(200)",
+       "opis": "",
+       "pii": false
+      },
+      "papq_name_de": {
+       "tip": "varchar(200)",
+       "opis": "",
+       "pii": false
+      },
+      "papq_nalog_id": {
+       "tip": "varchar(7)",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_appointment_hours": {
+     "redova_cca": 199,
+     "pk": [
+      "pah_id"
+     ],
+     "kolone": {
+      "pah_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pah_time": {
+       "tip": "time",
+       "opis": "Vrijeme satnice",
+       "pii": false
+      },
+      "pah_employee_id": {
+       "tip": "int",
+       "opis": "Zaposlenik koji je dodao",
+       "pii": false
+      },
+      "pah_doe": {
+       "tip": "timestamp",
+       "opis": "Trenutak dodavanja\t",
+       "pii": false
+      },
+      "pap_id": {
+       "tip": "int",
+       "opis": "FK na tabelu idk_pp_appointments",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_appointments": {
+     "redova_cca": 172,
+     "pk": [
+      "pap_id"
+     ],
+     "kolone": {
+      "pap_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pap_date": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "pap_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pap_city": {
+       "tip": "varchar(100)",
+       "opis": "Grad u kojem se održava casting",
+       "pii": false
+      },
+      "pap_location_name": {
+       "tip": "text",
+       "opis": "Naziv lokacije (NPR: hotel Opal)",
+       "pii": true
+      },
+      "pap_google_maps_location": {
+       "tip": "text",
+       "opis": "Google maps link za lokaciju održavanja castinga",
+       "pii": true
+      },
+      "pap_first_sending_number_days": {
+       "tip": "int",
+       "opis": "Broj dana prije za prvo slanje",
+       "pii": false
+      },
+      "pap_second_sending_number_days": {
+       "tip": "int",
+       "opis": "Broj dana prije za drugo slanje",
+       "pii": false
+      },
+      "pap_first_send_enabled": {
+       "tip": "int",
+       "opis": "Omogućeno prvo slanje: 0 - NE; 1 - DA;",
+       "pii": false
+      },
+      "pap_second_send_enabled": {
+       "tip": "int",
+       "opis": "Omogućeno drugo slanje: 0 - NE; 1 - DA;",
+       "pii": false
+      },
+      "pap_group_id": {
+       "tip": "varchar(7)",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_appointments_questions": {
+     "redova_cca": 1230,
+     "pk": [
+      "papq_id"
+     ],
+     "kolone": {
+      "papq_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "papq_question_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "papq_appointment_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "papq_order": {
+       "tip": "int",
+       "opis": "Redoslijed",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_cand_appts": {
+     "redova_cca": 6808,
+     "pk": [
+      "pca_id"
+     ],
+     "kolone": {
+      "pca_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pca_appointment_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pca_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pca_time": {
+       "tip": "time",
+       "opis": "",
+       "pii": false
+      },
+      "pca_avg_rating": {
+       "tip": "double",
+       "opis": "",
+       "pii": false
+      },
+      "pca_comment": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "pca_interviewer": {
+       "tip": "text",
+       "opis": "User koji je ocjenio kandidata",
+       "pii": true
+      },
+      "pca_recommendation": {
+       "tip": "int",
+       "opis": "Preporuka: 1 - Hire, 2 - Reject, 3 - Not sure",
+       "pii": false
+      },
+      "pca_reason_recommendation": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "pca_status": {
+       "tip": "int",
+       "opis": "0 - neaktivan(kandidat je zavrsio sa intervjuem, ili je prihvacen ili odbijen ili nije dosao na intervju); 1 - aktivan intervju  ",
+       "pii": false
+      },
+      "pca_pah_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_question_categories": {
+     "redova_cca": 15,
+     "pk": [
+      "pqc_id"
+     ],
+     "kolone": {
+      "pqc_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pqc_name": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "pqc_name_de": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      }
+     }
+    },
+    "idk_pp_question_options": {
+     "redova_cca": 17,
+     "pk": [
+      "pqo_id"
+     ],
+     "kolone": {
+      "pqo_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pqo_question_id": {
+       "tip": "int",
+       "opis": "pqu_id iz tabele idk_pp_questions",
+       "pii": false
+      },
+      "pqo_value": {
+       "tip": "int",
+       "opis": "value koji se pojavi u select",
+       "pii": false
+      },
+      "pqo_value_text": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "pqo_value_text_de": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "pqo_value_subtext": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "pqo_value_subtext_de": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      }
+     }
+    },
+    "idk_pp_questions": {
+     "redova_cca": 282,
+     "pk": [
+      "pqu_id"
+     ],
+     "kolone": {
+      "pqu_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pqu_question": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "pqu_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pqu_user_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pqu_category_id": {
+       "tip": "int",
+       "opis": "NULL - nema kategorije X - (x>0) pqc_id iz tabele idk_pp_question_categories",
+       "pii": false
+      },
+      "pqu_has_text": {
+       "tip": "int",
+       "opis": "Kolona koja oznacava da li ce pitanje na frontendu imati polje za unos teksta",
+       "pii": false
+      },
+      "pqu_has_rating": {
+       "tip": "int",
+       "opis": "Kolona koja oznacava da li ce pitanje na frontendu imati polje za unos ocjene",
+       "pii": false
+      },
+      "pqu_has_dropdown": {
+       "tip": "int",
+       "opis": "Kolona koja oznacava da li ce pitanje na frontendu imati polje sa padajucim izbornikom",
+       "pii": false
+      },
+      "pqu_export_order": {
+       "tip": "int",
+       "opis": "Redoslijed samo za export pitanja",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_ratings": {
+     "redova_cca": 27221,
+     "pk": [
+      "pra_id"
+     ],
+     "kolone": {
+      "pra_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pra_rating": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pra_comment": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "pra_options_value": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pra_appointment_question_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pra_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_task_force": {
+     "redova_cca": 452568,
+     "pk": [
+      "tf_id"
+     ],
+     "kolone": {
+      "tf_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tf_candidate_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tf_agent_id": {
+       "tip": "int",
+       "opis": "Nekad task moze kreirati cron ili sistem automatski, a to pratimo sa NULL u ovoj koloni",
+       "pii": false
+      },
+      "tf_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tf_project_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tf_casting_id": {
+       "tip": "int",
+       "opis": "ID iz grupe termina",
+       "pii": false
+      },
+      "tf_status_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tf_call_appointment": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "tf_note": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "tf_important_note": {
+       "tip": "int",
+       "opis": "0 - ne, 1 - da",
+       "pii": false
+      },
+      "tf_last_active_task": {
+       "tip": "int",
+       "opis": "0 - nije, 1 - jeste",
+       "pii": false
+      },
+      "tf_brojac_neuspjela_komunikacija": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tf_files": {
+       "tip": "text",
+       "opis": "Sprema se naziv priloga dodanog na biljesku. Fileovi se nalaze na putanji: files/prilozi_kandidati",
+       "pii": true
+      },
+      "tf_doe": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "tf_vrsta_id": {
+       "tip": "int",
+       "opis": "FK iz tabele idk_tf_vrste",
+       "pii": false
+      }
+     }
+    },
+    "idk_tf_agent_nalog": {
+     "redova_cca": 23,
+     "pk": [
+      "tfan_id"
+     ],
+     "kolone": {
+      "tfan_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tfan_nalog": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tfan_agent": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tfan_vrsta_id": {
+       "tip": "int",
+       "opis": "FK iz tabele idk_tf_vrste",
+       "pii": false
+      }
+     }
+    },
+    "idk_tf_reservations": {
+     "redova_cca": 0,
+     "pk": [
+      "tf_kandidat_id"
+     ],
+     "kolone": {
+      "tf_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tf_agent_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tf_projekt_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tf_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tf_vrsta_id": {
+       "tip": "int",
+       "opis": "FK iz tabele idk_tf_vrste",
+       "pii": false
+      },
+      "tf_dipl_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tf_category_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_tf_stats_reservations": {
+     "redova_cca": 3852,
+     "pk": [
+      "tsr_id"
+     ],
+     "kolone": {
+      "tsr_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tsr_candidate_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tsr_agent_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tsr_interview_id": {
+       "tip": "int",
+       "opis": "ID grupe castinga",
+       "pii": false
+      },
+      "tsr_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tsr_link_id": {
+       "tip": "int",
+       "opis": "Id linka sa kojeg se kandidat zadnji put prijavio prije ulaska u ovu tabelu\t",
+       "pii": false
+      },
+      "tsr_status": {
+       "tip": "int",
+       "opis": "Došao=1, Nije došao=2, Odustao=3",
+       "pii": false
+      }
+     }
+    },
+    "idk_tf_statusi": {
+     "redova_cca": 136,
+     "pk": [
+      "tfs_id"
+     ],
+     "kolone": {
+      "tfs_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tfs_name": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "tfs_is_positive": {
+       "tip": "int",
+       "opis": "0 - oznacava da je status negativan, tj da kandidat ispada iz taskova;  1 - status pozitivan, kandidat nastavlja proces kroz taskove  ",
+       "pii": false
+      },
+      "tfs_has_interview": {
+       "tip": "int",
+       "opis": "0-nema intervju, 1-ima intervju",
+       "pii": false
+      },
+      "tfs_appointment": {
+       "tip": "int",
+       "opis": "1 - Oznacava da je potrebno unijeti termin za zvanje;  0 - ne treba unositi termin  ",
+       "pii": false
+      },
+      "tfs_order": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tfs_status_prijave": {
+       "tip": "int",
+       "opis": "Oznacava na koji status prijave vodimo kandidata nakon odabira taska.  Default je NULL sto znaci da mu se ne mijenja status prijave.",
+       "pii": false
+      },
+      "tfs_vrsta_id": {
+       "tip": "int",
+       "opis": "FK iz tabele idk_tf_vrste",
+       "pii": false
+      }
+     }
+    },
+    "idk_tf_transfered_candidates_logs": {
+     "redova_cca": 725,
+     "pk": [
+      "tcl_id"
+     ],
+     "kolone": {
+      "tcl_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tcl_transfered_candidates": {
+       "tip": "mediumtext",
+       "opis": "",
+       "pii": true
+      },
+      "tcl_destination_project_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tcl_doe": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "tcl_employee_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_tf_vrste": {
+     "redova_cca": 28,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "name": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "status": {
+       "tip": "int",
+       "opis": "1-aktivan",
+       "pii": false
+      },
+      "category": {
+       "tip": "int",
+       "opis": "1-casting, 2-posredovanje, 3-obrada",
+       "pii": false
+      }
+     }
+    }
+   }
+  },
+  "komunikacija": {
+   "naziv": "Kommunikation / Komunikacija",
+   "permission": "jsi:tabele:komunikacija",
+   "tabele": {
+    "idk_bot_obavijesti": {
+     "redova_cca": 2,
+     "pk": [
+      "bo_id"
+     ],
+     "kolone": {
+      "bo_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "bo_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "bo_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "bo_poslana": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "bo_odgovor": {
+       "tip": "int",
+       "opis": "0 - nije pogledana jos, 1 - pogledana obavijest, 2 - zainteresiran, 3- nezainteresiran za oglas, 4 - zavrsio sa unosom",
+       "pii": false
+      }
+     }
+    },
+    "idk_chat_question": {
+     "redova_cca": 56,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "type": {
+       "tip": "text",
+       "opis": "type id from idk_chat_type",
+       "pii": true
+      },
+      "question_order": {
+       "tip": "int",
+       "opis": "order of question",
+       "pii": false
+      },
+      "question": {
+       "tip": "text",
+       "opis": "json for all languages",
+       "pii": true
+      },
+      "answer": {
+       "tip": "text",
+       "opis": "json for all languages",
+       "pii": true
+      },
+      "parentQuestion": {
+       "tip": "int",
+       "opis": "id of previous question",
+       "pii": false
+      },
+      "deletedAt": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_chat_type": {
+     "redova_cca": 1,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "name": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_email_text": {
+     "redova_cca": 3,
+     "pk": [
+      "email_id"
+     ],
+     "kolone": {
+      "email_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "email_value": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "email_title": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "email_txt": {
+       "tip": "text",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_glossa_log": {
+     "redova_cca": 13,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "request": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "response": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "code": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "candidate": {
+       "tip": "text",
+       "opis": "FK iz tabele idk_kandidati (check) - nekad se salje jedan, nekad array",
+       "pii": true
+      },
+      "request_endpoint": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "doe": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_messenger_obavijesti": {
+     "redova_cca": 260423,
+     "pk": [
+      "mo_id"
+     ],
+     "kolone": {
+      "mo_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "mo_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "mo_tip": {
+       "tip": "int",
+       "opis": "1-sms za instalaciju",
+       "pii": false
+      },
+      "mo_datum_slanja": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_notification": {
+     "redova_cca": 75248,
+     "pk": [
+      "not_id"
+     ],
+     "kolone": {
+      "not_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "not_kandidatid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "not_text": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "not_url": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": true
+      },
+      "not_date": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "not_type": {
+       "tip": "int",
+       "opis": "2-ponovna prijava",
+       "pii": false
+      },
+      "not_status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_provider_for_sending_messages": {
+     "redova_cca": 9,
+     "pk": [
+      "psm_id"
+     ],
+     "kolone": {
+      "psm_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "psm_group_type": {
+       "tip": "int",
+       "opis": "Tip grupe",
+       "pii": false
+      },
+      "psm_group_name": {
+       "tip": "varchar(500)",
+       "opis": "Naziv grupe",
+       "pii": false
+      },
+      "psm_active_provider": {
+       "tip": "int",
+       "opis": "Aktivni provider. Za sad imamo: 1 - Infobip; 2 - NTH;",
+       "pii": false
+      }
+     }
+    },
+    "idk_sms_messages": {
+     "redova_cca": 3512,
+     "pk": [
+      "sms_id"
+     ],
+     "kolone": {
+      "sms_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "sms_origin": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "sms_number": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": true
+      },
+      "sms_content": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "sms_status": {
+       "tip": "int",
+       "opis": "0-pocetni status, 1-poslan sms",
+       "pii": false
+      },
+      "sms_created_at": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "sms_response_nthsmsid": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "sms_response_statuscode": {
+       "tip": "varchar(10)",
+       "opis": "",
+       "pii": false
+      },
+      "sms_count": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "sms_updated_at": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "sms_notification_statuscode": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "sms_notification_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "sms_type": {
+       "tip": "int",
+       "opis": "1-jobstep messenger; 2 - sms za stare kandidate sa linkom prijave",
+       "pii": false
+      }
+     }
+    },
+    "idk_triggerurl": {
+     "redova_cca": 10,
+     "pk": [
+      "url_id"
+     ],
+     "kolone": {
+      "url_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "url_link": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "url_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "url_tag": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_viber_obavijesti": {
+     "redova_cca": 3905,
+     "pk": [
+      "vo_id"
+     ],
+     "kolone": {
+      "vo_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vo_nalogid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vo_kandidati_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vo_obavijest_za": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "vo_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      }
+     }
+    }
+   }
+  },
+  "firme": {
+   "naziv": "Aufträge, Projekte, Firmen, Kontakte / Nalozi, projekti, firme",
+   "permission": "jsi:tabele:firme",
+   "tabele": {
+    "idk_clients": {
+     "redova_cca": 387,
+     "pk": [
+      "client_id"
+     ],
+     "kolone": {
+      "client_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "client_name": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "client_country": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "client_region": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "client_city": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "client_address": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": true
+      },
+      "client_pp": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "client_telephone": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "client_email": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": true
+      },
+      "client_origin": {
+       "tip": "int",
+       "opis": "0-rucno,1-dipl,2-dak",
+       "pii": false
+      },
+      "client_recommendation": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "client_recommendation_company": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "client_fc_or_sales": {
+       "tip": "int",
+       "opis": "0-fc,1-sales",
+       "pii": false
+      },
+      "client_fc_status": {
+       "tip": "int",
+       "opis": "0-lead,1-inprogr,2-akt,3-arh",
+       "pii": false
+      },
+      "client_sales_status": {
+       "tip": "int",
+       "opis": "0-lead,1-inprogr, 2-cekaug ,3-akt,4-arh",
+       "pii": false
+      },
+      "client_manager": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "client_sales_manager": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "client_datum_zvanja": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "client_contract": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "client_description": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      }
+     }
+    },
+    "idk_clients_stats": {
+     "redova_cca": 858,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "client_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "fc_or_sales": {
+       "tip": "int",
+       "opis": "0-fc,1-sales",
+       "pii": false
+      },
+      "date": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "zaposlenik_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "stats_desc": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      }
+     }
+    },
+    "idk_companies": {
+     "redova_cca": 1223,
+     "pk": [
+      "company_id"
+     ],
+     "kolone": {
+      "company_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "company_name": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "company_type": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "company_idnum": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "company_taxnum": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "company_ceo": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "company_contact": {
+       "tip": "int",
+       "opis": "",
+       "pii": true
+      },
+      "company_address": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": true
+      },
+      "company_zipcode": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": true
+      },
+      "company_city": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "company_state": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "company_country": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "company_info": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "company_inote": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "company_logo": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "company_contact_type": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "company_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "company_status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "company_origin": {
+       "tip": "int",
+       "opis": "0-normalno, 1-dipl,2-dak, 5 - partner_app  ",
+       "pii": false
+      },
+      "company_reccomendation": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "company_size": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "js_partner_id": {
+       "tip": "int",
+       "opis": "id iz tabele idk_jobstep_partners",
+       "pii": false
+      },
+      "company_message": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "company_total_workers_required": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "company_professions": {
+       "tip": "text",
+       "opis": "Array of profession ids",
+       "pii": true
+      }
+     }
+    },
+    "idk_companies_info": {
+     "redova_cca": 1698,
+     "pk": [
+      "comi_id"
+     ],
+     "kolone": {
+      "comi_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "comi_group": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "comi_title": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "comi_data": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "comi_primary": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "comi_companyid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_contacts": {
+     "redova_cca": 628,
+     "pk": [
+      "contact_id"
+     ],
+     "kolone": {
+      "contact_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "contact_firstname": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": true
+      },
+      "contact_lastname": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": true
+      },
+      "contact_nickname": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": true
+      },
+      "contact_dob": {
+       "tip": "date",
+       "opis": "",
+       "pii": true
+      },
+      "contact_address": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": true
+      },
+      "contact_zipcode": {
+       "tip": "int",
+       "opis": "",
+       "pii": true
+      },
+      "contact_city": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": true
+      },
+      "contact_state": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "contact_country": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "contact_info": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "contact_inote": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "contact_image": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": true
+      },
+      "contact_type": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "contact_companyid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "contact_clientid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "contact_ownerid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "contact_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "contact_status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "contact_job_title": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_contacts_info": {
+     "redova_cca": 1128,
+     "pk": [
+      "ci_id"
+     ],
+     "kolone": {
+      "ci_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ci_group": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ci_title": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "ci_data": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "ci_primary": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ci_contactid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_link_generator": {
+     "redova_cca": 1411,
+     "pk": [
+      "lg_id"
+     ],
+     "kolone": {
+      "lg_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lg_link_prijave": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "idk_urlimg_prijave": {
+       "tip": "varchar(500)",
+       "opis": "",
+       "pii": false
+      },
+      "lg_url": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": true
+      },
+      "lg_desc": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "lg_status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lg_employeeid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lg_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "lg_project": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lg_nalogid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lg_language": {
+       "tip": "varchar(20)",
+       "opis": "",
+       "pii": false
+      },
+      "lg_troskovi": {
+       "tip": "double",
+       "opis": "",
+       "pii": false
+      },
+      "lg_broj_pregleda": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lg_partner_app": {
+       "tip": "int",
+       "opis": "0 - nije link za partner app, 1 - link za partner app",
+       "pii": false
+      }
+     }
+    },
+    "idk_link_generator_rel": {
+     "redova_cca": 2166,
+     "pk": [
+      "lr_id"
+     ],
+     "kolone": {
+      "lr_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lr_lgid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lr_groupid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_link_projects": {
+     "redova_cca": 82,
+     "pk": [
+      "lp_id"
+     ],
+     "kolone": {
+      "lp_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lp_linkid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lp_projectid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nalog_financije": {
+     "redova_cca": 126,
+     "pk": [
+      "nf_id"
+     ],
+     "kolone": {
+      "nf_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nf_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nf_datum_aktiviranja": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "nf_type": {
+       "tip": "int",
+       "opis": "Tip rate: 1 - avans kod standardnog načina, 2 - avans kod mjesečnog načina, 3 - mjesečne rate, 4 - rate za nostrifikaciju",
+       "pii": false
+      },
+      "nf_broj_rate": {
+       "tip": "int",
+       "opis": "Broj rate u slučaje da je nf_type = 3",
+       "pii": false
+      },
+      "nf_iznos": {
+       "tip": "double",
+       "opis": "Iznos fakture",
+       "pii": false
+      },
+      "nf_placeno": {
+       "tip": "int",
+       "opis": "Status fakture: 0-NDF, 1-treba fakturisati, 2-fakturisano, 3-placeno, 4-athivirano.",
+       "pii": false
+      },
+      "nf_datum_fakturisanja": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "nf_datum_placanja": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "nf_desc": {
+       "tip": "varchar(255)",
+       "opis": "Služi samo za nalog 254 zbog specifičnih rata",
+       "pii": false
+      }
+     },
+     "dodatna_permission": "jsi:finansije:read"
+    },
+    "idk_nalog_profil": {
+     "redova_cca": 83,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "naziv": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "zaposlenik": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prioritet": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "doe": {
+       "tip": "timestamp",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nalog_smjer": {
+     "redova_cca": 2092,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "smjer_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nalozi": {
+     "redova_cca": 239,
+     "pk": [
+      "nalog_id"
+     ],
+     "kolone": {
+      "nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kompanija_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "employee_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_broj": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_naziv": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_opis": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "nalog_kreirano": {
+       "tip": "timestamp",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_datum_potpisa_naloga": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_marketing_menadzer": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_ugovor": {
+       "tip": "varchar(25)",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_potrebno_kandidata": {
+       "tip": "int",
+       "opis": "Broj kandidata koji se traži nalogom.",
+       "pii": false
+      },
+      "nalog_provizija": {
+       "tip": "double",
+       "opis": "Iznos provizije po kandidatu.",
+       "pii": false
+      },
+      "nalog_provizija_po_plati": {
+       "tip": "float",
+       "opis": "Iznos provizije za kandidate po plati kandidata.",
+       "pii": false
+      },
+      "nalog_broj_rata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_procenat_avansa": {
+       "tip": "int",
+       "opis": "Iznos procenta za avans ako postoji i to samo kod mjesečnog plaćanja.",
+       "pii": false
+      },
+      "nalog_placa_nostrifikaciju": {
+       "tip": "int",
+       "opis": "0-ne placa, 1-placa",
+       "pii": false
+      },
+      "nalog_nacin_nostrifikacije": {
+       "tip": "int",
+       "opis": "1-standardni način (poslana pošta), 2-mjesečne rate.",
+       "pii": false
+      },
+      "nalog_provizija_nostrifikacija": {
+       "tip": "double",
+       "opis": "Iznos fakture po kandidatu za nostrifikaciju.",
+       "pii": false
+      },
+      "nalog_broj_rata_nostrifikacija": {
+       "tip": "int",
+       "opis": "Broj rata za fakturisanje nostrifikacije po nalogu.",
+       "pii": false
+      },
+      "nalog_firma_fakturisanja": {
+       "tip": "int",
+       "opis": "default NULL-nemamo informaciju,   1: DE - Jobstep GmbH  2: CH - Jobstep Int Gmbh  ",
+       "pii": false
+      },
+      "nalog_placena_prva_rata": {
+       "tip": "int",
+       "opis": "2=NDF; 1=placeno; 0=neplaceno ",
+       "pii": false
+      },
+      "nalog_financije": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_akademija": {
+       "tip": "int",
+       "opis": "0 - nalog ne plaća akademiju za kandidate,  1 - plaća",
+       "pii": false
+      },
+      "nalog_provizija_akademija": {
+       "tip": "int",
+       "opis": "Iznos fakture za akademiju po kandidatu.",
+       "pii": false
+      },
+      "nalog_nacin_akademija": {
+       "tip": "int",
+       "opis": "1 - x dana prije početka akademije,  2 - x dana poslije početka akademije",
+       "pii": false
+      },
+      "nalog_broj_dana_akademija": {
+       "tip": "int",
+       "opis": "Broj dana za plaćanje akademije",
+       "pii": false
+      },
+      "nalog_partner_active": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nalog_partner_provizija": {
+       "tip": "double",
+       "opis": "",
+       "pii": false
+      },
+      "pristup_poslodavcima": {
+       "tip": "int",
+       "opis": "0 - nema pristup, 1 - ima pristup",
+       "pii": false
+      },
+      "partneri_pp": {
+       "tip": "int",
+       "opis": "0 - nema grupacija, 1 - ima grupacije",
+       "pii": false
+      },
+      "nalog_prioritet": {
+       "tip": "int",
+       "opis": "Prioritet za algoritam kod task force-a. Ako je null znači da nalog nije uključen u algoritam za pozive.",
+       "pii": false
+      },
+      "nalog_slanje_na_glosu": {
+       "tip": "int",
+       "opis": "0 - kandidati se ne salju na glosu, 1 - salju se",
+       "pii": false
+      },
+      "nalog_dospijece": {
+       "tip": "int",
+       "opis": "Broj dana od fakturisanja do uplate",
+       "pii": false
+      },
+      "nalog_smjerovi_kriterij": {
+       "tip": "int",
+       "opis": "Kolona koja govori da li su smjerovi iz taba Smjerovi naloga kriterij za nalog ili ne. 0 - NE; 1 - DA;",
+       "pii": false
+      },
+      "nalog_js_partner_id": {
+       "tip": "int",
+       "opis": "id iz tabele idk_jobstep_partners",
+       "pii": false
+      },
+      "nalog_partner_app_title": {
+       "tip": "varchar(255)",
+       "opis": "Naslov koji ce se prikazivati u partner app-u kao naziv posla",
+       "pii": false
+      },
+      "nalog_partner_app_location": {
+       "tip": "varchar(255)",
+       "opis": "Lokacija posla koja se prikazuje u partner app-u",
+       "pii": false
+      },
+      "nalog_partner_app_until": {
+       "tip": "datetime",
+       "opis": "Datum do kad traju prijave na posao koji se prikazuje u partner app-u",
+       "pii": false
+      },
+      "nalog_partner_app_salary": {
+       "tip": "varchar(255)",
+       "opis": "Plata za koju se prijavljuje koja ce se prikazivati u partner appu",
+       "pii": false
+      },
+      "nalog_poslodavac_trazi_jezik": {
+       "tip": "int",
+       "opis": "0 - poslodavac ne traži jezik; 1 - poslodavac traži jezik; Ovaj parametar se uzima u slučaju potpune/evaluacije diplome. Ako je označeno sa 1 na tom nalogu u slučaju da kandidat ima potpunu/evaluaciju, i dalje ce biti potrebno ispuniti uslov za jezik.",
+       "pii": false
+      },
+      "nalog_poslodavac_koristi_pp": {
+       "tip": "int",
+       "opis": "Po ugovoru poslodavac se obavezuje na korištenje aplikacije JobSoft. Odnosno, obavezuje se na to da ako ne uradi neku akciju za nekog kandidata na istoj aplikaciji a JobStep ga pri tom obavijesti N puta, slijede ugovorom definisane akcije sa JobStep strane.",
+       "pii": false
+      },
+      "offers_and_benefits_of_employers": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      }
+     }
+    },
+    "idk_nalozi_blokovi_prijave": {
+     "redova_cca": 205,
+     "pk": [
+      "nbp_id"
+     ],
+     "kolone": {
+      "nbp_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_nalogid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_vozacka": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_vozacka_kategorija": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_visoko_obr": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_dodatno_obr": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_korak4": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_njemacki_jezik": {
+       "tip": "varchar(10)",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_ostali_jezici": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_korak7": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_slika": {
+       "tip": "int",
+       "opis": "",
+       "pii": true
+      },
+      "nbp_diploma": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_pripravnicki": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_strucni": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_jezik_cert": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_struka": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_iskustvo_u_struci": {
+       "tip": "int",
+       "opis": "0 - nije potrebno; 1 - potrebno radno iskustvo u struci",
+       "pii": false
+      },
+      "nbp_iskustvo_u_struci_trajanje": {
+       "tip": "int",
+       "opis": "null-nedefinirano,0-ne treba, 1-vise od 0, 2-vise od 1 godine, ... Unosi se samo ako je nbp_iskustvo_struci 1, suprotno se unosi null",
+       "pii": false
+      },
+      "nbp_kandidat_starost_od": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nbp_kandidat_starost_do": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nalozi_log": {
+     "redova_cca": 908,
+     "pk": [
+      "n_log_id"
+     ],
+     "kolone": {
+      "n_log_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "n_log_nalogid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "n_log_employeeid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "n_log_status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "n_log_vrijeme": {
+       "tip": "timestamp",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nalozi_opis": {
+     "redova_cca": 106,
+     "pk": [
+      "no_id"
+     ],
+     "kolone": {
+      "no_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "no_lang": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "no_nalogid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "no_nalognaziv": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "no_nalogopis": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      }
+     }
+    },
+    "idk_nalozi_rate": {
+     "redova_cca": 89,
+     "pk": [
+      "nr_id"
+     ],
+     "kolone": {
+      "nr_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nr_nalog": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nr_rata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nr_procenat": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nr_vrijeme_placanja": {
+       "tip": "varchar(35)",
+       "opis": "",
+       "pii": false
+      },
+      "nr_datum": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "nr_mjeseci_nakon": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_partner_meetings": {
+     "redova_cca": 11,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "meeting_appointment": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "meeting_type": {
+       "tip": "varchar(255)",
+       "opis": "1- Company creation meeting",
+       "pii": false
+      },
+      "meeting_company_id": {
+       "tip": "int",
+       "opis": "If meeting type is 1, this is mandatory",
+       "pii": false
+      },
+      "meeting_employee": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_profil_kriterij": {
+     "redova_cca": 83,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vozacka_dozvola": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kategorija_vozacke_dozvole": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "smjerovi_naloga": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "radno_iskustvo_struka": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "radno_iskustvo_struka_trajanje": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "starost": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "starost_minimum": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "starost_maksimum": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "njemacki_jezik": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nivo_njemackog_jezika": {
+       "tip": "varchar(11)",
+       "opis": "",
+       "pii": false
+      },
+      "znanje_drugog_jezika": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "engleski_jezik": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nivo_engleskog_jezika": {
+       "tip": "varchar(11)",
+       "opis": "",
+       "pii": false
+      },
+      "francuski_jezik": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nivo_francuskog_jezika": {
+       "tip": "varchar(11)",
+       "opis": "",
+       "pii": false
+      },
+      "italijanski_jezik": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nivo_italijanskog_jezika": {
+       "tip": "varchar(11)",
+       "opis": "",
+       "pii": false
+      },
+      "profil_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_project_candidate_queue": {
+     "redova_cca": 1691,
+     "pk": [
+      "queue_id"
+     ],
+     "kolone": {
+      "queue_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "queue_project_id": {
+       "tip": "varchar(7)",
+       "opis": "",
+       "pii": false
+      },
+      "queue_candidate_id": {
+       "tip": "varchar(7)",
+       "opis": "",
+       "pii": false
+      },
+      "queue_partner_id": {
+       "tip": "int",
+       "opis": "ID partnera koji preko čijeg linka je ušao kandidat.",
+       "pii": false
+      },
+      "queue_entry_date": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "queue_is_assigned": {
+       "tip": "tinyint(1)",
+       "opis": "0 - Još uvijek čeka, kandidat nije dodijeljen ovom projektu 1 - Kandidat je dodijeljen ovom projektu",
+       "pii": false
+      }
+     }
+    },
+    "idk_project_kandidati": {
+     "redova_cca": 207679,
+     "pk": [
+      "pk_id"
+     ],
+     "kolone": {
+      "pk_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pk_projectid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pk_kandidatid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_projects": {
+     "redova_cca": 2740,
+     "pk": [
+      "project_id"
+     ],
+     "kolone": {
+      "project_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "project_order": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "project_name": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "project_desc": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "project_plannedhours": {
+       "tip": "varchar(20)",
+       "opis": "",
+       "pii": false
+      },
+      "project_companyid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "project_employeeid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "project_pmanagerid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "project_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "project_status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "project_nalogid": {
+       "tip": "varchar(25)",
+       "opis": "",
+       "pii": false
+      },
+      "project_datumtermina": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "project_datumterminado": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "project_eukandidati": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_projects_settings": {
+     "redova_cca": 5,
+     "pk": [
+      "ps_id"
+     ],
+     "kolone": {
+      "ps_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ps_name": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": false
+      },
+      "ps_group": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_projects_tasks": {
+     "redova_cca": 169,
+     "pk": [
+      "pt_id"
+     ],
+     "kolone": {
+      "pt_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pt_name": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "pt_desc": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "pt_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "pt_duedatetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "pt_projectid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pt_employeeid": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pt_box": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pt_sort": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_sales_reminders": {
+     "redova_cca": 1,
+     "pk": [
+      "sr_id"
+     ],
+     "kolone": {
+      "sr_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "sr_employee_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "sr_client_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "sr_doe": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "sr_call_datetime": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "sr_status": {
+       "tip": "int",
+       "opis": "1 - active;  2 - finished",
+       "pii": false
+      },
+      "sr_type": {
+       "tip": "int",
+       "opis": "0 - first call;  ...",
+       "pii": false
+      }
+     }
+    },
+    "idk_skole": {
+     "redova_cca": 368,
+     "pk": [
+      "skola_id"
+     ],
+     "kolone": {
+      "skola_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "skola_naziv": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "skola_naziv_de": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "skola_tip_obrazovanja": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_skole_smjerovi": {
+     "redova_cca": 1848,
+     "pk": [
+      "ss_id"
+     ],
+     "kolone": {
+      "ss_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ss_naziv": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "ss_naziv_de": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "ss_naziv_en": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "ss_skola_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ss_trajanje_skole": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ss_struka_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_struke": {
+     "redova_cca": 7,
+     "pk": [
+      "id_struke"
+     ],
+     "kolone": {
+      "id_struke": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "naziv_struke": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "naziv_struke_de": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      }
+     }
+    }
+   }
+  },
+  "partner_portal": {
+   "naziv": "Partnerportal, Unterlagen / Partner portal, dokumenti",
+   "permission": "jsi:tabele:partner_portal",
+   "tabele": {
+    "idk_pp_cand_required_documents": {
+     "redova_cca": 70,
+     "pk": [
+      "crd_id"
+     ],
+     "kolone": {
+      "crd_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "crd_cand_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "crd_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "crd_type_id": {
+       "tip": "int",
+       "opis": "foreign key iz tabele pp_document_types",
+       "pii": false
+      },
+      "crd_done_by": {
+       "tip": "int",
+       "opis": "ko je zaduzen za kreiranje dokumenta: 1-poslodavac, 2-kandidat, 3-mi",
+       "pii": false
+      },
+      "crd_status": {
+       "tip": "int",
+       "opis": "1-aktivan, 2-neaktivan",
+       "pii": false
+      },
+      "crd_date_activated": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "crd_user_activated": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "crd_date_archived": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "crd_user_archived": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "crd_comment": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "crd_vi_id": {
+       "tip": "int",
+       "opis": "foreign key iz tabele pp_visa_incomplete",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_city": {
+     "redova_cca": 55,
+     "pk": [
+      "pc_id"
+     ],
+     "kolone": {
+      "pc_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pc_region": {
+       "tip": "int",
+       "opis": "FK iz idk_pp_regions",
+       "pii": false
+      },
+      "pc_name": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "pc_status": {
+       "tip": "int",
+       "opis": "1-aktivan",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_contract_sent": {
+     "redova_cca": 3,
+     "pk": [
+      "id_cs"
+     ],
+     "kolone": {
+      "id_cs": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "cs_kandidat_id": {
+       "tip": "int",
+       "opis": "Id kandidata iz tabele  idk_kandidati",
+       "pii": false
+      },
+      "cs_nalog_id": {
+       "tip": "int",
+       "opis": "Id naloga iz tabele idk_kandidati u trenutku inserta",
+       "pii": false
+      },
+      "cs_partner_id": {
+       "tip": "int",
+       "opis": "Id partnera iz tabele idk_kandidati u trenutku inserta",
+       "pii": false
+      },
+      "cs_tracking_code": {
+       "tip": "text",
+       "opis": "Tracking code koji unosi poslodavac",
+       "pii": true
+      },
+      "cs_tracking_link": {
+       "tip": "text",
+       "opis": "Link stranice od pošte gdje se može provjeriti  pošiljka za unešeni tracking code",
+       "pii": true
+      },
+      "cs_sent_date": {
+       "tip": "date",
+       "opis": "Datum kada je pošiljka poslana",
+       "pii": false
+      },
+      "cs_status": {
+       "tip": "int",
+       "opis": "1 - poslano, 2 - zaprimljeno, 3 - arhivirano",
+       "pii": false
+      },
+      "cs_entry_date": {
+       "tip": "datetime",
+       "opis": "Datum unosa/inserta",
+       "pii": false
+      },
+      "cs_entry_pua_id": {
+       "tip": "int",
+       "opis": "Pua_id je različito od null ako je poslodavac preko  PPa označio da je poslano. Pua_id je jednako null  ako je employee_id različito od null.",
+       "pii": false
+      },
+      "cs_entry_employee_id": {
+       "tip": "int",
+       "opis": "Analogno prethodnoj koloni.",
+       "pii": false
+      },
+      "cs_received_date": {
+       "tip": "date",
+       "opis": "Datum prijema koji unosi employee preko CRMa.",
+       "pii": false
+      },
+      "cs_received_employee_id": {
+       "tip": "int",
+       "opis": "Zapolsenik koji je označio prijem pošte.",
+       "pii": false
+      },
+      "cs_archived_date": {
+       "tip": "datetime",
+       "opis": "Datum arhiviranja reda.",
+       "pii": false
+      },
+      "cs_archived_employee_id": {
+       "tip": "int",
+       "opis": "Employee koji je pokrenuo određenu akciju u kojoj je   arhiviran ovaj red.  idk_kandidati  PK kandidat_id  FK1 kandidat_nalog_id  FK2 kandidat_ppa_partner_id",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_document_types": {
+     "redova_cca": 10,
+     "pk": [
+      "doc_type_id"
+     ],
+     "kolone": {
+      "doc_type_id": {
+       "tip": "int",
+       "opis": "Tip dokumenta",
+       "pii": false
+      },
+      "doc_type_name": {
+       "tip": "varchar(400)",
+       "opis": "Naziv dokumenta na Bosanskom jeziku",
+       "pii": false
+      },
+      "doc_type_name_de": {
+       "tip": "varchar(400)",
+       "opis": "Naziv dokumenta na Njemačkom jeziku",
+       "pii": false
+      },
+      "doc_type_date": {
+       "tip": "datetime",
+       "opis": "Datum unosa tipa dokumenta",
+       "pii": false
+      },
+      "doc_type_entered_user": {
+       "tip": "int",
+       "opis": "Zaposlenik koji je unio tip dokumenta",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_documents": {
+     "redova_cca": 2418,
+     "pk": [
+      "doc_id"
+     ],
+     "kolone": {
+      "doc_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "doc_file_name": {
+       "tip": "varchar(512)",
+       "opis": "Naziv filea kako je spremljen na serveru",
+       "pii": true
+      },
+      "doc_candidate_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "doc_nalog_id": {
+       "tip": "int",
+       "opis": "Dokument vrijedi za nalog_id",
+       "pii": false
+      },
+      "doc_partner_id": {
+       "tip": "int",
+       "opis": "Dokument vrijedi za partner_id",
+       "pii": false
+      },
+      "doc_visibility_status": {
+       "tip": "int",
+       "opis": "0 - arhiva; 1 - nevidljiv; 2 - vidljiv",
+       "pii": false
+      },
+      "doc_nrd_id": {
+       "tip": "int",
+       "opis": "foreign key iz tabele pp_nalog_required_documents",
+       "pii": false
+      },
+      "doc_crd_id": {
+       "tip": "int",
+       "opis": "foreign key iz tabele pp_cand_required_documents",
+       "pii": false
+      },
+      "doc_status": {
+       "tip": "int",
+       "opis": "foreign key iz tabele documents_statuses",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_documents_status_logs": {
+     "redova_cca": 14602,
+     "pk": [
+      "dsl_doc_id",
+      "dsl_doc_status"
+     ],
+     "kolone": {
+      "dsl_doc_id": {
+       "tip": "int",
+       "opis": "foreign key iz tabele pp_documents",
+       "pii": false
+      },
+      "dsl_doc_status": {
+       "tip": "int",
+       "opis": "foreign key iz tabele documents_statuses",
+       "pii": false
+      },
+      "dsl_date": {
+       "tip": "datetime",
+       "opis": "vrijeme mijenjanja statusa",
+       "pii": false
+      },
+      "dsl_user_id": {
+       "tip": "int",
+       "opis": "zaposlenik koji je promijenio status, FK iz tabele employees",
+       "pii": false
+      },
+      "dsl_pp_user_id": {
+       "tip": "int",
+       "opis": "korisnik PP-a koji je promijenio status, FK iz tabele pp_users",
+       "pii": false
+      },
+      "dsl_days_count": {
+       "tip": "int",
+       "opis": "broj dana proveden na tom statusu",
+       "pii": false
+      },
+      "dsl_comment": {
+       "tip": "text",
+       "opis": "dodatni komentar (mozda nece trebati)",
+       "pii": true
+      }
+     }
+    },
+    "idk_pp_documents_statuses": {
+     "redova_cca": 9,
+     "pk": [
+      "ds_id"
+     ],
+     "kolone": {
+      "ds_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ds_name": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "ds_name_de": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "ds_name_pp": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "ds_name_de_pp": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "ds_order": {
+       "tip": "int",
+       "opis": "redoslijed statusa (ako bude potrebno)",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_informacije_profil": {
+     "redova_cca": 9,
+     "pk": [
+      "pip_id"
+     ],
+     "kolone": {
+      "pip_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pip_name": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "pip_name_de": {
+       "tip": "varchar(255)",
+       "opis": "Naziv labela u pp-u na ispisu",
+       "pii": false
+      },
+      "pip_status": {
+       "tip": "int",
+       "opis": "1-aktivan",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_nalog_profil": {
+     "redova_cca": 13,
+     "pk": [
+      "pnp_id"
+     ],
+     "kolone": {
+      "pnp_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pnp_nalog_id": {
+       "tip": "int",
+       "opis": "FK iz tabele nalozi",
+       "pii": false
+      },
+      "pnp_info_id": {
+       "tip": "int",
+       "opis": "FK iz tabele idk_pp_informacije_profil",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_nalog_required_documents": {
+     "redova_cca": 142,
+     "pk": [
+      "nrd_id"
+     ],
+     "kolone": {
+      "nrd_id": {
+       "tip": "int",
+       "opis": "U tabeli se nalaze samo REQUIRED dokumenti\t",
+       "pii": false
+      },
+      "nrd_nalog_id": {
+       "tip": "int",
+       "opis": "Required za nalog",
+       "pii": false
+      },
+      "nrd_type_id": {
+       "tip": "int",
+       "opis": "foreign key iz tabele pp_document_types",
+       "pii": false
+      },
+      "nrd_done_by": {
+       "tip": "int",
+       "opis": "ko je zaduzen za kreiranje dokumenta: 1-poslodavac, 2-kandidat, 3-mi\t",
+       "pii": false
+      },
+      "nrd_status": {
+       "tip": "int",
+       "opis": "1-aktivan, 2-neaktivan",
+       "pii": false
+      },
+      "nrd_date_activated": {
+       "tip": "datetime",
+       "opis": "Datum aktiviranja dokumenta za nalog\t",
+       "pii": false
+      },
+      "nrd_user_activated": {
+       "tip": "int",
+       "opis": "Korisnik koji je aktivirao dokument",
+       "pii": false
+      },
+      "nrd_date_archived": {
+       "tip": "datetime",
+       "opis": "Datum arhiviranja dokumenta za nalog",
+       "pii": false
+      },
+      "nrd_user_archived": {
+       "tip": "int",
+       "opis": "Korisnik koji je arhivirao dokument",
+       "pii": false
+      },
+      "nrd_comment": {
+       "tip": "text",
+       "opis": "komentar koji je vezan uz dokument",
+       "pii": true
+      },
+      "nrd_skilled_candidates": {
+       "tip": "int",
+       "opis": "Označava da li je dokument potreban za odlazak po sistemu stručni kadar: 0 - nije; 1 - jeste.",
+       "pii": false
+      },
+      "nrd_west_balkan": {
+       "tip": "int",
+       "opis": "Označava da li je dokument potreban za odlazak po zapadno-balkansom sistemu: 0 - nije; 1 - jeste.",
+       "pii": false
+      },
+      "nrd_work_experience": {
+       "tip": "int",
+       "opis": "Označava da li je dokument potreban za odlazak po sistemu radno iskustvo: 0 - nije; 1 - jeste.",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_partners": {
+     "redova_cca": 58,
+     "pk": [
+      "ppa_id"
+     ],
+     "kolone": {
+      "ppa_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ppa_nalog_id": {
+       "tip": "int",
+       "opis": "nalog_id iz tabele idk_nalozi",
+       "pii": false
+      },
+      "ppa_company_id": {
+       "tip": "int",
+       "opis": "company_id iz tabele idk_companies",
+       "pii": false
+      },
+      "ppa_status": {
+       "tip": "int",
+       "opis": "0 - deaktiviran, 1 - aktivan",
+       "pii": false
+      },
+      "ppa_number_of_candidates": {
+       "tip": "int",
+       "opis": "Broj potrebnih kandidata za navedenog partnera. ",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_permissions": {
+     "redova_cca": 2,
+     "pk": [
+      "ppe_id"
+     ],
+     "kolone": {
+      "ppe_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ppe_type": {
+       "tip": "int",
+       "opis": "1 - superadmin 2 - admin",
+       "pii": false
+      },
+      "ppe_menu": {
+       "tip": "text",
+       "opis": "Za \"ppe_type\" = 1 (superAdmin) imamo slučajeve: 1 - obradjen, 2 - casting; Za \"ppe_type\" = 2 (Admin) imamo slučajeve: 1 - ceka ugovor, 2 - poslan ugovor kandidatu, 3 - potpisan ugovor, 4 - pocetak rada, 5 - zavrsen;",
+       "pii": true
+      },
+      "ppe_title": {
+       "tip": "text",
+       "opis": "Ako je npr. u ppe type vrijednost 1 i u ppe_menu niz sa vrijednostima \"1,2\" u ovom nizu treba da se nalazi \"Obrađeni,Casting\"",
+       "pii": true
+      }
+     }
+    },
+    "idk_pp_regions": {
+     "redova_cca": 16,
+     "pk": [
+      "pr_id"
+     ],
+     "kolone": {
+      "pr_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pr_name": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "pr_status": {
+       "tip": "int",
+       "opis": "1-aktivan",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_reminder_documents": {
+     "redova_cca": 382,
+     "pk": [
+      "prd_id"
+     ],
+     "kolone": {
+      "prd_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prd_prs_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prd_nrd_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prd_crd_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prd_day_freq": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prd_create_after": {
+       "tip": "int",
+       "opis": "create first reminder after x days from certain event",
+       "pii": false
+      },
+      "prd_active": {
+       "tip": "int",
+       "opis": "0-neaktivan, 1-aktivan(default)",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_reminder_settings": {
+     "redova_cca": 460,
+     "pk": [
+      "prs_id"
+     ],
+     "kolone": {
+      "prs_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prs_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prs_partner_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prs_reminder_type_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prs_pua_ids": {
+       "tip": "varchar(500)",
+       "opis": "",
+       "pii": false
+      },
+      "prs_controlling_pua_ids": {
+       "tip": "varchar(500)",
+       "opis": "id-evi usera koji rade kontroling",
+       "pii": false
+      },
+      "prs_employee_ids": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "prs_controlling_employee_ids": {
+       "tip": "varchar(50)",
+       "opis": "id-evi CRM zaposlenika zaduzenih za controlling remindera\t",
+       "pii": false
+      },
+      "prs_active": {
+       "tip": "int",
+       "opis": "0-neaktivan, 1-aktivan",
+       "pii": false
+      },
+      "prs_first_trigger_date": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "prs_create_after": {
+       "tip": "int",
+       "opis": "Create first reminder after X days from certain event\t",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_reminder_types": {
+     "redova_cca": 25,
+     "pk": [
+      "prt_id"
+     ],
+     "kolone": {
+      "prt_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prt_name": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "prt_user_type": {
+       "tip": "int",
+       "opis": "1-superadmin, 2-admin, 3-PM",
+       "pii": false
+      },
+      "prt_day_freq": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prt_controling": {
+       "tip": "int",
+       "opis": "0-nema kontroling, 1-ima kontroling",
+       "pii": false
+      },
+      "prt_mail_subject_de": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "prt_mail_text_de": {
+       "tip": "text",
+       "opis": "",
+       "pii": false
+      },
+      "prt_notification_text_de": {
+       "tip": "text",
+       "opis": "Text notifikacije koji se pojavljuje userima na PP",
+       "pii": false
+      },
+      "prt_has_documents": {
+       "tip": "int",
+       "opis": "0-default nema dokumenta, 1-ima dokumente",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_reminders": {
+     "redova_cca": 22348,
+     "pk": [
+      "pr_id"
+     ],
+     "kolone": {
+      "pr_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pr_reminder_setting_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pr_reminder_document_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pr_candidate_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pr_level": {
+       "tip": "int",
+       "opis": "Kolona koja govori o kojem levelu remindera se radi za jednog kandidata i jedan tip remindera. Default: 1 - level 1; Dalje: 2 - level 2, 3 - level 3, n - level n;",
+       "pii": false
+      },
+      "pr_date_sent": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "pr_users_sent": {
+       "tip": "varchar(500)",
+       "opis": "",
+       "pii": false
+      },
+      "pr_user_assigned": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pr_done_by_crm_employee": {
+       "tip": "int",
+       "opis": "kolona koja sluzi za remindere namijenjene poslodavcima a izvrsi ih CRM zaposlenik",
+       "pii": false
+      },
+      "pr_date_assigned": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "pr_date_completed": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "pr_status": {
+       "tip": "int",
+       "opis": "1-poslan reminder, 2-prihvacen(dodijeljen), 3-izvrsen, 4-neizvrsen, 5-izvrsen odustankom kandidata  ",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_user_access": {
+     "redova_cca": 1416,
+     "pk": [
+      "pua_id"
+     ],
+     "kolone": {
+      "pua_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pua_type": {
+       "tip": "int",
+       "opis": "1 - superadmin 2 - admin",
+       "pii": false
+      },
+      "pua_partner_id": {
+       "tip": "int",
+       "opis": "ppa_id iz tabele idk_pp_partners",
+       "pii": false
+      },
+      "pua_nalog_id": {
+       "tip": "int",
+       "opis": "nalog_id iz tabele idk_nalozi",
+       "pii": false
+      },
+      "pua_user_id": {
+       "tip": "int",
+       "opis": "pu_id iz tabele idk_pp_users",
+       "pii": false
+      },
+      "pua_permission_id": {
+       "tip": "int",
+       "opis": "ppe_id iz tabele idk_pp_permissions",
+       "pii": false
+      },
+      "pua_status": {
+       "tip": "int",
+       "opis": "0 - deaktiviran, 1 - aktiviran",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_users": {
+     "redova_cca": 175,
+     "pk": [
+      "pu_id"
+     ],
+     "kolone": {
+      "pu_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pu_status": {
+       "tip": "int",
+       "opis": "0 - deaktiviran, 1 - aktivan",
+       "pii": false
+      },
+      "pu_fname": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": true
+      },
+      "pu_lname": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": true
+      },
+      "pu_email": {
+       "tip": "varchar(200)",
+       "opis": "",
+       "pii": true
+      },
+      "pu_language": {
+       "tip": "int",
+       "opis": "0 - BiH, 1 - DE, 2 - EN ....",
+       "pii": false
+      },
+      "pu_gender": {
+       "tip": "varchar(7)",
+       "opis": "spol korisnika",
+       "pii": false
+      },
+      "pu_company_id": {
+       "tip": "int",
+       "opis": "company_id iz tabele idk_companies",
+       "pii": false
+      }
+     }
+    },
+    "idk_pp_visa_incomplete": {
+     "redova_cca": 49,
+     "pk": [
+      "vi_id"
+     ],
+     "kolone": {
+      "vi_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vi_cand_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vi_type": {
+       "tip": "int",
+       "opis": "1 - Dopuna, 2 - Odbijenica",
+       "pii": false
+      },
+      "vi_complaint": {
+       "tip": "int",
+       "opis": "0 - default/nema uslova za zalbu ako je vi_type = 2 , 1 - ima uslova za zalbu ako je vi_type = 2",
+       "pii": false
+      },
+      "vi_status": {
+       "tip": "int",
+       "opis": "status dopune/zalbe: 0 - nije aktivna, 1 - aktivna\t",
+       "pii": false
+      },
+      "vi_date_received_candidate": {
+       "tip": "datetime",
+       "opis": "datum prijema dopune/zalbe kandidata",
+       "pii": false
+      },
+      "vi_date_we_received_candidate": {
+       "tip": "datetime",
+       "opis": "datum naseg prijema ove informacije",
+       "pii": false
+      },
+      "vi_deadline_date_candidate": {
+       "tip": "date",
+       "opis": "datum roka do kad se moze poslati",
+       "pii": false
+      },
+      "vi_date_received_employer": {
+       "tip": "datetime",
+       "opis": "datum prijema dopune/zalbe poslodavca",
+       "pii": false
+      },
+      "vi_date_we_received_employer": {
+       "tip": "datetime",
+       "opis": "datum naseg prijema ove informacije",
+       "pii": false
+      },
+      "vi_deadline_date_employer": {
+       "tip": "date",
+       "opis": "\tdatum roka do kad se moze poslati",
+       "pii": false
+      },
+      "vi_nalog_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vi_pp_partner_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    }
+   }
+  },
+  "dipl": {
+   "naziv": "DIPL / Nostrifikacija",
+   "permission": "jsi:tabele:dipl",
+   "tabele": {
+    "idk_dak_kandidati": {
+     "redova_cca": 670,
+     "pk": [
+      "id_dak_kandidat"
+     ],
+     "kolone": {
+      "id_dak_kandidat": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "origin_dak_kandidat": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tel_dak_kandidat": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": true
+      },
+      "telconfirm_dak_kandidat": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "name_dak_kandidat": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": true
+      },
+      "lastname_dak_kandidat": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": true
+      },
+      "email_dak_kandidat": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": true
+      },
+      "contacttime_dak_kandidat": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "daypart_dak_kandidat": {
+       "tip": "int",
+       "opis": "0-jutro,1-podne,2-prednoc",
+       "pii": false
+      },
+      "comment_dak_kandidat": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "passporttime_dak_kandidat": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "contract_dak_kandidat": {
+       "tip": "varchar(250)",
+       "opis": "",
+       "pii": false
+      },
+      "contracttime_dak_kandidat": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "status_dak_kandidat": {
+       "tip": "int",
+       "opis": "0-novi, 1-obrada, 2-poslan, 3-aktivan, 4-zavrsen, 5-storniran poslije aktivacije, 6-storniran,7-arhiviran",
+       "pii": false
+      },
+      "tipunosa_dak_kandidat": {
+       "tip": "int",
+       "opis": "0-app 1-poslovnica",
+       "pii": false
+      },
+      "datumunosa_dak_kandidat": {
+       "tip": "datetime",
+       "opis": "Datum kad je unijet, bilo app bilo poslovnica",
+       "pii": false
+      },
+      "datumobrade_dak_kandidat": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "datumslanja_dak_kandidat": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "pocetakrada_dak_kandidat": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "datumaktivacije_dak_kandidat": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "datumzavrsetka_dak_kandidat": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "datumstornoaktivacije_dak_kandidat": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "datumstornacije_dak_kandidat": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "company_dak_kandidat": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "nas_klijent_dak_kandidat": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "dipl_dak_kandidat": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "osiguranje_dak_kandidat": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "poslovnica_dak_kandidat": {
+       "tip": "int",
+       "opis": "0-ne zna se, 1-bihac, 2-srajevo,3-bg, 4-svzsar",
+       "pii": false
+      },
+      "rata1_dak_kandidat": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "rata1_datum_dak_kandidat": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "rata2_dak_kandidat": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "rata2_datum_dak_kandidat": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "manager_dak_kandidat": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_kampanje_dipl": {
+     "redova_cca": 228,
+     "pk": [
+      "kd_id"
+     ],
+     "kolone": {
+      "kd_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kd_naziv": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kd_skraceni_naziv": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "kd_poruka_kampanje": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "kd_jezik_forme": {
+       "tip": "varchar(10)",
+       "opis": "",
+       "pii": false
+      },
+      "kd_drzava": {
+       "tip": "varchar(10)",
+       "opis": "",
+       "pii": false
+      },
+      "kd_broj_pregleda": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kd_broj_prijavljenih": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "kd_datum_kreiranja": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "kd_troskovi": {
+       "tip": "double",
+       "opis": "",
+       "pii": false
+      },
+      "kd_status": {
+       "tip": "int",
+       "opis": "0 arhiviran, 1 aktivan",
+       "pii": false
+      },
+      "kd_slike": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "kd_category": {
+       "tip": "varchar(3)",
+       "opis": "A,B,C  ",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_cron_export": {
+     "redova_cca": 7581,
+     "pk": [
+      "id_c"
+     ],
+     "kolone": {
+      "id_c": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "type_c": {
+       "tip": "int",
+       "opis": "1-Obrada",
+       "pii": false
+      },
+      "result_c": {
+       "tip": "mediumtext",
+       "opis": "Rezultat u html obliku",
+       "pii": true
+      },
+      "datetime_c": {
+       "tip": "datetime",
+       "opis": "Vrijeme kreiranja ",
+       "pii": false
+      },
+      "date_c": {
+       "tip": "date",
+       "opis": "",
+       "pii": false
+      },
+      "sending_type_c": {
+       "tip": "int",
+       "opis": "1 - zaposlenicima, 2 - kontroling",
+       "pii": false
+      },
+      "sent_to_employees_c": {
+       "tip": "text",
+       "opis": "Zaposlenici kojima je poslan export",
+       "pii": true
+      },
+      "download_employees_c": {
+       "tip": "text",
+       "opis": "Zaposlenici koji su preuzeli",
+       "pii": true
+      },
+      "settings_id": {
+       "tip": "int",
+       "opis": "Id iz tabele cron_settings",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_cron_settings": {
+     "redova_cca": 13,
+     "pk": [
+      "id_s"
+     ],
+     "kolone": {
+      "id_s": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "type_s": {
+       "tip": "int",
+       "opis": "1-Obrada Dipl",
+       "pii": false
+      },
+      "status_s": {
+       "tip": "int",
+       "opis": "0-nije aktivan, 1-aktivan",
+       "pii": false
+      },
+      "employees_s": {
+       "tip": "text",
+       "opis": "Zaposlenici kojima se šalje mail",
+       "pii": true
+      },
+      "control_employees_s": {
+       "tip": "text",
+       "opis": "Zaposlenici koji vrše kontrolu",
+       "pii": true
+      },
+      "candidate_status_s": {
+       "tip": "int",
+       "opis": "Status kandidata za koji se radi provjera",
+       "pii": false
+      },
+      "status_days_s": {
+       "tip": "int",
+       "opis": "Kandidat na statusu dana - broj i više",
+       "pii": false
+      },
+      "communication_days_s": {
+       "tip": "int",
+       "opis": "Dana od zadnje komunikacije kod kandidata",
+       "pii": false
+      },
+      "start_day_s": {
+       "tip": "datetime",
+       "opis": "Početak provjere",
+       "pii": false
+      },
+      "end_day_s": {
+       "tip": "datetime",
+       "opis": "Kraj provjere - ako je prazno onda je aktivan",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_kandidata": {
+     "redova_cca": 81330,
+     "pk": [
+      "id_broj_nd_kandidata"
+     ],
+     "kolone": {
+      "id_broj_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ime_nd_kandidata": {
+       "tip": "varchar(30)",
+       "opis": "",
+       "pii": true
+      },
+      "prezime_nd_kandidata": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": true
+      },
+      "ulica_nd_kandidata": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": true
+      },
+      "postanski_broj_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": true
+      },
+      "grad_nd_kandidata": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "ulica_bor_nd_kandidata": {
+       "tip": "varchar(100)",
+       "opis": "ulica boravista",
+       "pii": true
+      },
+      "postanski_broj_bor_nd_kandidata": {
+       "tip": "int",
+       "opis": "postanski broj boravista",
+       "pii": true
+      },
+      "grad_bor_nd_kandidata": {
+       "tip": "varchar(100)",
+       "opis": "grad boravista",
+       "pii": false
+      },
+      "mobilni_nd_kandidata": {
+       "tip": "varchar(20)",
+       "opis": "",
+       "pii": false
+      },
+      "email_nd_kandidata": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": true
+      },
+      "izdao_licnu_nd_kandidata": {
+       "tip": "varchar(100)",
+       "opis": "Nadlezni organ koji je izdao licnu kartu - NPR: PU, Krusevac ili MUP USK, Cazin",
+       "pii": false
+      },
+      "skola_nd_kandidata": {
+       "tip": "int",
+       "opis": "skola_id iz tabele idk_skole",
+       "pii": false
+      },
+      "skola_smjer_nd_kandidata": {
+       "tip": "int",
+       "opis": "ss_id iz tabele idk_skole_smjerovi",
+       "pii": false
+      },
+      "poslodavac_nd_kandidata": {
+       "tip": "int",
+       "opis": "1 - ima poslodavca 0 - nema poslodavca",
+       "pii": false
+      },
+      "poslodavac_nas_nd_kandidata": {
+       "tip": "int",
+       "opis": "1 - nasa kompanija 0 - nije nasa",
+       "pii": false
+      },
+      "poslodavac_naziv_nas_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "poslodavac_naziv_nd_kandidata": {
+       "tip": "varchar(200)",
+       "opis": "",
+       "pii": false
+      },
+      "poslodavac_ulica_nd_kandidata": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": true
+      },
+      "poslodavac_postanski_broj_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": true
+      },
+      "poslodavac_grad_nd_kandidata": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "poslodavac_regija_nd_kandidata": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "poslodavac_drzava_nd_kandidata": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "poslodavac_ime_nd_kandidata": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": true
+      },
+      "poslodavac_prezime_nd_kandidata": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": true
+      },
+      "poslodavac_mail_nd_kandidata": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": true
+      },
+      "poslodavac_mobilni_nd_kandidata": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "komentar_nd_kandidata": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "vrijeme_kreiranja_nd_kandidata": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "dodao_zaposlenik_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "zaduzen_zaposlenik_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tim_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "status_nd_kandidata": {
+       "tip": "int",
+       "opis": "1 - Novi 2 - Prikupljanje dokumentacije 3 - Poslana posta 4 - U obradi 5 - Dopuna dokumentacije 6 - Zavrsen 7 - Arhiviran",
+       "pii": false
+      },
+      "pstatus_nd_kandidata": {
+       "tip": "int",
+       "opis": "1-Lead, 2-Neusp Lead, 3-Zaint Lead, 4-Nezaint Lead, 5-U obradi Lead",
+       "pii": false
+      },
+      "idd_ustanova_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "broj_zahtjeva_na_ustanovi_nd_kandidata": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "idd_kontakt_ustanova_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tracking_number_nd_kandidata": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "link_tracking_number_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vrsta_ugovora_nd_kandidata": {
+       "tip": "int",
+       "opis": "1 - Ugovor bez popusta 2 - Ugovor sa popustom",
+       "pii": false
+      },
+      "rata1_nd_kandidata": {
+       "tip": "int",
+       "opis": "0 - NE 1 - DA",
+       "pii": false
+      },
+      "rata1_vrijeme_nd_kandidata": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "rata2_nd_kandidata": {
+       "tip": "int",
+       "opis": "0 - NE 1 - DA",
+       "pii": false
+      },
+      "rata2_vrijeme_nd_kandidata": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "povijest_nd_kandidata": {
+       "tip": "int",
+       "opis": "0-CRM 1-KANDIDATI 2-DAK 3-PARTNER 4 - JS WEB 5 -Kampanje",
+       "pii": false
+      },
+      "povijest_vrsta_nd_kandidata": {
+       "tip": "int",
+       "opis": "KANDIDATI: 1-SMS 2-BOT 3-CRM 4-Viber DAK: 1-APL 2-WEB PARTNER: 1 - APL JS WEB: 1-WEB Kampanje: 1 - Nesto",
+       "pii": false
+      },
+      "kandidat_idd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "partner_nd_status": {
+       "tip": "int",
+       "opis": "Sprema se trenutni status partnera - onog trenutka kad udje kandidat.",
+       "pii": false
+      },
+      "kampanja_id": {
+       "tip": "int",
+       "opis": "Kada je povijest_nd_kandidata == 5 - posmatra se ova kolona",
+       "pii": false
+      },
+      "datum_rodjenja": {
+       "tip": "date",
+       "opis": "",
+       "pii": true
+      },
+      "in_vici_dial": {
+       "tip": "int",
+       "opis": "Kolona koja govori da li se kandidat nalazi u ViciDialu",
+       "pii": false
+      },
+      "status_pp": {
+       "tip": "int",
+       "opis": "3 - Prioritet 3, 2 - Prioritet 2, 1 - Prioritet 1",
+       "pii": false
+      },
+      "vrijeme_zakaznog_poziva": {
+       "tip": "datetime",
+       "opis": "vrijeme zadnjeg zakazanog poziva - call back",
+       "pii": false
+      },
+      "status_zakaznog_poziva": {
+       "tip": "int",
+       "opis": "status zadnjeg zakazanog poziva 0-nije obradjen 1- obradjen",
+       "pii": false
+      },
+      "zadnja_komunikacija": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "chat_slike": {
+       "tip": "text",
+       "opis": "Slike razgovora za prioritete sa facebook-instagrama",
+       "pii": true
+      },
+      "vrsta_obrade": {
+       "tip": "int",
+       "opis": "1 - ausbildung, 2 - srednja skola, 3 - fakultet",
+       "pii": false
+      },
+      "nivo_poznavanja_jezika": {
+       "tip": "int",
+       "opis": "0 - nije naznačeno, 1 - bez znanja, 2 - A1, 3 - A2, 4 - B1, 5 - B2, 6 - C1, 7 - C2",
+       "pii": false
+      },
+      "certifikat_nd_kandidata": {
+       "tip": "int",
+       "opis": "Certifikat za njemacki jezik: 0 - nema, 1 - ima",
+       "pii": false
+      },
+      "inbound_aktivan": {
+       "tip": "int",
+       "opis": "Kolona koja govori da li je unešena inbound komunikacija. (0 - nije aktivan 1 - aktivan)",
+       "pii": false
+      },
+      "poslan_spisak_datum": {
+       "tip": "date",
+       "opis": "Datum koji se unosi kada se neki događaj stvarno desio za određeni status. Naziv je vezan uz status.",
+       "pii": false
+      },
+      "dokumentacija_kompletna_datum": {
+       "tip": "date",
+       "opis": "Datum koji se unosi kada se neki događaj stvarno desio za određeni status. Naziv je vezan uz status.",
+       "pii": false
+      },
+      "na_prevodu_datum": {
+       "tip": "date",
+       "opis": "Datum koji se unosi kada se neki događaj stvarno desio za određeni status. Naziv je vezan uz status.",
+       "pii": false
+      },
+      "prevod_zavrsen_datum": {
+       "tip": "date",
+       "opis": "Datum koji se unosi kada se neki događaj stvarno desio za određeni status. Naziv je vezan uz status.",
+       "pii": false
+      },
+      "poslana_posta_datum": {
+       "tip": "date",
+       "opis": "Datum koji se unosi kada se neki događaj stvarno desio za određeni status. Naziv je vezan uz status.",
+       "pii": false
+      },
+      "zaprimljena_dokumentacija_datum": {
+       "tip": "date",
+       "opis": "Datum koji se unosi kada se neki događaj stvarno desio za određeni status. Naziv je vezan uz status.",
+       "pii": false
+      },
+      "stigla_taksa_dopuna_datum": {
+       "tip": "date",
+       "opis": "Datum koji se unosi kada se neki događaj stvarno desio za određeni status. Naziv je vezan uz status.",
+       "pii": false
+      },
+      "placena_taksa_poslana_dopuna_datum": {
+       "tip": "date",
+       "opis": "Datum koji se unosi kada se neki događaj stvarno desio za određeni status. Naziv je vezan uz status.",
+       "pii": false
+      },
+      "zavrsen_datum": {
+       "tip": "date",
+       "opis": "Datum koji se unosi kada se neki događaj stvarno desio za određeni status. Naziv je vezan uz status.",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_kandidata_biljeske": {
+     "redova_cca": 928882,
+     "pk": [
+      "id_biljeska_nd"
+     ],
+     "kolone": {
+      "id_biljeska_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "id_kandidata_biljeska_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "status_biljeska_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tip_biljeska_nd": {
+       "tip": "int",
+       "opis": "1-Ostalo, 2- Neuspjesna komunikacija, 3-Nije zainteresiran, 4-Poslana infolista i primjer ugovora, 5-Poslan pravu ugovor i predracun",
+       "pii": false
+      },
+      "razlog_biljeska_nd": {
+       "tip": "int",
+       "opis": "\"id_ro\" iz tabele idk_ro_usluge",
+       "pii": false
+      },
+      "sadrzaj_biljeska_nd": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "vrijeme_dodavanja_biljeska_nd": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "vrijeme_grupa_biljeska_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "dodao_zaposlenik_biljeska_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "predracun_id": {
+       "tip": "int",
+       "opis": "Za biljesku pod statusom 3 evidentira se i predračun id.",
+       "pii": false
+      },
+      "predracun_status": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vrijeme_ponovnog_zvanja": {
+       "tip": "datetime",
+       "opis": "U slucaju da je tip biljeske 6, onda se unosi vrijeme ponovnog zvanja",
+       "pii": false
+      },
+      "uplata_na_datum": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "zadnja_inkaso_biljeska": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prilog_biljeska_nd": {
+       "tip": "text",
+       "opis": "Sprema se naziv priloga dodanog na biljesku. Filovi se nalaze na putanji: files/prilozi_dipl",
+       "pii": true
+      }
+     }
+    },
+    "idk_nd_kandidata_dokumenti": {
+     "redova_cca": 52716,
+     "pk": [
+      "id_dokument_nd"
+     ],
+     "kolone": {
+      "id_dokument_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "naziv_dokument_nd": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "naziv_dokument_ostali_nd": {
+       "tip": "varchar(300)",
+       "opis": "",
+       "pii": false
+      },
+      "status_dokument_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "id_kandidata_dokument_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vrijeme_dodavanja_dokument_nd": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "dodao_zaposlenik_dokument_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "tip_dokumenta": {
+       "tip": "int",
+       "opis": "1 - ugovor; 2 - uplatnica; 3 - certifikat o poznavanju jezika",
+       "pii": false
+      },
+      "tip_dokumenta_status": {
+       "tip": "int",
+       "opis": "1 - aktivan 0 - nije aktivan",
+       "pii": false
+      },
+      "broj_rate": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_kandidata_status_log": {
+     "redova_cca": 407806,
+     "pk": [
+      "id_log_status_nd_kandidata"
+     ],
+     "kolone": {
+      "id_log_status_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "idd_broj_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "status_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "pstatus_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vrijeme_promjene_statusa_nd_kandidata": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "broj_dana_statusa_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "promjenio_zaposlenik_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_kandidati_ciscenje": {
+     "redova_cca": 58468,
+     "pk": [
+      "kandidat_ciscenje_id"
+     ],
+     "kolone": {
+      "kandidat_ciscenje_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "id_kandidata_dipl": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ime_kandidata": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": true
+      },
+      "prezime_kandidata": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": true
+      },
+      "hash_id_dipl": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "status_informacija": {
+       "tip": "int",
+       "opis": "1-nema jezik, 2-nema skolu, 3-nema jezik ni skolu",
+       "pii": false
+      },
+      "status_pracenja": {
+       "tip": "int",
+       "opis": "0-nije usao u link, 1-poslan link, 2-usao u link , 3-ispunio formu",
+       "pii": false
+      },
+      "broj_telefona": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": true
+      },
+      "id_kandidata_posao": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "arhiva": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "treba_prebaciti_jezik_u_dipl": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "znanje_jezika_iz_idk_kan_jezici": {
+       "tip": "varchar(255)",
+       "opis": "",
+       "pii": false
+      },
+      "treba_prebaciti_skolu_smjer_u_dipl": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "skola": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "smjer": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_limiti": {
+     "redova_cca": 137,
+     "pk": [
+      "lt_id"
+     ],
+     "kolone": {
+      "lt_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lt_emp_id": {
+       "tip": "int",
+       "opis": "Id zaposlenika iz tabele idk_employees",
+       "pii": false
+      },
+      "lt_drzava": {
+       "tip": "varchar(20)",
+       "opis": "Drzava koju agent moze kontaktirati",
+       "pii": false
+      },
+      "lt_dnevni": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lt_sedmicni": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lt_mjesecni": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lt_dnevni_cnt": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lt_sedmicni_cnt": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lt_mjesecni_cnt": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lt_zadnji_dobio_bih": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lt_zadnji_dobio_srb": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lt_zadnji_dobio_de": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lt_zadnji_dobio_ostalo": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "lt_campaign_category": {
+       "tip": "varchar(15)",
+       "opis": "A,B,C",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_menadzeri_statistike": {
+     "redova_cca": 260749,
+     "pk": [
+      "id_stat"
+     ],
+     "kolone": {
+      "id_stat": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "idd_broj_nd_kandidata": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "zaduzen_zaposlenik_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "prethodni_zaposlenik_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vrsta_aktivnosti": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "vrijeme_aktivnosti": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_naplata_preko": {
+     "redova_cca": 8,
+     "pk": [
+      "id"
+     ],
+     "kolone": {
+      "id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "naplata_preko": {
+       "tip": "varchar(200)",
+       "opis": "",
+       "pii": false
+      },
+      "drzava": {
+       "tip": "varchar(10)",
+       "opis": "ISO 3166 Country code",
+       "pii": false
+      },
+      "fk_naplata_preko": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "aktivno": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "datum_aktivacije": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_poste": {
+     "redova_cca": 13,
+     "pk": [
+      "id_poste"
+     ],
+     "kolone": {
+      "id_poste": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "naziv_poste": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "link_poste": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      }
+     }
+    },
+    "idk_nd_rate": {
+     "redova_cca": 6201,
+     "pk": [
+      "id_r"
+     ],
+     "kolone": {
+      "id_r": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "id_nd_kan": {
+       "tip": "int",
+       "opis": "\"id_broj_nd_kandidata\" iz tabele idk_nd_kandidata",
+       "pii": false
+      },
+      "br_r": {
+       "tip": "int",
+       "opis": "Broj rate: 1,2,3,4,5 u zavisnosti od \"vrsta_ugovora_nd_kandidata\" iz tabele idk_nd_kandidata",
+       "pii": false
+      },
+      "vr_u_r": {
+       "tip": "datetime",
+       "opis": "Vrijeme kada je rata uplaćena",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_termini": {
+     "redova_cca": 450943,
+     "pk": [
+      "termin_id"
+     ],
+     "kolone": {
+      "termin_id": {
+       "tip": "int",
+       "opis": "Id termina",
+       "pii": false
+      },
+      "termin_kandidat_id": {
+       "tip": "int",
+       "opis": "Id kandidata iz tabele idk_nd_kandidata",
+       "pii": false
+      },
+      "termin_vrijeme": {
+       "tip": "datetime",
+       "opis": "Vrijeme termina",
+       "pii": false
+      },
+      "termin_kandidat_status": {
+       "tip": "int",
+       "opis": "Status kandidata na kojem se kandidat nalazio u vrijeme unosa termina",
+       "pii": false
+      },
+      "termin_kandidat_pstatus": {
+       "tip": "int",
+       "opis": "PodStatus kandidata na kojem se kandidat nalazio u vrijeme unosa termina",
+       "pii": false
+      },
+      "termin_status": {
+       "tip": "int",
+       "opis": "0 - neaktivan, 1 - aktivan, 2 - obrađen",
+       "pii": false
+      },
+      "termin_zaposlenik_id": {
+       "tip": "int",
+       "opis": "Id zaposlenika koji je napravio termin",
+       "pii": false
+      },
+      "termin_biljeska_id": {
+       "tip": "int",
+       "opis": "Id biljekse iz tabele idk_nd_kandidata_biljeske",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_ugovori": {
+     "redova_cca": 2518,
+     "pk": [
+      "ug_id"
+     ],
+     "kolone": {
+      "ug_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ug_kandidat_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ug_broj": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "ug_vrsta": {
+       "tip": "int",
+       "opis": "Vrsta ugovora koja mu je bila izdata",
+       "pii": false
+      },
+      "ug_zaposlenik_id": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ug_jezik": {
+       "tip": "varchar(10)",
+       "opis": "bs, sr ili de",
+       "pii": false
+      },
+      "ug_file": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": true
+      },
+      "ug_file_de": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": true
+      },
+      "ug_status": {
+       "tip": "int",
+       "opis": "0-arhiviran, 1-poslan, 2-prihvacen, 3-odbijen, 4-otvoren link",
+       "pii": false
+      },
+      "ug_datum_arhiviranja": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "ug_datum_slanja": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "ug_datum_prihvatanja": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "ug_datum_odbijanja": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "ug_datum_otvaranja_linka": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "ug_ip_adresa": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": true
+      },
+      "ug_timestamp": {
+       "tip": "varchar(30)",
+       "opis": "",
+       "pii": false
+      },
+      "ug_razlog_odbijanja": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ug_komentar": {
+       "tip": "text",
+       "opis": "U slučaju da kandidat odabere razlog odbijanja \"Ostalo\" - nudi mu se opcija za upis teksta/komentara ",
+       "pii": true
+      }
+     }
+    },
+    "idk_nd_ustanove": {
+     "redova_cca": 93,
+     "pk": [
+      "id_ustanove_nd"
+     ],
+     "kolone": {
+      "id_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "naziv_ustanove_nd": {
+       "tip": "varchar(200)",
+       "opis": "",
+       "pii": false
+      },
+      "ulica_ustanove_nd": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": true
+      },
+      "postanski_broj_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": true
+      },
+      "grad_ustanove_nd": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "regija_da_ne_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "naziv_regije_ustanove_nd": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": false
+      },
+      "drzava_ustanove_nd": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      },
+      "period_nostrifikacije_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "napomena_ustanove_nd": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "datum_registracije_ustanove_nd": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "dodao_zaposlenik_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_ustanove_biljeske": {
+     "redova_cca": 22,
+     "pk": [
+      "id_biljeska_nd"
+     ],
+     "kolone": {
+      "id_biljeska_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "id_ustanova_biljeska_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "sadrzaj_biljeska_nd": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "vrijeme_dodavanja_biljeska_nd": {
+       "tip": "datetime",
+       "opis": "",
+       "pii": false
+      },
+      "vrijeme_grupa_biljeska_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "dodao_zaposlenik_biljeska_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_ustanove_kontakti": {
+     "redova_cca": 198,
+     "pk": [
+      "id_kontakt_ustanove_nd"
+     ],
+     "kolone": {
+      "id_kontakt_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ime_kontakt_ustanove_nd": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": true
+      },
+      "prezime_kontakt_ustanove_nd": {
+       "tip": "varchar(150)",
+       "opis": "",
+       "pii": true
+      },
+      "email_kontakt_ustanove_nd": {
+       "tip": "varchar(200)",
+       "opis": "",
+       "pii": true
+      },
+      "broj_telefona_kontakt_ustanove_nd": {
+       "tip": "varchar(50)",
+       "opis": "",
+       "pii": true
+      },
+      "zaduzenje_kontakt_ustanove_nd": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "idd_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_ustanove_skola": {
+     "redova_cca": 567,
+     "pk": [
+      "id_skole_ustanove_nd"
+     ],
+     "kolone": {
+      "id_skole_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "skola_idd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "idd_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_ustanove_skole_smjerovi": {
+     "redova_cca": 2566,
+     "pk": [
+      "id_skole_smjer_ustanove_nd"
+     ],
+     "kolone": {
+      "id_skole_smjer_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "idd_skole_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "ss_idd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nd_ustanove_tip_dokumenta": {
+     "redova_cca": 843,
+     "pk": [
+      "id_tip_dokumenta_ustanove_nd"
+     ],
+     "kolone": {
+      "id_tip_dokumenta_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "povezanost_dokumenta_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "naziv_tip_dokumenta_ustanove_nd": {
+       "tip": "varchar(200)",
+       "opis": "",
+       "pii": false
+      },
+      "obaveznost_dokumenta_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "idd_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "idd_skole_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "idd_skole_smjer_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "template_dokumenta_ustanove_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "template_naziv_dokumenta_ustanove_nd": {
+       "tip": "varchar(100)",
+       "opis": "",
+       "pii": false
+      }
+     }
+    },
+    "idk_nostrifikovane_diplome": {
+     "redova_cca": 2155,
+     "pk": [
+      "id_nd"
+     ],
+     "kolone": {
+      "id_nd": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "id_cand_dipl": {
+       "tip": "int",
+       "opis": "kandidat id sa dipla",
+       "pii": false
+      },
+      "id_cand_job": {
+       "tip": "int",
+       "opis": "kandidat id sa poslovi",
+       "pii": false
+      },
+      "file_nd": {
+       "tip": "text",
+       "opis": "file - apsolutna putanja",
+       "pii": true
+      },
+      "upload_date_nd": {
+       "tip": "datetime",
+       "opis": "datum uploada",
+       "pii": false
+      },
+      "upload_employee_id": {
+       "tip": "int",
+       "opis": "zaposlenik uploadovao",
+       "pii": false
+      },
+      "full_recognition": {
+       "tip": "int",
+       "opis": "NULL - default value, 0 - nepotpuno priznata, 1 - poptuno priznata",
+       "pii": false
+      }
+     }
+    },
+    "idk_ponovne_prijave": {
+     "redova_cca": 12764,
+     "pk": [
+      "id_pp"
+     ],
+     "kolone": {
+      "id_pp": {
+       "tip": "int",
+       "opis": "id ponovne prijave",
+       "pii": false
+      },
+      "porijeklo_pp": {
+       "tip": "int",
+       "opis": "1 - DIPL, ....",
+       "pii": false
+      },
+      "id_kandidata": {
+       "tip": "int",
+       "opis": "id_broj_nd_kandidata iz tabele idk_nd_kandidata",
+       "pii": false
+      },
+      "employee_pp": {
+       "tip": "int",
+       "opis": "Zaduzen menager u trenutku ponovne prijave",
+       "pii": false
+      },
+      "datum_pp": {
+       "tip": "datetime",
+       "opis": "Datum i vrijeme u kojem se ponovna prijava desila",
+       "pii": false
+      },
+      "povijest_pp": {
+       "tip": "int",
+       "opis": "Prema koloni povijest_nd_kandidata iz tabele idk_nd_kandidata",
+       "pii": false
+      },
+      "povijest_vrsta_pp": {
+       "tip": "int",
+       "opis": "Prema koloni povijest_vrsta_nd_kandidata iz tabele idk_nd_kandidata",
+       "pii": false
+      },
+      "kampanja_pp": {
+       "tip": "int",
+       "opis": "Prema koloni kampanja_id iz tabele idk_nd_kandidata",
+       "pii": false
+      },
+      "opis_pp": {
+       "tip": "text",
+       "opis": "U ovu kolonu upisuju se podaci (u obliku tekstualnog opisa) koje je kandidat unio u trenutku ponovne prijave.",
+       "pii": true
+      }
+     }
+    },
+    "idk_reminders": {
+     "redova_cca": 16009,
+     "pk": [
+      "reminder_id"
+     ],
+     "kolone": {
+      "reminder_id": {
+       "tip": "int",
+       "opis": "Reminder ID",
+       "pii": false
+      },
+      "reminder_type": {
+       "tip": "int",
+       "opis": "1 - Obrada dipl, 2 - odbijeni ugovori",
+       "pii": false
+      },
+      "reminder_candidate_id": {
+       "tip": "int",
+       "opis": "Id kandidata",
+       "pii": false
+      },
+      "reminder_date_time": {
+       "tip": "datetime",
+       "opis": "Vrijeme",
+       "pii": false
+      },
+      "reminder_candidate_status": {
+       "tip": "int",
+       "opis": "Status kandidata u vrijeme kreiranja reminder-a",
+       "pii": false
+      },
+      "reminder_candidate_substatus": {
+       "tip": "int",
+       "opis": "Podstatus kandidata u vrijeme kreiranja reminder-a (ako postoji)",
+       "pii": false
+      },
+      "reminder_employee": {
+       "tip": "int",
+       "opis": "Zaposlenik koji je postavio reminder",
+       "pii": false
+      },
+      "reminder_status": {
+       "tip": "int",
+       "opis": "Status: 0 - neaktivan 1 - aktivan",
+       "pii": false
+      },
+      "reminder_foreign_key": {
+       "tip": "int",
+       "opis": "Ako je reminder_type = 1 onda je strani ključ id biljeske iz tabele idk_nd_kandidata_biljeske",
+       "pii": false
+      }
+     }
+    },
+    "idk_ro_usluge": {
+     "redova_cca": 389,
+     "pk": [
+      "id_ro"
+     ],
+     "kolone": {
+      "id_ro": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "naziv_ro_bs": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "naziv_ro_sr": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "naziv_ro_de": {
+       "tip": "text",
+       "opis": "",
+       "pii": true
+      },
+      "tip_ro": {
+       "tip": "int",
+       "opis": "1->DIPL 2->DAK 3->RO_Ugovora 4-Inkaso DIPL",
+       "pii": false
+      },
+      "status_ro": {
+       "tip": "int",
+       "opis": "0->Na cekanju,1->Aktivan,  2->Odbijen, 3->Deaktiviran",
+       "pii": false
+      },
+      "ponovno_zvanje_ro": {
+       "tip": "int",
+       "opis": "DIPL - Ova kolona cuva informaciju o tome da li ce se kandidat ponovo zvati pod tim razlogom za uslugu nostrifikacije. 0->NE 1->DA",
+       "pii": false
+      },
+      "br_dana_ro": {
+       "tip": "int",
+       "opis": "Ako je prethodna kolona oznacena sa 1, u ovoj koloni se cuva informacija o periodu nakon kojeg ce se zvati. Period je izrazen u danima.",
+       "pii": false
+      },
+      "odobrio_ro": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      },
+      "dodao_ro": {
+       "tip": "int",
+       "opis": "",
+       "pii": false
+      }
+     }
+    }
+   }
+  }
+ }
+}

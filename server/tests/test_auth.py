@@ -88,16 +88,19 @@ def test_domain_normalised():
 
 def test_role_map_when_permissions_missing():
     assert permissions_from_claims({"roles": ["jsi-reader"]}) == frozenset({
-        "jsi:kandidati:read", "jsi:kennzahlen:read",
+        "jsi:kandidati:read", "jsi:kennzahlen:read", "jsi:tabele:kandidati", "jsi:tabele:pipeline",
+        "jsi:tabele:taskforce", "jsi:tabele:firme", "jsi:tabele:partner_portal",
     })
     analyst = permissions_from_claims({"roles": ["admin", "jsi-analyst"]})
     assert analyst == frozenset({
-        "jsi:kandidati:read", "jsi:kennzahlen:read", "jsi:finansije:read", "jsi:dipl:read",
+        "jsi:kandidati:read", "jsi:kennzahlen:read", "jsi:tabele:kandidati", "jsi:tabele:pipeline",
+        "jsi:tabele:taskforce", "jsi:tabele:firme", "jsi:tabele:partner_portal", "jsi:finansije:read", "jsi:dipl:read",
+        "jsi:tabele:komunikacija", "jsi:tabele:dipl",
     })
     assert "jsi:kandidati:pii" not in analyst
     assert permissions_from_claims({"roles": ["admin", "crm-writer-approval"]}) == frozenset()
     assert permissions_from_claims({"role": "jsi-admin-test"}) == admin_test_permissions()
-    assert len(admin_test_permissions()) == 25
+    assert len(admin_test_permissions()) == 32
 
 
 def test_explicit_permissions_stay_authoritative():
@@ -108,7 +111,10 @@ def test_explicit_permissions_stay_authoritative():
     assert permissions_from_claims({
         "permissions": [],
         "roles": ["jsi-reader"],
-    }) == frozenset({"jsi:kandidati:read", "jsi:kennzahlen:read"})
+    }) == frozenset({
+        "jsi:kandidati:read", "jsi:kennzahlen:read", "jsi:tabele:kandidati", "jsi:tabele:pipeline",
+        "jsi:tabele:taskforce", "jsi:tabele:firme", "jsi:tabele:partner_portal",
+    })
     assert permissions_from_claims({"permissions": "jsi:audit:read"}) == frozenset({"jsi:audit:read"})
 
 
