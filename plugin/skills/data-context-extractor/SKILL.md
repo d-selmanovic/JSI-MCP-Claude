@@ -24,7 +24,7 @@ Use when: User wants to create a new data context skill for their warehouse.
 
 **Step 1: Identify the database type**
 
-At JSI this is already known: **MySQL**, accessed via BlazeSQL (`list_schemas` → `list_tables` → `describe_tables` → `execute_sql`). Only ask "What data warehouse are you using?" if the user says they mean a different database.
+At JSI this is already known: **MySQL** (`jsicrm`). There is no SQL connector (BlazeSQL disconnected 2026-10-30); the schema is documented in `jsi-data-analyst/references/schema/` and live values come from the JSI MCP tool `filter_options`. Only ask "What data warehouse are you using?" if the user says they mean a different database.
 
 Common options:
 - **BigQuery**
@@ -32,11 +32,11 @@ Common options:
 - **PostgreSQL/Redshift**
 - **Databricks**
 
-Use BlazeSQL (MySQL database "Mysql JSI", schema `jsicrm`) tools (query and schema) to connect. If unclear, check available MCP tools in the current session.
+At JSI, do not connect with SQL: read `jsi-data-analyst/references/schema/` and use the JSI MCP tools (`filter_options`, `kpis`, …). For other databases, check available MCP tools in the current session.
 
 **Step 2: Explore the schema**
 
-Use BlazeSQL (MySQL database "Mysql JSI", schema `jsicrm`) schema tools to:
+At JSI, use the schema documentation in `jsi-data-analyst/references/schema/` (other databases: their schema tools) to:
 1. List available datasets/schemas
 2. Identify the most important tables (ask user: "Which 3-5 tables do analysts query most often?")
 3. Pull schema details for those key tables
@@ -155,7 +155,7 @@ Common gaps:
 
 For the identified domain:
 
-1. **Explore relevant tables**: Use BlazeSQL (MySQL database "Mysql JSI", schema `jsicrm`) schema tools to find tables in that domain
+1. **Explore relevant tables**: At JSI, find them in `jsi-data-analyst/references/schema/` (other databases: their schema tools)
 2. **Ask domain-specific questions**:
    - "What tables are used for [domain] analysis?"
    - "What are the key metrics for [domain]?"

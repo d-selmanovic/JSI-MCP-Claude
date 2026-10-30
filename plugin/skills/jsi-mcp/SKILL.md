@@ -5,7 +5,7 @@ description: "You have the JSI MCP server (server name 'jsi', https://calm-steel
 
 # JSI MCP server
 
-The JSI CRM (MySQL `jsicrm`, mirror database) is reachable through the MCP server **`jsi`**. Tool names may carry a client prefix (Claude Code plugin: `mcp__plugin_jsi-crm_jsi__<tool>`, otherwise e.g. `mcp__jsi__<tool>`). Prefer these tools over BlazeSQL or hand-written SQL – they apply the tested filter logic, metric definitions, permissions and the [TAJNO] column ban server-side.
+The JSI CRM (MySQL `jsicrm`, mirror database) is reachable through the MCP server **`jsi`**. Tool names may carry a client prefix (Claude Code plugin: `mcp__plugin_jsi-crm_jsi__<tool>`, otherwise e.g. `mcp__jsi__<tool>`). They are the only data access (BlazeSQL was disconnected on 2026-10-30); never write SQL against the CRM yourself – they apply the tested filter logic, metric definitions, permissions and the [TAJNO] column ban server-side.
 
 ## Tools
 

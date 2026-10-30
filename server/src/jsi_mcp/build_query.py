@@ -2,11 +2,11 @@
 """Build a read-only MySQL candidate search query for the JSI CRM (schema jsicrm).
 
 Input: a JSON filter spec (argument --spec '<json>' or --spec-file path, or stdin).
-Output: one SQL statement on stdout, ready for BlazeSQL execute_sql.
+Output: one SQL statement on stdout (executed by the JSI MCP server; the CLI only prints it for review).
 
 Design rules (verified against the live database on 2026-10-29):
 - Child tables are pre-aggregated in CTEs and joined once. Correlated EXISTS over
-  idk_kandidati (122k rows) exceeds BlazeSQL's 60 s timeout.
+  idk_kandidati (122k rows) exceeds the 30 s query timeout.
 - Occupation is matched across several sources (application text, application group,
   work experience, qualification, education programme, DE profile) via beruf_mapping,
   which normalises free text into berufsgruppe_id.

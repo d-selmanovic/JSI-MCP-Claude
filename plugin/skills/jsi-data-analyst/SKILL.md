@@ -1,6 +1,6 @@
 ---
 name: jsi-data-analyst
-description: "JSI data analysis skill for the recruiting CRM (MySQL database \"Mysql JSI\", schema jsicrm, queried via BlazeSQL). Provides entity definitions, status code meanings, metric formulas, standard filters and tested query patterns. Use when analyzing JSI data for: (1) new candidate registrations and acquisition channels, (2) task force / call-center agent performance, (3) document and visa processing, (4) placements (signed contracts), or any question about kandidati, nalozi, partneri, projekti, castings or racuni."
+description: "JSI data analysis skill for the recruiting CRM (MySQL schema jsicrm, queried via the JSI MCP server). Provides entity definitions, status code meanings, metric formulas, standard filters and tested query patterns. Use when analyzing JSI data for: (1) new candidate registrations and acquisition channels, (2) task force / call-center agent performance, (3) document and visa processing, (4) placements (signed contracts), or any question about kandidati, nalozi, partneri, projekti, castings or racuni."
 ---
 
 # JSI Data Analysis
@@ -9,7 +9,7 @@ JSI (JobStep group — invoicing entities Jobstep GmbH (DE) and Jobstep Int GmbH
 
 **How to query – first choice: JSI MCP server** (`jsi`, `https://calm-steel-onjlq.run.mcp-use.com/mcp`) if its tools are available: `kpis` (vermittlungen, neue_kandidaten, pipeline_bestand, umsatz, task_force, casting, dipl_funnel), `orders_overview`, `pipeline_history`, `search_candidates`, `candidate_profile`, `filter_options`, `change_log`, `whoami`. They apply the metric definitions below, permissions and the [TAJNO] rules server-side. Write tools – one per entity and action, e.g. `candidate_update`, `candidate_note_create`, `company_create`, `candidate_archive`, plus `set_application_status` only on explicit request, always `dry_run` first.
 
-**Fallback / free analysis**: BlazeSQL tools — `list_tables` / `describe_tables` for schema, `execute_sql` for read-only SQL, `graph_sql_result` for charts. Full column comments are available via `describe_tables` (many are in Bosnian and contain the code meanings).
+**No free SQL**: BlazeSQL was disconnected on 2026-10-30; the MCP tools are the only data access. The SQL patterns below document how the tools and metrics are defined (for review and for new tools) – do not try to run them. Column comments with code meanings: `references/schema/`.
 
 **Report language**: Bosnian, unless the user asks otherwise. Keep table/column names as-is.
 
@@ -201,7 +201,7 @@ ORDER BY sp.redoslijed_statusa;
 - **Undocumented codes**: `kandidat_porijeklo` 6/7/8 and `kandidat_nacin_odlaska` 3 exist in data but have no documented meaning → report them as "nepoznato (kod X)" and ask the user.
 
 ### Access
-- Since 2026-10-29 all 190 tables are visible in BlazeSQL (previously 99). `kandidat_group → idk_kandidati_grupe.kg_id` (kg_title = occupation group, e.g. 68 Monter solarnih panela, 22 Automehaničar; 7 "Ostalo" = 75k).
+- The schema has 190 tables (documented in `references/schema/`). `kandidat_group → idk_kandidati_grupe.kg_id` (kg_title = occupation group, e.g. 68 Monter solarnih panela, 22 Automehaničar; 7 "Ostalo" = 75k).
 
 ### Performance Tips
 - `idk_task_force` (450k rows) and `idk_kandidati` (122k): always filter by date (`tf_doe`, `kandidat_datetime`) first.

@@ -10,8 +10,8 @@ Plugins are **tool-agnostic** — they describe workflows in terms of categories
 
 | Category | Tool at JSI | Connection |
 |----------|-------------|------------|
-| JSI CRM (preferred) | JSI MCP server – tools `search_candidates`, `kpis`, `orders_overview`, … (OAuth via WorkOS) | `jsi` in `.mcp.json` / `mcp.json` |
-| Data warehouse (fallback) | BlazeSQL → MySQL database "Mysql JSI" (schema `jsicrm`, recruiting CRM) | claude.ai connector "Blaze SQL" (tools `list_schemas`, `list_tables`, `describe_tables`, `execute_sql`, `graph_sql_result`) |
-| Notebook | — (not used; analyses run directly via SQL/BlazeSQL) | — |
+| JSI CRM (only data access) | JSI MCP server – tools `search_candidates`, `kpis`, `orders_overview`, … (OAuth via WorkOS) | `jsi` in `.mcp.json` / `mcp.json` |
+| Data warehouse / free SQL | — (BlazeSQL disconnected 2026-10-30; no direct SQL access) | — |
+| Notebook | — (not used) | — |
 
 Default language for reports, dashboards and stakeholder summaries: **Bosnian** (keep SQL, table and column names in their original form).
