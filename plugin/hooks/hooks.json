@@ -47,7 +47,7 @@
     ],
     "PostToolUse": [
       {
-        "matcher": "jsi__(search_candidates|kpis|orders_overview|pipeline_history|change_log)$",
+        "matcher": "jsi__(search_candidates|kpis|orders_overview|pipeline_history|change_log|table_read)$",
         "hooks": [
           {
             "type": "command",
@@ -57,7 +57,7 @@
         ]
       },
       {
-        "matcher": "jsi__(search_candidates|candidate_profile|change_log)$",
+        "matcher": "jsi__(search_candidates|candidate_profile|change_log|table_read)$",
         "hooks": [
           {
             "type": "command",

@@ -20,7 +20,7 @@ from starlette.responses import JSONResponse
 from starlette.routing import Route
 
 from . import config as config_mod
-from . import db, registry, tools_read, writes
+from . import db, registry, tools_read, tools_tables, writes
 from .auth import WorkOSTokenVerifier, current_principal
 from .permissions import TOOL_PERMISSIONS, PermissionDenied, require
 from .sensitive import SensitiveColumnError
@@ -38,7 +38,8 @@ INSTRUCTIONS = (
     "JSI CRM (JobStep) – feste Tools statt SQL. Kandidaten suchen/zählen: search_candidates (Standard izlaz='broj'; "
     "zuerst izlaz='izvori' für die Beweisstärke). Bei Listen immer stranica.pregled nennen ('Prikazano X–Y od N'); "
     "weitere Seiten mit offset, nie eine Seite als Gesamtergebnis ausgeben. Gültige Werte: filter_options. Ein Kandidat: candidate_profile. "
-    "Kennzahlen: kpis. Aufträge: orders_overview. Pipeline: pipeline_history. Schreiben nur auf ausdrücklichen Wunsch: je "
+    "Kennzahlen: kpis. Aufträge: orders_overview. Pipeline: pipeline_history. Alle übrigen Daten (Kontakte, Kommunikation, "
+    "Unterlagen, Firmen, DIPL, Task Force, Logs): table_describe, dann table_read. Schreiben nur auf ausdrücklichen Wunsch: je "
     "Entität/Aktion ein eigenes Tool (z. B. candidate_update, candidate_note_create) bzw. set_application_status – immer "
     "zuerst dry_run=true (Vorschau + preview_hash), nach Bestätigung dry_run=false mit preview_hash. "
     "Antworten für JSI auf Bosnisch. Personendaten nur auf ausdrücklichen Wunsch (Permission jsi:kandidati:pii). "
@@ -250,6 +251,33 @@ def t_set_application_status(cfg, p,
     return writes.set_application_status(cfg, p, kandidat_id, status_id, projekt_id, dry_run, preview_hash, grund)
 
 
+AREAS_LITERAL = Literal["kandidati", "pipeline", "taskforce", "komunikacija", "firme", "partner_portal", "dipl"]
+
+
+def t_table_describe(cfg, p,
+                     podrucje: Annotated[AREAS_LITERAL | None, Field(description="Bereich filtern")] = None,
+                     tabela: Annotated[str | None, Field(max_length=64, description="Eine Tabelle: Spalten, Typen, "
+                                                         "Beschreibungen, pii-Kennzeichen")] = None) -> dict:
+    return tools_tables.table_describe(cfg, p, podrucje, tabela)
+
+
+def t_table_read(cfg, p,
+                 tabela: Annotated[str, Field(max_length=64, description="Tabellenname aus table_describe")],
+                 kolone: Annotated[list[str] | None, Field(description="Spalten (Standard: alle ohne Personendaten)")] = None,
+                 filteri: Annotated[list[JsonObj] | None, Field(description="UND-verknüpft: [{'kolona':'kki_kandidat_id','op':'eq',"
+                                                            "'vrijednost':123}]; op: eq ne lt le gt ge in not_in like "
+                                                            "between is_null not_null")] = None,
+                 grupiraj_po: Annotated[list[str] | None, Field(description="Gruppieren nach Spalten (max. 5)")] = None,
+                 agregati: Annotated[list[JsonObj] | None, Field(description="[{'fn':'count'}] | [{'fn':'sum|avg|min|max|"
+                                                             "count_distinct','kolona':'…'}]")] = None,
+                 sortiraj: Annotated[list[JsonObj] | None, Field(description="[{'kolona':'…','smjer':'asc|desc'}]")] = None,
+                 limit: Annotated[int | None, Field(ge=1, le=1000, description="Zeilen pro Seite (Standard 50, max 1000)")] = None,
+                 offset: Annotated[int | None, Field(ge=0, description="Seite: stranica.sljedeci_offset")] = None,
+                 pii: Annotated[bool, Field(description="Spalten mit Personendaten – nur auf ausdrücklichen Wunsch, "
+                                                         "Permission jsi:kandidati:pii")] = False) -> dict:
+    return tools_tables.table_read(cfg, p, tabela, kolone, filteri, grupiraj_po, agregati, sortiraj, limit, offset, pii)
+
+
 # Display titles (Claude.ai requires tool.title).
 TOOL_TITLES: dict[str, str] = {
     "whoami": "Wer bin ich",
@@ -260,6 +288,8 @@ TOOL_TITLES: dict[str, str] = {
     "orders_overview": "Auftragsübersicht",
     "pipeline_history": "Pipeline-Verlauf",
     "change_log": "Änderungsprotokoll",
+    "table_describe": "Tabellen und Spalten",
+    "table_read": "Tabelle lesen",
     "set_application_status": "Bewerbungsstatus setzen",
 }
 
@@ -274,6 +304,13 @@ TOOLS: list[tuple[str, Any, str, ToolAnnotations]] = [
     ("orders_overview", t_orders_overview, "Aufträge: Bedarf vs. Kandidaten vs. unterschrieben. / Pregled naloga.", RO),
     ("pipeline_history", t_pipeline_history, "Pipeline-Verlauf eines Kandidaten oder Statuswechsel pro Periode. / Historija statusa prijave.", RO),
     ("change_log", t_change_log, "Änderungsprotokoll der MCP-Schreibaktionen (mcp_aenderung). / Dnevnik promjena.", RO),
+    ("table_describe", t_table_describe,
+     "Freigegebene CRM-Tabellen je Bereich (Kandidaten, Pipeline, Task Force, Kommunikation, Firmen/Aufträge, Partnerportal, "
+     "DIPL) mit Spalten, Typen, Beschreibungen und pii-Kennzeichen. / Pregled dostupnih tabela i kolona.", RO),
+    ("table_read", t_table_read,
+     "Eine freigegebene Tabelle lesen oder auswerten: Spalten, Filter, Sortierung, Gruppieren/Zählen/Summen, seitenweise "
+     "(stranica). Kein freies SQL; Personendaten nur mit pii=true. Für Kandidatensuche nach Kriterien zuerst search_candidates. "
+     "/ Čitanje i agregacija jedne tabele.", RO),
     ("set_application_status", t_set_application_status, "Bewerbungs-/Pipeline-Status setzen inkl. Pipeline-Log; Standard dry_run=true. / Promjena statusa prijave uz log.", RW),
 ]
 

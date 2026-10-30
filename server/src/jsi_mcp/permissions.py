@@ -11,14 +11,19 @@ FINANSIJE_READ = "jsi:finansije:read"
 DIPL_READ = "jsi:dipl:read"
 AUDIT_READ = "jsi:audit:read"
 
+# table_read / table_describe: one permission per area of tabele_katalog.json
+TABELE_AREAS = ("kandidati", "pipeline", "taskforce", "komunikacija", "firme", "partner_portal", "dipl")
+TABELE = {a: f"jsi:tabele:{a}" for a in TABELE_AREAS}
+
 READ_PERMISSIONS = frozenset({
-    KANDIDATI_READ, KANDIDATI_PII, KENNZAHLEN_READ, FINANSIJE_READ, DIPL_READ, AUDIT_READ,
+    KANDIDATI_READ, KANDIDATI_PII, KENNZAHLEN_READ, FINANSIJE_READ, DIPL_READ, AUDIT_READ, *TABELE.values(),
 })
 
 # WorkOS Connect/MCP tokens carry role slugs, not a permissions claim.
 # Only these JSI roles expand. WorkOS admin / crm-* roles grant nothing here.
-JSI_READER = frozenset({KANDIDATI_READ, KENNZAHLEN_READ})
-JSI_ANALYST = JSI_READER | frozenset({FINANSIJE_READ, DIPL_READ})
+JSI_READER = frozenset({KANDIDATI_READ, KENNZAHLEN_READ}) | frozenset(
+    TABELE[a] for a in ("kandidati", "pipeline", "taskforce", "firme", "partner_portal"))
+JSI_ANALYST = JSI_READER | frozenset({FINANSIJE_READ, DIPL_READ, TABELE["komunikacija"], TABELE["dipl"]})
 
 
 def _write_permissions() -> frozenset[str]:
@@ -27,7 +32,7 @@ def _write_permissions() -> frozenset[str]:
 
 
 def admin_test_permissions() -> frozenset[str]:
-    """All 25 jsi:* slugs (6 reads + every write action in the registry)."""
+    """All jsi:* slugs: 6 reads + 7 table areas + every write action in the registry (32)."""
     return READ_PERMISSIONS | _write_permissions()
 
 
@@ -94,6 +99,8 @@ TOOL_PERMISSIONS: dict[str, list[str]] = {
     "pipeline_history": [KENNZAHLEN_READ],
     "change_log": [AUDIT_READ],
     "set_application_status": [],
+    "table_describe": [],  # lists areas; details need the area permission
+    "table_read": [],  # area permission (+ jsi:finansije:read for finance tables) checked per call
 }
 
 # Extra permission per kpis area.
