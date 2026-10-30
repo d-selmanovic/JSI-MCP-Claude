@@ -70,7 +70,7 @@ class Hooks(unittest.TestCase):
         out = run("session_start", {"hook_event_name": "SessionStart"})
         ctx = out["hookSpecificOutput"]["additionalContext"]
         self.assertEqual(out["hookSpecificOutput"]["hookEventName"], "SessionStart")
-        for word in ("jsi", "Bosnian", "Prikazano", "dry_run", "jsi:kandidati:pii"):
+        for word in ("jsi", "Bosnian", "Prikazano", "dry_run", "jsi:kandidati:pii", "skill_lesen"):
             self.assertIn(word, ctx)
 
     def test_confirm_write_only_when_executing(self):

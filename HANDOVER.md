@@ -37,8 +37,8 @@ Beispiel des Nutzers: „alle Elektriker mit Führerschein C“ → Filter → S
 | Pfad | Inhalt |
 |---|---|
 | `plugin/` | Komplettes angepasstes Plugin (= `jsi-data-plugin.zip`). Skills siehe §4. |
-| `plugin/skills/jsi-data-analyst/` | Wissens-Skill: Entitäten, Codes, Kennzahlen, Fallen, getestete Abfragen; `references/schema/` (alle 190 Tabellen/1.809 Spalten, generiert), `references/veze.md` (Verknüpfungen), `osjetljive_kolone.md` |
-| `plugin/skills/jsi-kandidat-filter/` | Filter-Tool: `scripts/build_query.py` (JSON-Spec → SQL), `occupations.json`, `test_build_query.py` (15 Tests OK), `references/filteri.md` |
+| `server/src/jsi_mcp/skills/jsi-data-analyst/` | Wissens-Skill (seit 2026-10-30 im Server, ausgeliefert über `skill_lesen` / `skills/list`): Entitäten, Codes, Kennzahlen, Fallen, getestete Abfragen; `references/schema/` (alle 190 Tabellen/1.809 Spalten, generiert), `references/veze.md` (Verknüpfungen), `osjetljive_kolone.md` |
+| `server/src/jsi_mcp/skills/jsi-kandidat-filter/` | Filter-Skill (Doku zu `search_candidates`), `references/filteri.md` generiert von `server/scripts/filter_catalog.py`; Logik `build_query.py` im Server |
 | `docs/rohdaten/columns.json` | `information_schema.COLUMNS` komplett (Tabelle, Pos., Spalte, Typ, Key, Kommentar) |
 | `docs/rohdaten/counts.tsv` | Zeilenzahl jeder Tabelle |
 | `docs/rohdaten/dates.tsv` | Zeitraum (MIN/MAX, Füllgrad) der Haupt-Datumsspalte, 107 Tabellen |
@@ -54,6 +54,8 @@ Tests: seit 2026-10-30 nur im Server (`server/tests/`); `build_query.py` + Katal
 - Firmenkontext-Block in `analyze`, `write-query`, `explore-data`, `build-dashboard`, `create-viz` (MySQL, Bosnisch, PII-Regeln, Verweis auf beide JSI-Skills).
 - `data-context-extractor`: Platzhalter `~~data warehouse` → BlazeSQL/MySQL.
 - Neue Skills `jsi-data-analyst`, `jsi-kandidat-filter`. Plugin-Name/Struktur unverändert. Original im Sync-Ordner unverändert.
+
+- **2026-10-30 (Plugin 1.6.0): Fach-Skills in den Server verlegt.** `jsi-data-analyst`, `jsi-kandidat-filter` und die Analyse-Skills (`analyze`, `explore-data`, `build-dashboard`, `create-viz`, `data-visualization`, `statistical-analysis`, `validate-data`) liegen in `server/src/jsi_mcp/skills/` und werden vom Server ausgeliefert: Tool `skill_lesen` (alle Clients) und MCP-Skills-Extension `io.modelcontextprotocol/skills` (SEP-2640: `skills/list`, `skills/get`, `skill://<name>/<pfad>` über `resources/read`, Manifest mit SHA-256). Das Plugin enthält nur noch Verbindung, Hooks, `jsi-mcp` und die SQL-Skills `sql-queries`, `write-query`, `data-context-extractor` (Löschen offen, Entscheidung Nutzer). Hosts unterstützen die Extension Stand 2026-10-30 kaum (MCP Inspector ja; Claude/claude.ai nein) – deshalb `skill_lesen`.
 
 ## 5. Gesicherte Erkenntnisse (gemessen)
 - **Zwei Kandidaten-ID-Räume**: `idk_kandidati.kandidat_id` (Vermittlung) vs. `idk_nd_kandidata.id_broj_nd_kandidata` (DIPL). `idk_predracuni`, `idk_racuni`, `idk_reminders`, `idk_ponovne_prijave`, `idk_nd_*` hängen am DIPL-ID. Falscher Join auf `kandidat_id` = 61–78 % Zufallstreffer. Brücke: `kandidat_dipl_id` (77.583 DIPL-IDs).

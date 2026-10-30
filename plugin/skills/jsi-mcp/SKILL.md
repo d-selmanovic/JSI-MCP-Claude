@@ -1,6 +1,6 @@
 ---
 name: jsi-mcp
-description: "You have the JSI MCP server (server name 'jsi', https://calm-steel-onjlq.run.mcp-use.com/mcp) for the JSI recruiting CRM. Use it whenever the user asks about JSI candidates (kandidati), orders (nalozi), pipeline/application status, placements, task force, castings, DIPL or JSI KPIs – e.g. 'koliko električara imamo', 'wie viele Schweißer aus BiH sind frei', 'Vermittlungen 2025', 'pregled naloga 254'. Explains which tool to call, the data-protection rules and how to sign in if the tools are missing."
+description: "You have the JSI MCP server (server name 'jsi', https://calm-steel-onjlq.run.mcp-use.com/mcp) for the JSI recruiting CRM. Use it whenever the user asks about JSI candidates (kandidati), orders (nalozi), pipeline/application status, placements, task force, castings, DIPL or JSI KPIs – e.g. 'koliko električara imamo', 'wie viele Schweißer aus BiH sind frei', 'Vermittlungen 2025', 'pregled naloga 254'. Also use it for any analysis, report, chart or dashboard of JSI data: the know-how skills (status codes, metric definitions, schema, analysis methods) are served by the server via the tool skill_lesen. Explains which tool to call, the data-protection rules and how to sign in if the tools are missing."
 ---
 
 # JSI MCP server
@@ -12,7 +12,7 @@ The JSI CRM (MySQL `jsicrm`, mirror database) is reachable through the MCP serve
 | Question | Tool | Notes |
 |---|---|---|
 | Who am I, which permissions, server/DB status | `whoami` | Call first if a tool reports `forbidden`. |
-| Find / count / list candidates | `search_candidates` | Filter keys and examples: skill `jsi-kandidat-filter`. Default output is a count (`izlaz: "broj"`). Lists come in pages: always state `stranica.pregled` ("Prikazano 21–40 od 900") and offer the next page via `offset = stranica.sljedeci_offset`; never present a page as the full result. |
+| Find / count / list candidates | `search_candidates` | Filter keys and examples: `skill_lesen(skill='jsi-kandidat-filter')`. Default output is a count (`izlaz: "broj"`). Lists come in pages: always state `stranica.pregled` ("Prikazano 21–40 od 900") and offer the next page via `offset = stranica.sljedeci_offset`; never present a page as the full result. |
 | Valid filter values, codes, occupation catalogue | `filter_options` | Optional `section`, e.g. `berufsgruppen`, `status_prijave`, `katalog`. |
 | One candidate | `candidate_profile` | Needs `kandidat_id`. |
 | KPIs | `kpis` | `bereich`: vermittlungen, neue_kandidaten, pipeline_bestand, umsatz (needs `jsi:finansije:read`), task_force, casting, dipl_funnel (needs `jsi:dipl:read`). |
@@ -20,9 +20,10 @@ The JSI CRM (MySQL `jsicrm`, mirror database) is reachable through the MCP serve
 | Status history of a candidate or per period | `pipeline_history` | |
 | What the MCP wrote | `change_log` | Needs `jsi:audit:read`. |
 | Anything else in the CRM: contact info, messages/SMS/notifications, documents and required documents, companies/clients/contacts, DIPL details, task-force activity, appointments, status logs | `table_describe` → `table_read` | 135 tables in 7 areas, each needs `jsi:tabele:<area>` (kandidati, pipeline, taskforce, komunikacija, firme, partner_portal, dipl); finance tables also `jsi:finansije:read`. Filters, sorting, grouping/aggregates (count, sum, avg, min, max), pages. Columns marked `pii` only with `pii=true` + `jsi:kandidati:pii`. Prefer the specific tools above when they fit. |
+| Know-how: status codes, metric definitions, filters, schema of all 190 tables, analysis/visualisation methods | `skill_lesen` | No argument = catalogue; `skill='jsi-data-analyst'` before any analysis, then `datei='references/…'` for details. Same content as the server's MCP skills (`skill://…`), which hosts with the skills extension load automatically. Needs no permission. |
 | Writes | one tool per entity and action: `candidate_create/update/archive`, `candidate_driving_licence_update`, `candidate_language_create/update`, `candidate_education_create/update`, `candidate_experience_create/update`, `candidate_note_create`, `candidate_order_update`, `project_member_create`, `candidate_dipl_link_update`, `company_create/update`, `contact_create/update`; pipeline status: `set_application_status` | **Only on explicit user request.** Call with `dry_run=true` (default) first, show the preview, then call again with `dry_run=false` and the returned `preview_hash` after the user confirms. Each tool needs `jsi:write:<entity>:<action>`. |
 
-Metric definitions and status codes: skill `jsi-data-analyst`.
+The JSI know-how skills (`jsi-data-analyst`, `jsi-kandidat-filter`, analyze, explore-data, build-dashboard, create-viz, data-visualization, statistical-analysis, validate-data) live on the server, not in this plugin: always read them with `skill_lesen`, so they are current.
 
 ## Rules
 

@@ -1,6 +1,6 @@
 # JSI CRM Plugin (`jsi-crm`)
 
-Connects the agent to the **JSI MCP server** (`jsi`, `https://calm-steel-onjlq.run.mcp-use.com/mcp`, OAuth via WorkOS) and ships the JSI skills (`jsi-mcp`, `jsi-kandidat-filter`, `jsi-data-analyst`) plus general data-analysis skills (based on Anthropic's data plugin, Apache-2.0, see `LICENSE`).
+Connects the agent to the **JSI MCP server** (`jsi`, `https://calm-steel-onjlq.run.mcp-use.com/mcp`, OAuth via WorkOS). Slim package: connection, hooks and the pointer skill `jsi-mcp`. Logic and know-how live on the server.
 
 ## Installation
 
@@ -9,115 +9,23 @@ Connects the agent to the **JSI MCP server** (`jsi`, `https://calm-steel-onjlq.r
 ```
 or `claude plugin marketplace add d-selmanovic/JSI-MCP-Claude` + `claude plugin install jsi-crm@jsi`. Then `/mcp` → `jsi` → Authenticate. Codex, ChatGPT, Hermes, Grok, claude.ai: see `../docs/INSTALLATION.md`.
 
-## What It Does
+## Contents
 
-This plugin transforms Claude into a data analyst collaborator. It helps you explore datasets, write optimized SQL, build visualizations, create interactive dashboards, and validate analyses before sharing with stakeholders.
+| Part | What it does |
+|------|--------------|
+| `.mcp.json` / `mcp.json` | Configures the MCP server `jsi` |
+| `hooks/` | Context at session start, confirmation before writes, paging hint, personal-data guard, JMBG/IBAN block – see `../docs/HOOKS.md` |
+| `skills/jsi-mcp` | Which tool answers which question, data-protection rules, sign-in help, `AGENTS.md` snippet |
+| `skills/sql-queries`, `skills/write-query`, `skills/data-context-extractor` | Generic SQL skills (based on Anthropic's data plugin, Apache-2.0, see `LICENSE`). At JSI there is no SQL access – SQL written with them is for review only |
 
-### With a Data Warehouse Connection
+## Skills on the server
 
-Connect your data warehouse MCP server (e.g., Snowflake, Databricks, BigQuery, or any SQL-compatible database) for the best experience. Claude will:
+The JSI know-how skills are served by the MCP server itself (`server/src/jsi_mcp/skills/`), so every connected client gets the current version without a plugin update:
 
-- Query your data warehouse directly
-- Explore schemas and table metadata
-- Run analyses end-to-end without copy-pasting
-- Iterate on queries based on results
+| Skill | Content |
+|-------|---------|
+| `jsi-data-analyst` | Entities, status codes, metric definitions, standard filters, schema of all 190 tables, wiring |
+| `jsi-kandidat-filter` | Filter keys for `search_candidates` (occupation across 6 sources, driving licence EU rules, language/certificate, …) |
+| `analyze`, `explore-data`, `build-dashboard`, `create-viz`, `data-visualization`, `statistical-analysis`, `validate-data` | Analysis and visualisation methods (based on Anthropic's data plugin, Apache-2.0) |
 
-### Without a Data Warehouse Connection
-
-Without a data warehouse connection, paste SQL results or upload CSV/Excel files for analysis and visualization. Claude can also write SQL queries for you to run manually, and then analyze the results you provide.
-
-## Commands
-
-| Command | Description |
-|---------|-------------|
-| `/analyze` | Answer data questions -- from quick lookups to full analyses |
-| `/explore-data` | Profile and explore a dataset to understand its shape, quality, and patterns |
-| `/write-query` | Write optimized SQL for your dialect with best practices |
-| `/create-viz` | Create publication-quality visualizations with Python |
-| `/build-dashboard` | Build interactive HTML dashboards with filters and charts |
-| `/validate` | QA an analysis before sharing -- methodology, accuracy, and bias checks |
-
-## Skills
-
-| Skill | Description |
-|-------|-------------|
-| `sql-queries` | SQL best practices across dialects, common patterns, and performance optimization |
-| `data-exploration` | Data profiling, quality assessment, and pattern discovery |
-| `data-visualization` | Chart selection, Python viz code patterns, and design principles |
-| `statistical-analysis` | Descriptive stats, trend analysis, outlier detection, and hypothesis testing |
-| `data-validation` | Pre-delivery QA, sanity checks, and documentation standards |
-| `interactive-dashboard-builder` | HTML/JS dashboard construction with Chart.js, filters, and styling |
-| `jsi-kandidat-filter` | Filter-based candidate search (occupation across 6 sources, driving licence with EU rules, language/certificate, education, country, age, availability) – runs on the MCP server (`search_candidates`) |
-| `jsi-data-analyst` | JSI recruiting CRM context: entities, status codes, metric definitions, standard filters and tested MySQL queries |
-
-## Example Workflows
-
-### Ad-Hoc Analysis
-
-```
-You: /analyze What was our monthly revenue trend for the past 12 months, broken down by product line?
-
-Claude: [Writes SQL query] → [Executes against data warehouse] → [Generates trend chart]
-       → [Identifies key patterns: "Product line A grew 23% YoY while B was flat"]
-       → [Validates results with sanity checks]
-```
-
-### Data Exploration
-
-```
-You: /explore-data users table
-
-Claude: [Profiles table: 2.3M rows, 47 columns]
-       → [Reports: created_at has 0.2% nulls, email has 99.8% cardinality]
-       → [Flags: status column has unexpected value "UNKNOWN" in 340 rows]
-       → [Suggests: "High-value dimensions to explore: plan_type, signup_source, country"]
-```
-
-### Query Writing
-
-```
-You: /write-query I need a cohort retention analysis -- users grouped by signup month,
-     showing what % are still active 1, 3, 6, and 12 months later. We use Snowflake.
-
-Claude: [Writes optimized Snowflake SQL with CTEs]
-       → [Adds comments explaining each step]
-       → [Includes performance notes about partition pruning]
-```
-
-### Dashboard Building
-
-```
-You: /build-dashboard Create a sales dashboard with monthly revenue, top products,
-     and regional breakdown. Here's the data: [pastes CSV]
-
-Claude: [Generates self-contained HTML file]
-       → [Includes interactive Chart.js visualizations]
-       → [Adds dropdown filters for region and time period]
-       → [Opens in browser for review]
-```
-
-### Pre-Share Validation
-
-```
-You: /validate [shares analysis document]
-
-Claude: [Reviews methodology] → [Checks for survivorship bias in churn analysis]
-       → [Verifies aggregation logic] → [Flags: "Denominator excludes trial users
-          which could overstate conversion rate by ~5pp"]
-       → [Confidence: "Ready to share with noted caveat"]
-```
-
-## Connecting Your Data Stack
-
-> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](CONNECTORS.md).
-
-This plugin works best when connected to your data infrastructure. Add MCP servers for:
-
-- **Data Warehouse**: Snowflake, Databricks, BigQuery, Definite, or any SQL-compatible database
-- **Analytics/BI**: Looker, Tableau, or similar
-- **Notebooks**: Jupyter, Hex, or similar
-- **Spreadsheets**: Google Sheets, Excel
-- **Data Orchestration**: Airflow, dbt, Dagster, Prefect
-- **Data Ingestion**: Fivetran, Airbyte, Stitch
-
-Configure MCP servers in your `.mcp.json` or Claude Code settings to enable direct data access.
+Access: tool `skill_lesen` (all clients; no argument = catalogue) and the MCP skills extension `io.modelcontextprotocol/skills` (`skills/list`, `skills/get`, `skill://<name>/…` via `resources/read`) for hosts that support it.

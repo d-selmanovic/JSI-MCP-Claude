@@ -20,7 +20,7 @@ from starlette.responses import JSONResponse
 from starlette.routing import Route
 
 from . import config as config_mod
-from . import admin, db, registry, tools_read, tools_tables, writes
+from . import admin, db, registry, skills_ext, tools_read, tools_tables, writes
 from .auth import WorkOSTokenVerifier, current_principal
 from .permissions import TOOL_PERMISSIONS, PermissionDenied, require
 from .sensitive import SensitiveColumnError
@@ -42,6 +42,9 @@ INSTRUCTIONS = (
     "Unterlagen, Firmen, DIPL, Task Force, Logs): table_describe, dann table_read. Schreiben nur auf ausdrücklichen Wunsch: je "
     "Entität/Aktion ein eigenes Tool (z. B. candidate_update, candidate_note_create) bzw. set_application_status – immer "
     "zuerst dry_run=true (Vorschau + preview_hash), nach Bestätigung dry_run=false mit preview_hash. "
+    "Fachwissen (Statuscodes, Kennzahlen-Definitionen, Filter, Schema, Analyse-Methoden) liefert der Server als Skills: "
+    "skill_lesen() listet sie, skill_lesen(skill='jsi-data-analyst') bzw. 'jsi-kandidat-filter' vor Auswertungen laden "
+    "(Hosts mit Skills-Extension: skills/list, skill://…). "
     "Antworten für JSI auf Bosnisch. Personendaten nur auf ausdrücklichen Wunsch (Permission jsi:kandidati:pii). "
     "/ Fiksni alati umjesto SQL-a; lični podaci samo na izričit zahtjev."
 )
@@ -280,6 +283,13 @@ def t_table_read(cfg, p,
     return tools_tables.table_read(cfg, p, tabela, kolone, filteri, grupiraj_po, agregati, sortiraj, limit, offset, pii)
 
 
+def t_skill_lesen(cfg, p,
+                  skill: Annotated[str | None, Field(max_length=64, description="Skill-Name; leer = Katalog aller Skills")] = None,
+                  datei: Annotated[str | None, Field(max_length=200, description="Hilfsdatei relativ zum Skill, z. B. "
+                                                     "'references/metrics.md'; leer = SKILL.md")] = None) -> dict:
+    return skills_ext.skill_lesen(skill, datei)
+
+
 # Display titles (Claude.ai requires tool.title).
 TOOL_TITLES: dict[str, str] = {
     "whoami": "Wer bin ich",
@@ -292,6 +302,7 @@ TOOL_TITLES: dict[str, str] = {
     "change_log": "Änderungsprotokoll",
     "table_describe": "Tabellen und Spalten",
     "table_read": "Tabelle lesen",
+    "skill_lesen": "Skill / Fachwissen lesen",
     "set_application_status": "Bewerbungsstatus setzen",
 }
 
@@ -313,6 +324,9 @@ TOOLS: list[tuple[str, Any, str, ToolAnnotations]] = [
      "Eine freigegebene Tabelle lesen oder auswerten: Spalten, Filter, Sortierung, Gruppieren/Zählen/Summen, seitenweise "
      "(stranica). Kein freies SQL; Personendaten nur mit pii=true. Für Kandidatensuche nach Kriterien zuerst search_candidates. "
      "/ Čitanje i agregacija jedne tabele.", RO),
+    ("skill_lesen", t_skill_lesen,
+     "JSI-Fachwissen als Skills lesen: Katalog, SKILL.md oder Hilfsdatei (Statuscodes, Kennzahlen, Filter, Schema, "
+     "Analyse-Methoden). Vor Auswertungen jsi-data-analyst laden. / Čitanje skillova i stručnog znanja.", RO),
     ("set_application_status", t_set_application_status, "Bewerbungs-/Pipeline-Status setzen inkl. Pipeline-Log; Standard dry_run=true. / Promjena statusa prijave uz log.", RW),
 ]
 
@@ -323,7 +337,8 @@ def build_mcp(cfg: config_mod.Config) -> MCPServer:
     if not cfg.auth_disabled:
         kwargs["auth"] = AuthSettings(issuer_url=cfg.issuer, resource_server_url=cfg.public_url, validate_token_resource=False)
         kwargs["token_verifier"] = WorkOSTokenVerifier(cfg.issuer, cfg.public_url, cfg.jwks_url)
-    mcp = MCPServer(name="JSI-MCP-Claude", title="JSI CRM", version=VERSION, instructions=INSTRUCTIONS, **kwargs)
+    mcp = MCPServer(name="JSI-MCP-Claude", title="JSI CRM", version=VERSION, instructions=INSTRUCTIONS,
+                    extensions=[skills_ext.SkillsExtension()], **kwargs)
     for name, fn, desc, ann in TOOLS:
         mcp.add_tool(tool_wrapper(cfg, name)(fn), name=name, title=TOOL_TITLES[name], description=desc, annotations=ann,
                      structured_output=False)

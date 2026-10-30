@@ -1,7 +1,7 @@
 {
   "name": "jsi-crm",
-  "version": "1.5.0",
-  "description": "JSI Recruiting-CRM: Kandidatensuche, Kennzahlen, Aufträge und Pipeline über den JSI-MCP-Server (OAuth über WorkOS), plus Analyse-Skills.",
+  "version": "1.6.0",
+  "description": "JSI Recruiting-CRM: Verbindung zum JSI-MCP-Server (OAuth über WorkOS), Hooks und Skill jsi-mcp; Fachwissen und Analyse-Skills liefert der Server (skill_lesen).",
   "author": { "name": "JSI / activi.io" },
   "repository": "https://github.com/d-selmanovic/JSI-MCP-Claude",
   "keywords": ["jsi", "crm", "recruiting", "mcp"]

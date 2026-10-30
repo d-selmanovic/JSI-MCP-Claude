@@ -101,6 +101,7 @@ TOOL_PERMISSIONS: dict[str, list[str]] = {
     "set_application_status": [],
     "table_describe": [],  # lists areas; details need the area permission
     "table_read": [],  # area permission (+ jsi:finansije:read for finance tables) checked per call
+    "skill_lesen": [],  # static documentation shipped with the server, no CRM data
 }
 
 # Extra permission per kpis area.

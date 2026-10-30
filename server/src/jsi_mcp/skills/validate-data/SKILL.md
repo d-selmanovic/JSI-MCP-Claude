@@ -6,7 +6,6 @@ argument-hint: "<analysis to review>"
 
 # /validate-data - Validate Analysis Before Sharing
 
-> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](../../CONNECTORS.md).
 
 Review an analysis for accuracy, methodology, and potential biases before sharing with stakeholders. Generates a confidence assessment and improvement suggestions.
 
