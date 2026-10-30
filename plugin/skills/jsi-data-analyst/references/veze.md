@@ -1,4 +1,54 @@
-# Veze između tabela (Verdrahtung) – izmjereno 2026-10-29
+# Veze između tabela (Verdrahtung) – kompletno mjerenje 2026-10-30
+
+## Pokrivenost (Abdeckung)
+
+| | Broj |
+|---|---:|
+| Kolona ukupno (`columns.json`) | 1.809 |
+| od toga klasifikovano u `docs/rohdaten/verweis_kandidaten.tsv` (svaka kolona sa razlogom) | 1.809 (100 %) |
+| **Kolone tipa veza** (FK 309, LOOKUP 47, POLY 16, TEXTREF 4, LISTE 5) | **381** |
+| **izmjereno** (`docs/rohdaten/veze_komplett.tsv`, `poly_results.tsv`) | **368 od 381 = 96,6 %** |
+| – nije izmjereno: 5 lista ID-eva (`mp_employees`, `prs_*_ids`), 3 FK + 4 polimorfne `rb_*` (strani projekat, 1–4 reda), `mcp_aenderung` (0 redova) | 13 |
+| Hipoteze (kolona × moguća ciljna tabela) izmjerene | 395 (386 sa podacima, 9 na praznim tabelama) |
+| Kolone status/tip/grupa/flag (`CODE`) klasifikovane | 419 (raspodjela vrijednosti izmjerena za 64 filtrirane kolone, vidi `kandidat_profil.tsv`) |
+| Prethodnih 76 veza (`rel_results.tsv`, 73 kolone) | ponovo izmjereno – sve iste osim `kandidat_status` (0 = važeći kod „Na provjeri“, sada 122.006/122.006) |
+
+Ocjena (najbolja hipoteza po koloni): **belegt (≥ 98 %) 312**, wahrscheinlich (90–98 %) 13, schwach (50–90 %) 5, falsch/unklar (< 50 %) 3, prazno (samo NULL/0) 15, tabela prazna 9, polimorfno po grupi 11.
+
+Generatori (ponovljivo): `gen_verweise.py` (klasifikacija) → `gen_mess_sql.py` (SQL, jedan upit po ciljnoj tabeli) → `mess_results.tsv` → `build_veze.py` → `veze_komplett.tsv`.
+
+## Nove spoznaje 2026-10-30
+
+- **Slabe/pogrešne veze**: `idk_kandidati.kandidat_sms_id` ne pokazuje na `idk_sms_messages` (0/7.080); `idk_nd_kandidata.link_tracking_number_nd_kandidata` nije `lg_id` (18 %); `idk_log_kandidat_statusi.lks_status_obrade` sadrži kod 9 koji nema u `idk_kandidat_status` (78 %).
+- **Beruf_mapping pokrivenost**: `kri_pozicija` 99,96 %, `kandidat_prijava_na` 95,0 %, `ke_naziv_kvalifikacije` 67,2 %, `kde_prijava_na` 45,4 %.
+- **Partner portal**: `kc_partner_id`, `doc_partner_id`, `prs_partner_id`, `pua_partner_id`, `cs_partner_id` → `idk_pp_partners.ppa_id` (poslodavac), ne `idk_jobstep_partners` (makler).
+- **Izvor-zavisni korisnici** (`*_source` 1 = CRM, 2 = PP): `kc_user_id` 1 → employees (100 %); `krr_done_by` 1 → employees (100 %), 2 → `idk_pp_users` (100 %); `kp_created_by` 2 → `idk_jobstep_partners` (100 %), 1 uglavnom 0.
+- **`idk_partner_uplate.jp_uplate_kandidatid`**: vrsta 1 (NALOG) → kandidat_id (28/28), vrsta 2 (DIPL) → DIPL-ID (106/106) – polimorfno!
+- **`idk_reminders`**: `reminder_candidate_id` = DIPL-ID (tip 1: 15.948/15.949, tip 2: 60/60); `reminder_foreign_key` tip 1 → `idk_nd_kandidata_biljeske.id_biljeska_nd` (isti DIPL kandidat 15.948/15.949), tip 2 → `idk_nd_ugovori.ug_id` (60/60).
+- **`idk_validnosti_inputa.vi_podatak_id`**: `obrazovanje` → `ke_id` istog kandidata (7.407/7.417), `iskustvo` → `kri_id` (15.618/15.629), `blok_*` = 0 (nema zapisa), `dokument` – cilj nepoznat.
+- **Prazne veze** (samo NULL/0): `company_ceo`, `company_contact`, `contact_ownerid`, `kandidat_zeljeni_grad`, `krr_partner_id`, `cs_*_employee_id`, `jp_received_last_lead`, `kf_zamjena_id`, `kf.projekt_id`, `queue_partner_id`, `sz_branch`.
+
+## Polimorfne grupe (`*_group` + `*_dataid`) – izmjereno po grupi
+
+| Tabela | Grupa | Redova | Raspon ID | Najvjerovatniji cilj | Sigurnost |
+|---|---:|---:|---|---|---|
+| `idk_notes` | 2 | 182.850 | 0–198.812 | kandidat (99,98 %) | belegt |
+| `idk_notes` | 3 | 2.826 | 5–1.423 | firma (100 %; raspon > nalozi) | wahrscheinlich |
+| `idk_notes` | 4 | 1.303 | 21–350 | firma/kontakt/nalog (svi 100 %) | nejasno |
+| `idk_notes` | 5 | 16 | 32–3.335 | projekat (100 %, raspon > firme) | wahrscheinlich |
+| `idk_notes` | 1, 6, 7, 8 | 83 / 49 / 162 / 935 | ≤ 580 | firma, kontakt, klijent, zaposlenik se preklapaju | nejasno |
+| `idk_documents` | 2 | 23.076 | 0–198.797 | kandidat (99,97 %) | belegt |
+| `idk_documents` | 3 | 257 | 31–1.424 | firma (100 %) | wahrscheinlich |
+| `idk_documents` | 1, 4, 5, 7, 8 | 4 / 217 / 3 / 3 / 54 | ≤ 576 | preklapanje ID prostora | nejasno |
+| `idk_timeline` | 2 | 1.046 | 5–1.432 | firma (100 %) – **ne kandidat** | wahrscheinlich |
+| `idk_tasks` | 3 | 854 | 5–1.331 | firma (100 %) | wahrscheinlich |
+| `idk_tasks`/`idk_timeline` | 1, 2 | ≤ 13 | mali | nejasno | – |
+
+Grupe nisu ista enumeracija u svim tabelama (`timeline` 2 = firma, `notes` 2 = kandidat).
+
+---
+
+## Ranije mjerenje (2026-10-29) – i dalje važi
 
 Za svaku vezu: koliko redova ima popunjen ključ (`n`, bez NULL/0) i koliko njih stvarno pronalazi red u ciljnoj tabeli (`ok`). MySQL 8.4.11, InnoDB. Baza ima samo **3 deklarisana foreign key-a** (`idk_tutorijali.tutorijal_kategorija_id → idk_kategorije`, `rb_field_state → rb_entity_state`, `rb_outbox.event_id → rb_events`). Sve poslovne veze su konvencija aplikacije – zato su ovdje izmjerene.
 

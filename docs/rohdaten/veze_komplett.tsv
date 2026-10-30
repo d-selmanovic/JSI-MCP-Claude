@@ -1,0 +1,382 @@
+tabelle	spalte	klasse	ziel	n	leer_0	treffer	ins_leere	quote	distinct	max	bewertung	hypothesen	alt_rel_results	hinweis
+idk_agenti_activity	employee_id	FK	idk_employees.employee_id	7848	0	7848	0	1.0000	4	134	belegt	idk_employees.employee_id: 7848/7848 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_appointment_invite_links	candidate_id	FK	idk_kandidati.kandidat_id	4570	0	4570	0	1.0000	2570	197482	belegt	idk_kandidati.kandidat_id: 4570/4570 (100.0%)		Name/Kommentar
+idk_appointment_invite_links	interview_id	FK	idk_pp_cand_appts.pca_id	4570	0	4464	106	0.9768	2901	15667	wahrscheinlich	idk_pp_cand_appts.pca_id: 4464/4570 (97.7%)		Kommentar
+idk_bot_obavijesti	bo_kandidat_id	FK	idk_kandidati.kandidat_id	2	0	2	0	1.0000	2	12363	belegt	idk_kandidati.kandidat_id: 2/2 (100.0%)		Name/Kommentar
+idk_bot_obavijesti	bo_nalog_id	FK	idk_nalozi.nalog_id	2	0	2	0	1.0000	1	113	belegt	idk_nalozi.nalog_id: 2/2 (100.0%)		Auftrag laut Name/Kommentar
+idk_candidate_language_logs	cll_candidate_id	FK	idk_kandidati.kandidat_id	5796	0	5796	0	1.0000	3399	198161	belegt	idk_kandidati.kandidat_id: 5796/5796 (100.0%)	idk_kandidati.kandidat_id n=5796 ok=5796	Name/Kommentar
+idk_candidate_language_logs	cll_cvl_id	FK	idk_candidate_verified_languages.cvl_id	5796	0	5794	2	0.9997	3873	152378	belegt	idk_candidate_verified_languages.cvl_id: 5794/5796 (100.0%) | idk_kandidat_jezici.kj_id: 5793/5796 (99.9%)		Kommentar; mehrere Ziele >= 90 % (ID-Räume überlappen, Zuordnung nach Name/Kommentar)
+idk_candidate_language_logs	cll_employee_id	FK	idk_employees.employee_id	5796	366	5430	0	1.0000	60	533	belegt	idk_employees.employee_id: 5430/5430 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_candidate_verified_languages	cvl_id	FK	idk_kandidat_jezici.kj_id	3897	0	3896	1	0.9997	3897	152378	belegt	idk_kandidat_jezici.kj_id: 3896/3897 (100.0%)	idk_kandidat_jezici.kj_id n=3897 ok=3896	PK = kj_id (1:1-Erweiterung)
+idk_chat_question	type	LOOKUP	idk_chat_type.id	56	0	56	0	1.0000	1	1	belegt	idk_chat_type.id: 56/56 (100.0%)		Kommentar (text) -> CAST
+idk_chat_question	parentQuestion	FK	idk_chat_question.id	56	8	48	0	1.0000	10	50	belegt	idk_chat_question.id: 48/48 (100.0%)		Kommentar
+idk_clients	client_recommendation	FK	idk_jobstep_partners.jp_id	387	352	20	15	0.5714	35	95794	schwach	idk_clients.client_id: 2/35 (5.7%) | idk_jobstep_partners.jp_id: 20/35 (57.1%) | idk_contacts.contact_id: 2/35 (5.7%)		Empfehlung (Hypothesen)
+idk_clients	client_recommendation_company	FK	idk_companies.company_id	387	0	386	1	0.9974	387	1433	belegt	idk_companies.company_id: 386/387 (99.7%)		Firma laut Name/Kommentar
+idk_clients	client_manager	FK	idk_employees.employee_id	387	124	263	0	1.0000	14	402	belegt	idk_employees.employee_id: 263/263 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_clients	client_sales_manager	FK	idk_employees.employee_id	387	264	123	0	1.0000	12	526	belegt	idk_employees.employee_id: 123/123 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_clients_stats	client_id	FK	idk_clients.client_id	858	0	805	53	0.9382	359	582	wahrscheinlich	idk_clients.client_id: 805/858 (93.8%)		Name/Kommentar
+idk_clients_stats	zaposlenik_id	FK	idk_employees.employee_id	858	6	852	0	1.0000	26	526	belegt	idk_employees.employee_id: 852/852 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_companies	company_ceo	FK	idk_contacts.contact_id	1223	1223	0	0		0		leer (nur NULL/0)	idk_contacts.contact_id: 0/0		Kontakt (Hypothese)
+idk_companies	company_contact	FK	idk_contacts.contact_id	1223	1223	0	0		0		leer (nur NULL/0)	idk_contacts.contact_id: 0/0		Kontakt (Hypothese)
+idk_companies	company_reccomendation	FK	idk_jobstep_partners.jp_id	1223	1185	23	15	0.6053	38	95794	schwach	idk_jobstep_partners.jp_id: 23/38 (60.5%) | idk_clients.client_id: 5/38 (13.2%) | idk_contacts.contact_id: 5/38 (13.2%)		Empfehlung (Hypothesen)
+idk_companies	js_partner_id	FK	idk_jobstep_partners.jp_id	1223	1182	39	2	0.9512	26	36221	wahrscheinlich	idk_jobstep_partners.jp_id: 39/41 (95.1%)	idk_jobstep_partners.jp_id n=41 ok=39	JobStep-Partner (Makler) laut Name/Kommentar
+idk_companies_info	comi_companyid	FK	idk_companies.company_id	1698	0	1696	2	0.9988	840	1433	belegt	idk_companies.company_id: 1696/1698 (99.9%)		Firma laut Name/Kommentar
+idk_contacts	contact_companyid	FK	idk_companies.company_id	628	44	582	2	0.9966	492	1433	belegt	idk_companies.company_id: 582/584 (99.7%)		Firma laut Name/Kommentar
+idk_contacts	contact_clientid	FK	idk_clients.client_id	628	559	64	5	0.9275	68	520	wahrscheinlich	idk_clients.client_id: 64/69 (92.8%)		Name/Kommentar
+idk_contacts	contact_ownerid	FK	idk_employees.employee_id	628	628	0	0		0		leer (nur NULL/0)	idk_employees.employee_id: 0/0		Mitarbeiter laut Name/Kommentar
+idk_contacts_info	ci_contactid	FK	idk_contacts.contact_id	1128	23	1105	0	1.0000	580	755	belegt	idk_contacts.contact_id: 1105/1105 (100.0%)		Name/Kommentar
+idk_dak_kandidati	company_dak_kandidat	FK	idk_companies.company_id	670	668	2	0	1.0000	2	555	belegt	idk_companies.company_id: 2/2 (100.0%)		Name/Kommentar
+idk_dak_kandidati	dipl_dak_kandidat	FK	idk_nd_kandidata.id_broj_nd_kandidata	670	526	144	0	1.0000	1	1	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 144/144 (100.0%)		Hypothese (evtl. Flag)
+idk_dak_kandidati	manager_dak_kandidat	FK	idk_employees.employee_id	670	14	656	0	1.0000	2	57	belegt	idk_employees.employee_id: 656/656 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_documents	document_dataid	POLY	idk_kandidati.kandidat_id,idk_companies.company_id,idk_contacts.contact_id,idk_nalozi.nalog_id,idk_projects.project_id,idk_employees.employee_id,idk_clients.client_id,idk_nd_kandidata.id_broj_nd_kandidata,idk_tasks.task_id,users.id	23614							je Gruppe (poly_results.tsv)	g=2: n=23076 K=23069 C=2571 CT=1598 N=746 P=4386 E=1072 CL=1178 D=17388 U=18721 | g=3: n=257 K=257 C=257 CT=152 N=80 P=238 E=97 CL=116 D=257 U=239 | g=5: n=3 K=3 C=3 CT=3 N=0 P=3 E=3 CL=3 D=3 U=2 | g=4: n=217 K=215 C=217 CT=217 N=217 P=168 E=191 CL=193 D=217 U=196 | g=1: n=4 K=4 C=4 CT=4 N=2 P=4 E=4 CL=4 D=4 U=4 | g=7: n=3 K=3 C=3 CT=3 N=3 P=2 E=3 CL=3 D=3 U=3 | g=8: n=54 K=54 C=54 CT=53 N=26 P=44 E=47 CL=53 D=54 U=50		gruppiert nach document_group; Gruppen undokumentiert
+idk_documents	document_employeeid	FK	idk_employees.employee_id	23614	4784	18830	0	1.0000	121	534	belegt	idk_employees.employee_id: 18830/18830 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_employees	employee_warehouse	FK	idk_poslovnice.branch_id	370	366	4	0	1.0000	1	1	belegt	idk_skladiste.skl_id: 0/4 (0.0%) | idk_poslovnice.branch_id: 4/4 (100.0%)		Hypothesen
+idk_employees	employee_poslovnica	LOOKUP	idk_poslovnice.branch_id	370	89	281	0	1.0000	14	18	belegt	idk_poslovnice.branch_id: 281/281 (100.0%)	idk_poslovnice.branch_id n=281 ok=281	Filiale
+idk_employees	employee_nostrifikacija_zadnji_menadzer	FK	idk_employees.employee_id	370	366	4	0	1.0000	1	1	belegt	idk_employees.employee_id: 4/4 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_employees	employee_nostrifikacija_zadnji_menadzer_app	FK	idk_employees.employee_id	370	346	24	0	1.0000	1	1	belegt	idk_employees.employee_id: 24/24 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_employees	employee_team	LOOKUP	idk_timovi.id_t	370	1	369	0	1.0000	5	7	belegt	idk_timovi.id_t: 369/369 (100.0%)	idk_timovi.id_t n=369 ok=369	Kommentar
+idk_employees_info	ei_employeeid	FK	idk_employees.employee_id	93	0	93	0	1.0000	52	453	belegt	idk_employees.employee_id: 93/93 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_employees_reports	er_projectid	FK	idk_projects.project_id	1296	1273	23	0	1.0000	13	819	belegt	idk_projects.project_id: 23/23 (100.0%)		Projekt laut Name
+idk_employees_reports	er_nalogid	FK	idk_nalozi.nalog_id	1296	1285	11	0	1.0000	5	113	belegt	idk_nalozi.nalog_id: 11/11 (100.0%)		Auftrag laut Name/Kommentar
+idk_employees_reports	er_employeeid	FK	idk_employees.employee_id	1296	1	1295	0	1.0000	17	216	belegt	idk_employees.employee_id: 1295/1295 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_glossa_log	candidate	FK	idk_kandidati.kandidat_id	13	11	2	0	1.0000	2	5976	belegt	idk_kandidati.kandidat_id: 2/2 (100.0%)		Kommentar: FK idk_kandidati (text) -> CAST
+idk_jobstep_partners	jp_posta	LOOKUP	idk_nd_poste.id_poste	34396	34078	318	0	1.0000	1	1	belegt	idk_nd_poste.id_poste: 318/318 (100.0%)		Hypothese
+idk_jobstep_partners	jp_preporuka_id	FK	idk_jobstep_partners.jp_id	34396	34297	90	9	0.9091	32	33693	wahrscheinlich	idk_jobstep_partners.jp_id: 90/99 (90.9%)		JobStep-Partner (Makler) laut Name/Kommentar
+idk_jobstep_partners	jp_partner_company	LOOKUP	idk_partner_companies.pc_id	34396	34148	248	0	1.0000	5	7	belegt	idk_partner_companies.pc_id: 248/248 (100.0%)		Kommentar
+idk_jobstep_partners	jp_received_last_lead	FK	idk_kandidati.kandidat_id	34396	34396	0	0		0		leer (nur NULL/0)	idk_kandidati.kandidat_id: 0/0 | idk_nd_kandidata.id_broj_nd_kandidata: 0/0		Hypothese (letzter Lead)
+idk_jobstep_partners	jp_representative_employee_id	FK	idk_employees.employee_id	34396	34149	247	0	1.0000	2	526	belegt	idk_employees.employee_id: 247/247 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_jobstep_partners_pregledi	jpp_partnerid	FK	idk_jobstep_partners.jp_id	1022	15	987	20	0.9801	773	36234	belegt	idk_jobstep_partners.jp_id: 987/1007 (98.0%)		varchar(255) -> CAST
+idk_jobstep_partners_pregledi	jpp_nalogid	FK	idk_nalozi.nalog_id	1022	3	1016	3	0.9971	24	351	belegt	idk_nalozi.nalog_id: 1016/1019 (99.7%)		Auftrag laut Name/Kommentar
+idk_kandidat_akademija	ka_kandidat_id	FK	idk_kandidati.kandidat_id	0	0	0	0				Tabelle leer	idk_kandidati.kandidat_id: 0/0		Name/Kommentar
+idk_kandidat_akademija	ka_nalog_id	FK	idk_nalozi.nalog_id	0	0	0	0				Tabelle leer	idk_nalozi.nalog_id: 0/0		Auftrag laut Name/Kommentar
+idk_kandidat_cv	kcv_kandidatid	FK	idk_kandidati.kandidat_id	1	0	1	0	1.0000	1	2582	belegt	idk_kandidati.kandidat_id: 1/1 (100.0%)		Name/Kommentar
+idk_kandidat_de	kde_kandidat_id	FK	idk_kandidati.kandidat_id	3332	0	3329	3	0.9991	3332	197613	belegt	idk_kandidati.kandidat_id: 3329/3332 (99.9%)	idk_kandidati.kandidat_id n=3332 ok=3329	Name/Kommentar
+idk_kandidat_de	kde_prijava_na	TEXTREF	beruf_mapping.freitext_wert	3332	410	1326	1596	0.4538	268		falsch/unklar	beruf_mapping.freitext_wert: 1326/2922 (45.4%)		Freitext -> Berufsgruppe
+idk_kandidat_edukacija	ke_smjer_id	LOOKUP	idk_skole_smjerovi.ss_id	149473	30239	119234	0	1.0000	1774	3318	belegt	idk_skole_smjerovi.ss_id: 119234/119234 (100.0%)	idk_skole_smjerovi.ss_id n=119234 ok=119234	Name
+idk_kandidat_edukacija	ke_naziv_kvalifikacije	TEXTREF	beruf_mapping.freitext_wert	149473	3198	98321	47954	0.6722	10220		schwach	beruf_mapping.freitext_wert: 98321/146275 (67.2%)		Freitext -> Berufsgruppe
+idk_kandidat_edukacija	ke_skola_id	LOOKUP	idk_skole.skola_id	149473	28670	120802	1	1.0000	357	549	belegt	idk_skole.skola_id: 120802/120803 (100.0%)	idk_skole.skola_id n=120803 ok=120802	Name
+idk_kandidat_edukacija	ke_kandidat_id	FK	idk_kandidati.kandidat_id	149473	55	149407	11	0.9999	78348	198810	belegt	idk_kandidati.kandidat_id: 149407/149418 (100.0%)	idk_kandidati.kandidat_id n=149418 ok=149407	Name/Kommentar
+idk_kandidat_financije	nalog_id	FK	idk_nalozi.nalog_id	1067	0	1067	0	1.0000	22	353	belegt	idk_nalozi.nalog_id: 1067/1067 (100.0%)	idk_nalozi.nalog_id n=1067 ok=1067	Auftrag laut Name/Kommentar
+idk_kandidat_financije	projekt_id	FK	idk_projects.project_id	1067	1067	0	0		0		leer (nur NULL/0)	idk_projects.project_id: 0/0		Projekt laut Name
+idk_kandidat_financije	kandidat_id	FK	idk_kandidati.kandidat_id	1067	0	1067	0	1.0000	692	198695	belegt	idk_kandidati.kandidat_id: 1067/1067 (100.0%)	idk_kandidati.kandidat_id n=1067 ok=1067	Name/Kommentar
+idk_kandidat_financije	kf_nalog_rata_id	FK	idk_nalozi_rate.nr_id	1067	249	818	0	1.0000	39	215	belegt	idk_nalozi_rate.nr_id: 818/818 (100.0%)		Kommentar
+idk_kandidat_financije	kf_zamjena_id	FK	idk_kandidati.kandidat_id	1067	1067	0	0		0		leer (nur NULL/0)	idk_kandidati.kandidat_id: 0/0 | idk_kandidat_financije.kf_id: 0/0		Zamjena = Ersatz (Hypothesen)
+idk_kandidat_jezici	kj_kandidatid	FK	idk_kandidati.kandidat_id	82474	1563	80906	5	0.9999	67647	198810	belegt	idk_kandidati.kandidat_id: 80906/80911 (100.0%)	idk_kandidati.kandidat_id n=80911 ok=80906	Name/Kommentar
+idk_kandidat_kontakt_info	kki_kandidat_id	FK	idk_kandidati.kandidat_id	172673	6061	166478	134	0.9992	120617	198810	belegt	idk_kandidati.kandidat_id: 166478/166612 (99.9%)		Name/Kommentar
+idk_kandidat_pozicija	kp_created_by	POLY	idk_employees.employee_id,idk_jobstep_partners.jp_id	133							je Gruppe (poly_results.tsv)	g=1 (CRM): n=121 E=3 JP=3 leer=118 | g=2 (PP): n=12 E=0 JP=12 leer=0		gruppiert nach kp_source; Kommentar: 1 = Employee, 2 = Partner
+idk_kandidat_radno_iskustvo	kri_pozicija	TEXTREF	beruf_mapping.freitext_wert	87844	6	87806	32	0.9996	35630		belegt	beruf_mapping.freitext_wert: 87806/87838 (100.0%)		Freitext -> Berufsgruppe
+idk_kandidat_radno_iskustvo	kri_kandidat_id	FK	idk_kandidati.kandidat_id	87844	0	87842	2	1.0000	35774	198797	belegt	idk_kandidati.kandidat_id: 87842/87844 (100.0%)	idk_kandidati.kandidat_id n=87844 ok=87842	Name/Kommentar
+idk_kandidat_vjestine	kv_kandidat_id	FK	idk_kandidati.kandidat_id	10211	0	10211	0	1.0000	5267	198767	belegt	idk_kandidati.kandidat_id: 10211/10211 (100.0%)		Name/Kommentar
+idk_kandidati	kandidat_prijava_na	TEXTREF	beruf_mapping.freitext_wert	122006	61	115811	6134	0.9497	417		wahrscheinlich	beruf_mapping.freitext_wert: 115811/121945 (95.0%)		Freitext -> Berufsgruppe
+idk_kandidati	kandidat_status	LOOKUP	idk_kandidat_status.status_id	122006	0	122006	0	1.0000	8	8	belegt	idk_kandidat_status.status_id: 122006/122006 (100.0%)	idk_kandidat_status.status_id n=118007 ok=118007	Lookup laut Name/Kommentar
+idk_kandidati	kandidat_visitedurl	FK	idk_link_generator.lg_id	122006	4	121997	5	1.0000	1183	2420	belegt	idk_link_generator.lg_id: 121997/122002 (100.0%)		Name/Kommentar
+idk_kandidati	kandidat_group	LOOKUP	idk_kandidati_grupe.kg_id	122006	0	122006	0	1.0000	74	84	belegt	idk_kandidati_grupe.kg_id: 122006/122006 (100.0%)	idk_kandidati_grupe.kg_id n=122006 ok=122006	Lookup laut Name/Kommentar
+idk_kandidati	kandidat_status_prijave	LOOKUP	idk_kandidat_status_prijave.status_id	122006	41405	80601	0	1.0000	13	27	belegt	idk_kandidat_status_prijave.status_id: 80601/80601 (100.0%)	idk_kandidat_status_prijave.status_id n=80601 ok=80601	Lookup laut Name/Kommentar
+idk_kandidati	kandidat_zaposlen_kod	FK	idk_companies.company_id	122006	121652	354	0	1.0000	23	1218	belegt	idk_companies.company_id: 354/354 (100.0%)	idk_companies.company_id n=354 ok=354	Name/Kommentar
+idk_kandidati	kandidat_partnerid	FK	idk_jobstep_partners.jp_id	122006	119997	2005	4	0.9980	100	36185	belegt	idk_jobstep_partners.jp_id: 2005/2009 (99.8%)	idk_jobstep_partners.jp_id n=2009 ok=2005	Name/Kommentar
+idk_kandidati	kandidat_sms_id	FK	idk_sms_messages.sms_id	122006	114926	0	7080	0.0000	1	-1	falsch/unklar	idk_sms_messages.sms_id: 0/7080 (0.0%)		Name/Kommentar
+idk_kandidati	struka_sa_prijave	LOOKUP	idk_struke.id_struke	122006	121063	943	0	1.0000	2	2	belegt	idk_struke.id_struke: 943/943 (100.0%)	idk_struke.id_struke n=943 ok=943	Lookup laut Name/Kommentar
+idk_kandidati	kandidat_nalog_id	FK	idk_nalozi.nalog_id	122006	119045	2961	0	1.0000	59	355	belegt	idk_nalozi.nalog_id: 2961/2961 (100.0%)	idk_nalozi.nalog_id n=2961 ok=2961	Name/Kommentar
+idk_kandidati	kandidat_ppa_partner_id	FK	idk_pp_partners.ppa_id	122006	121421	584	1	0.9983	34	106	belegt	idk_pp_partners.ppa_id: 584/585 (99.8%)	idk_pp_partners.ppa_id n=585 ok=584	Name/Kommentar
+idk_kandidati	kandidat_pp_povezao_user_id	FK	idk_pp_users.pu_id	122006	121527	479	0	1.0000	39	350	belegt	idk_pp_users.pu_id: 479/479 (100.0%) | idk_employees.employee_id: 457/479 (95.4%)		Name/Kommentar; mehrere Ziele >= 90 % (ID-Räume überlappen, Zuordnung nach Name/Kommentar)
+idk_kandidati	kandidat_dipl_id	FK	idk_nd_kandidata.id_broj_nd_kandidata	122006	44390	77616	0	1.0000	77583	127168	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 77616/77616 (100.0%)	idk_nd_kandidata.id_broj_nd_kandidata n=77616 ok=77616	Name/Kommentar
+idk_kandidati	kandidat_tf_status	LOOKUP	idk_tf_statusi.tfs_id	122006	120302	1704	0	1.0000	14	39	belegt	idk_tf_statusi.tfs_id: 1704/1704 (100.0%)		Lookup laut Name/Kommentar
+idk_kandidati	tf_reserved_agent	FK	idk_employees.employee_id	122006	121686	320	0	1.0000	19	534	belegt	idk_employees.employee_id: 320/320 (100.0%)	idk_employees.employee_id n=320 ok=320	Name/Kommentar
+idk_kandidati	kandidat_zeljena_regija	LOOKUP	idk_pp_regions.pr_id	122006	121997	9	0	1.0000	2	4	belegt	idk_pp_regions.pr_id: 9/9 (100.0%)		Lookup laut Name/Kommentar
+idk_kandidati	kandidat_zeljeni_grad	LOOKUP	idk_pp_city.pc_id	122006	122006	0	0		0		leer (nur NULL/0)	idk_pp_city.pc_id: 0/0	idk_pp_city.pc_id n=0 ok=0	Lookup laut Name/Kommentar
+idk_kandidati	zaduzeni_makler_id	FK	idk_jobstep_partners.jp_id	122006	122000	6	0	1.0000	1	35724	belegt	idk_jobstep_partners.jp_id: 6/6 (100.0%) | idk_employees.employee_id: 0/6 (0.0%)	idk_jobstep_partners.jp_id n=6 ok=6	Name/Kommentar
+idk_kandidati	assigned_to_makler	FK	idk_jobstep_partners.jp_id	122006	121982	24	0	1.0000	14	36185	belegt	idk_jobstep_partners.jp_id: 24/24 (100.0%) | idk_employees.employee_id: 0/24 (0.0%)		Name/Kommentar
+idk_kandidati_contracts	kc_candidate_id	FK	idk_kandidati.kandidat_id	2103	0	2103	0	1.0000	1059	198695	belegt	idk_kandidati.kandidat_id: 2103/2103 (100.0%)	idk_kandidati.kandidat_id n=2103 ok=2103	Name/Kommentar
+idk_kandidati_contracts	kc_user_id	POLY	idk_employees.employee_id,idk_pp_users.pu_id	2103							je Gruppe (poly_results.tsv)	g=1 (CRM): n=2090 E=2090 PU=739 leer=0 | g=2 (PP): n=13 E=13 PU=13 leer=0		gruppiert nach kc_source; 1 = CRM, 2 = PP
+idk_kandidati_contracts	kc_nalog_id	FK	idk_nalozi.nalog_id	2103	0	2103	0	1.0000	30	353	belegt	idk_nalozi.nalog_id: 2103/2103 (100.0%)		Auftrag laut Name/Kommentar
+idk_kandidati_contracts	kc_partner_id	FK	idk_pp_partners.ppa_id	2103	50	2053	0	1.0000	39	106	belegt	idk_pp_partners.ppa_id: 2053/2053 (100.0%) | idk_jobstep_partners.jp_id: 1810/2053 (88.2%)		Partner-Portal-Partner (Arbeitgeber), Hypothese gegen Makler geprüft
+idk_kandidati_grupe	kg_employeeid	FK	idk_employees.employee_id	77	0	77	0	1.0000	16	528	belegt	idk_employees.employee_id: 77/77 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_kandidati_reject_reasons	krr_reason_id	LOOKUP	idk_reject_reasons.rr_id	1832	0	1832	0	1.0000	7	22	belegt	idk_reject_reasons.rr_id: 1832/1832 (100.0%)	idk_reject_reasons.rr_id n=1832 ok=1832	Name
+idk_kandidati_reject_reasons	krr_candidate_id	FK	idk_kandidati.kandidat_id	1832	0	1832	0	1.0000	1693	197646	belegt	idk_kandidati.kandidat_id: 1832/1832 (100.0%)	idk_kandidati.kandidat_id n=1832 ok=1832	Name/Kommentar
+idk_kandidati_reject_reasons	krr_nalog_id	FK	idk_nalozi.nalog_id	1832	0	1832	0	1.0000	31	353	belegt	idk_nalozi.nalog_id: 1832/1832 (100.0%)		Auftrag laut Name/Kommentar
+idk_kandidati_reject_reasons	krr_partner_id	FK	idk_pp_partners.ppa_id	1832	1832	0	0		0		leer (nur NULL/0)	idk_pp_partners.ppa_id: 0/0 | idk_jobstep_partners.jp_id: 0/0		Partner-Portal-Partner (Arbeitgeber), Hypothese gegen Makler geprüft
+idk_kandidati_reject_reasons	krr_apointment_id	FK	idk_pp_appointments.pap_id	1832	758	1074	0	1.0000	83	323	belegt	idk_pp_cand_appts.pca_id: 829/1074 (77.2%) | idk_pp_appointments.pap_id: 1074/1074 (100.0%) | idk_pp_appointment_groups.ppaq_id: 244/1074 (22.7%)		Hypothesen
+idk_kandidati_reject_reasons	krr_done_by	POLY	idk_employees.employee_id,idk_pp_users.pu_id	1832							je Gruppe (poly_results.tsv)	g=1 (CRM): n=520 E=520 PU=211 leer=0 | g=2 (PP): n=1312 E=1215 PU=1312 leer=0		gruppiert nach krr_source; 1 = CRM, 2 = PP
+idk_kandidati_reject_reasons	krr_last_status	LOOKUP	idk_kandidat_status_prijave.status_id	1832	0	1832	0	1.0000	12	27	belegt	idk_kandidat_status_prijave.status_id: 1832/1832 (100.0%)		Status vor Absage
+idk_kategorije_provizija	kp_tip_id	LOOKUP	idk_tipovi_provizija.tp_id	17	0	17	0	1.0000	11	11	belegt	idk_tipovi_provizija.tp_id: 17/17 (100.0%)		Name
+idk_kategorije_provizija	kp_employee_id	FK	idk_employees.employee_id	17	15	2	0	1.0000	2	173	belegt	idk_employees.employee_id: 2/2 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_korisni_dokumenti	kd_employee_id	FK	idk_employees.employee_id	14	0	14	0	1.0000	5	71	belegt	idk_employees.employee_id: 14/14 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_korisni_linkovi	kl_employee_id	FK	idk_employees.employee_id	5	0	5	0	1.0000	2	67	belegt	idk_employees.employee_id: 5/5 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_link_generator	lg_employeeid	FK	idk_employees.employee_id	1411	0	1411	0	1.0000	31	528	belegt	idk_employees.employee_id: 1411/1411 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_link_generator	lg_project	FK	idk_projects.project_id	1411	1390	21	0	1.0000	5	35	belegt	idk_projects.project_id: 21/21 (100.0%)		Projekt laut Name
+idk_link_generator	lg_nalogid	FK	idk_nalozi.nalog_id	1411	172	1238	1	0.9992	136	355	belegt	idk_nalozi.nalog_id: 1238/1239 (99.9%)		Auftrag laut Name/Kommentar
+idk_link_generator_rel	lr_lgid	FK	idk_link_generator.lg_id	2166	1	2149	16	0.9926	1423	2420	belegt	idk_link_generator.lg_id: 2149/2165 (99.3%)		Name/Kommentar
+idk_link_generator_rel	lr_groupid	LOOKUP	idk_kandidati_grupe.kg_id	2166	0	2166	0	1.0000	74	84	belegt	idk_kandidati_grupe.kg_id: 2166/2166 (100.0%)		Name
+idk_link_projects	lp_linkid	FK	idk_link_generator.lg_id	82	0	82	0	1.0000	78	170	belegt	idk_link_generator.lg_id: 82/82 (100.0%)		Name/Kommentar
+idk_link_projects	lp_projectid	FK	idk_projects.project_id	82	0	82	0	1.0000	17	188	belegt	idk_projects.project_id: 82/82 (100.0%)		Projekt laut Name
+idk_log_kandidat_statusi	lks_kandidat_id	FK	idk_kandidati.kandidat_id	242032	1163	240822	47	0.9998	113926	198812	belegt	idk_kandidati.kandidat_id: 240822/240869 (100.0%)	idk_kandidati.kandidat_id n=240869 ok=240822	Name/Kommentar
+idk_log_kandidat_statusi	lks_status_obrade	LOOKUP	idk_kandidat_status.status_id	242032	0	189120	52912	0.7814	8	9	schwach	idk_kandidat_status.status_id: 189120/242032 (78.1%)		Name
+idk_log_kandidat_statusi	lks_employee_id	FK	idk_employees.employee_id	242032	233474	8558	0	1.0000	78	534	belegt	idk_employees.employee_id: 8558/8558 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_log_kandidat_statusi	lks_link_id	FK	idk_link_generator.lg_id	242032	113663	128369	0	1.0000	968	2420	belegt	idk_link_generator.lg_id: 128369/128369 (100.0%)	idk_link_generator.lg_id n=128369 ok=128369	Kommentar
+idk_log_statusi_prijave	lsp_kandidat_id	FK	idk_kandidati.kandidat_id	361201	976	360224	1	1.0000	80765	198810	belegt	idk_kandidati.kandidat_id: 360224/360225 (100.0%)	idk_kandidati.kandidat_id n=360225 ok=360224	Name/Kommentar
+idk_log_statusi_prijave	lsp_projekt_id	FK	idk_projects.project_id	361201	2884	357019	1298	0.9964	716	4691	belegt	idk_projects.project_id: 357019/358317 (99.6%)	idk_projects.project_id n=358317 ok=357019	Projekt laut Name
+idk_log_statusi_prijave	lsp_status_prijave_id	LOOKUP	idk_kandidat_status_prijave.status_id	361201	1145	360056	0	1.0000	16	27	belegt	idk_kandidat_status_prijave.status_id: 360056/360056 (100.0%)		Name
+idk_log_statusi_prijave	lsp_employee_id	FK	idk_employees.employee_id	361201	110950	250105	146	0.9994	189	534	belegt	idk_employees.employee_id: 250105/250251 (99.9%)	idk_employees.employee_id n=250251 ok=250105	Mitarbeiter laut Name/Kommentar
+idk_logs	log_employeeid	FK	idk_employees.employee_id	3006939	392422	2613472	1045	0.9996	375	535	belegt	idk_employees.employee_id: 2613472/2614517 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_messages	message_sentid	FK	idk_employees.employee_id	41	0	41	0	1.0000	16	257	belegt	idk_employees.employee_id: 41/41 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_messages_users	mu_messageid	FK	idk_messages.message_id	41	0	41	0	1.0000	41	50	belegt	idk_messages.message_id: 41/41 (100.0%)		Name/Kommentar
+idk_messages_users	mu_employeeid	FK	idk_employees.employee_id	41	0	41	0	1.0000	21	378	belegt	idk_employees.employee_id: 41/41 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_messenger_obavijesti	mo_kandidat_id	FK	idk_kandidati.kandidat_id	260423	0	260420	3	1.0000	87726	197906	belegt	idk_kandidati.kandidat_id: 260420/260423 (100.0%)		Name/Kommentar
+idk_module_permissions	mp_employees	LISTE	idk_employees.employee_id	8							nicht gemessen (ID-Liste)			Liste von Mitarbeiter-IDs
+idk_nalog_financije	nf_nalog_id	FK	idk_nalozi.nalog_id	126	0	126	0	1.0000	29	354	belegt	idk_nalozi.nalog_id: 126/126 (100.0%)	idk_nalozi.nalog_id n=126 ok=126	Auftrag laut Name/Kommentar
+idk_nalog_profil	zaposlenik	FK	idk_employees.employee_id	83	0	83	0	1.0000	5	528	belegt	idk_employees.employee_id: 83/83 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nalog_profil	nalog_id	FK	idk_nalozi.nalog_id	83	0	83	0	1.0000	72	355	belegt	idk_nalozi.nalog_id: 83/83 (100.0%)		Auftrag laut Name/Kommentar
+idk_nalog_smjer	nalog_id	FK	idk_nalozi.nalog_id	2092	0	2092	0	1.0000	27	353	belegt	idk_nalozi.nalog_id: 2092/2092 (100.0%)		Auftrag laut Name/Kommentar
+idk_nalog_smjer	smjer_id	LOOKUP	idk_skole_smjerovi.ss_id	2092	0	2092	0	1.0000	1263	3299	belegt	idk_skole_smjerovi.ss_id: 2092/2092 (100.0%) | idk_struke.id_struke: 13/2092 (0.6%)		Hypothesen
+idk_nalozi	kompanija_id	FK	idk_companies.company_id	239	0	239	0	1.0000	98	1434	belegt	idk_companies.company_id: 239/239 (100.0%)	idk_companies.company_id n=239 ok=239	Firma laut Name/Kommentar
+idk_nalozi	employee_id	FK	idk_employees.employee_id	239	0	239	0	1.0000	34	535	belegt	idk_employees.employee_id: 239/239 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nalozi	nalog_marketing_menadzer	FK	idk_employees.employee_id	239	73	166	0	1.0000	9	528	belegt	idk_employees.employee_id: 166/166 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nalozi	nalog_js_partner_id	FK	idk_jobstep_partners.jp_id	239	236	3	0	1.0000	3	36142	belegt	idk_jobstep_partners.jp_id: 3/3 (100.0%)	idk_jobstep_partners.jp_id n=3 ok=3	JobStep-Partner (Makler) laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_nalogid	FK	idk_nalozi.nalog_id	205	12	189	4	0.9793	193	355	wahrscheinlich	idk_nalozi.nalog_id: 189/193 (97.9%)		Auftrag laut Name/Kommentar
+idk_nalozi_log	n_log_nalogid	FK	idk_nalozi.nalog_id	908	17	846	45	0.9495	267	356	wahrscheinlich	idk_nalozi.nalog_id: 846/891 (94.9%)		Auftrag laut Name/Kommentar
+idk_nalozi_log	n_log_employeeid	FK	idk_employees.employee_id	908	0	908	0	1.0000	39	535	belegt	idk_employees.employee_id: 908/908 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nalozi_opis	no_nalogid	FK	idk_nalozi.nalog_id	106	0	104	2	0.9811	55	345	belegt	idk_nalozi.nalog_id: 104/106 (98.1%)		Auftrag laut Name/Kommentar
+idk_nalozi_rate	nr_nalog	FK	idk_nalozi.nalog_id	89	0	89	0	1.0000	36	355	belegt	idk_nalozi.nalog_id: 89/89 (100.0%)		Auftrag laut Name/Kommentar
+idk_nd_cron_export	settings_id	FK	idk_nd_cron_settings.id_s	7581	0	7581	0	1.0000	13	19	belegt	idk_nd_cron_settings.id_s: 7581/7581 (100.0%)		Kommentar
+idk_nd_kandidata	skola_nd_kandidata	FK	idk_skole.skola_id	81330	44870	36460	0	1.0000	335	547	belegt	idk_skole.skola_id: 36460/36460 (100.0%)		Kommentar
+idk_nd_kandidata	skola_smjer_nd_kandidata	FK	idk_skole_smjerovi.ss_id	81330	44829	36501	0	1.0000	1624	3319	belegt	idk_skole_smjerovi.ss_id: 36501/36501 (100.0%)		Kommentar
+idk_nd_kandidata	poslodavac_naziv_nas_nd_kandidata	FK	idk_companies.company_id	81330	81284	46	0	1.0000	5	947	belegt	idk_companies.company_id: 46/46 (100.0%)		Arbeitgeber = unsere Firma (Hypothese)
+idk_nd_kandidata	dodao_zaposlenik_nd_kandidata	FK	idk_employees.employee_id	81330	75794	5536	0	1.0000	116	451	belegt	idk_employees.employee_id: 5536/5536 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nd_kandidata	zaduzen_zaposlenik_nd_kandidata	FK	idk_employees.employee_id	81330	0	81330	0	1.0000	113	511	belegt	idk_employees.employee_id: 81330/81330 (100.0%)	idk_employees.employee_id n=81330 ok=81330	Mitarbeiter laut Name/Kommentar
+idk_nd_kandidata	tim_nd_kandidata	FK	idk_timovi.id_t	81330	11	81319	0	1.0000	6	7	belegt	idk_timovi.id_t: 81319/81319 (100.0%)		Name/Kommentar
+idk_nd_kandidata	idd_ustanova_nd	FK	idk_nd_ustanove.id_ustanove_nd	81330	78531	2799	0	1.0000	66	99	belegt	idk_nd_ustanove.id_ustanove_nd: 2799/2799 (100.0%)	idk_nd_ustanove.id_ustanove_nd n=2799 ok=2799	Name/Kommentar
+idk_nd_kandidata	idd_kontakt_ustanova_nd	FK	idk_nd_ustanove_kontakti.id_kontakt_ustanove_nd	81330	78564	2766	0	1.0000	133	247	belegt	idk_nd_ustanove_kontakti.id_kontakt_ustanove_nd: 2766/2766 (100.0%)		Name/Kommentar
+idk_nd_kandidata	link_tracking_number_nd_kandidata	FK	idk_link_generator.lg_id	81330	78939	428	1963	0.1790	10	13	falsch/unklar	idk_link_generator.lg_id: 428/2391 (17.9%)		Hypothese
+idk_nd_kandidata	kandidat_idd	FK	idk_kandidati.kandidat_id	81330	75574	5756	0	1.0000	3454	195903	belegt	idk_kandidati.kandidat_id: 5756/5756 (100.0%)		Name/Kommentar
+idk_nd_kandidata	kampanja_id	FK	idk_kampanje_dipl.kd_id	81330	7641	73687	2	1.0000	193	1234	belegt	idk_kampanje_dipl.kd_id: 73687/73689 (100.0%)	idk_kampanje_dipl.kd_id n=73689 ok=73687	Name/Kommentar
+idk_nd_kandidata_biljeske	id_kandidata_biljeska_nd	FK	idk_nd_kandidata.id_broj_nd_kandidata	928882	76	928802	4	1.0000	81077	127083	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 928802/928806 (100.0%)	idk_nd_kandidata.id_broj_nd_kandidata n=928806 ok=928802	DIPL-ID-Raum (HANDOVER §5)
+idk_nd_kandidata_biljeske	razlog_biljeska_nd	LOOKUP	idk_ro_usluge.id_ro	928882	803996	124886	0	1.0000	211	403	belegt	idk_ro_usluge.id_ro: 124886/124886 (100.0%)		Kommentar
+idk_nd_kandidata_biljeske	dodao_zaposlenik_biljeska_nd	FK	idk_employees.employee_id	928882	0	928882	0	1.0000	206	511	belegt	idk_employees.employee_id: 928882/928882 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nd_kandidata_biljeske	predracun_id	FK	idk_predracuni.pr_id	928882	868802	60076	4	0.9999	4096	19851	belegt	idk_predracuni.pr_id: 60076/60080 (100.0%)		Kommentar
+idk_nd_kandidata_dokumenti	id_kandidata_dokument_nd	FK	idk_nd_kandidata.id_broj_nd_kandidata	52716	20	52696	0	1.0000	5244	127081	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 52696/52696 (100.0%)		DIPL-ID-Raum (HANDOVER §5)
+idk_nd_kandidata_dokumenti	dodao_zaposlenik_dokument_nd	FK	idk_employees.employee_id	52716	3809	48907	0	1.0000	155	484	belegt	idk_employees.employee_id: 48907/48907 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nd_kandidata_status_log	idd_broj_nd_kandidata	FK	idk_nd_kandidata.id_broj_nd_kandidata	407806	136	407610	60	0.9999	81386	127168	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 407610/407670 (100.0%)	idk_nd_kandidata.id_broj_nd_kandidata n=407670 ok=407610	DIPL-ID-Raum (HANDOVER §5)
+idk_nd_kandidata_status_log	promjenio_zaposlenik_nd_kandidata	FK	idk_employees.employee_id	407806	117741	290065	0	1.0000	198	511	belegt	idk_employees.employee_id: 290065/290065 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nd_kandidati_ciscenje	id_kandidata_dipl	FK	idk_nd_kandidata.id_broj_nd_kandidata	58468	0	58468	0	1.0000	58468	71899	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 58468/58468 (100.0%)		DIPL-ID-Raum (HANDOVER §5)
+idk_nd_kandidati_ciscenje	id_kandidata_posao	FK	idk_kandidati.kandidat_id	58468	1069	57399	0	1.0000	55955	88426	belegt	idk_kandidati.kandidat_id: 57399/57399 (100.0%)		Name/Kommentar
+idk_nd_kandidati_ciscenje	skola	FK	idk_skole.skola_id	58468	46944	11524	0	1.0000	194	487	belegt	idk_skole.skola_id: 11524/11524 (100.0%)		Name/Kommentar
+idk_nd_kandidati_ciscenje	smjer	FK	idk_skole_smjerovi.ss_id	58468	46944	11524	0	1.0000	726	2963	belegt	idk_skole_smjerovi.ss_id: 11524/11524 (100.0%)		Name/Kommentar
+idk_nd_limiti	lt_emp_id	FK	idk_employees.employee_id	137	0	137	0	1.0000	137	511	belegt	idk_employees.employee_id: 137/137 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nd_limiti	lt_zadnji_dobio_bih	FK	idk_nd_kandidata.id_broj_nd_kandidata	137	136	1	0	1.0000	1	1	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 1/1 (100.0%) | idk_kandidati.kandidat_id: 1/1 (100.0%)		'zuletzt erhalten' -> Kandidat-ID (Hypothese); mehrere Ziele >= 90 % (ID-Räume überlappen, Zuordnung nach Name/Kommentar)
+idk_nd_limiti	lt_zadnji_dobio_srb	FK	idk_nd_kandidata.id_broj_nd_kandidata	137	136	1	0	1.0000	1	1	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 1/1 (100.0%) | idk_kandidati.kandidat_id: 1/1 (100.0%)		'zuletzt erhalten' -> Kandidat-ID (Hypothese); mehrere Ziele >= 90 % (ID-Räume überlappen, Zuordnung nach Name/Kommentar)
+idk_nd_limiti	lt_zadnji_dobio_de	FK	idk_nd_kandidata.id_broj_nd_kandidata	137	136	1	0	1.0000	1	1	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 1/1 (100.0%) | idk_kandidati.kandidat_id: 1/1 (100.0%)		'zuletzt erhalten' -> Kandidat-ID (Hypothese); mehrere Ziele >= 90 % (ID-Räume überlappen, Zuordnung nach Name/Kommentar)
+idk_nd_limiti	lt_zadnji_dobio_ostalo	FK	idk_nd_kandidata.id_broj_nd_kandidata	137	136	1	0	1.0000	1	1	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 1/1 (100.0%) | idk_kandidati.kandidat_id: 1/1 (100.0%)		'zuletzt erhalten' -> Kandidat-ID (Hypothese); mehrere Ziele >= 90 % (ID-Räume überlappen, Zuordnung nach Name/Kommentar)
+idk_nd_menadzeri_statistike	idd_broj_nd_kandidata	FK	idk_nd_kandidata.id_broj_nd_kandidata	260749	140	260589	20	0.9999	81350	127168	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 260589/260609 (100.0%)		DIPL-ID-Raum (HANDOVER §5)
+idk_nd_menadzeri_statistike	zaduzen_zaposlenik_id	FK	idk_employees.employee_id	260749	5	260744	0	1.0000	172	511	belegt	idk_employees.employee_id: 260744/260744 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nd_menadzeri_statistike	prethodni_zaposlenik_id	FK	idk_employees.employee_id	260749	81490	179259	0	1.0000	161	511	belegt	idk_employees.employee_id: 179259/179259 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nd_rate	id_nd_kan	FK	idk_nd_kandidata.id_broj_nd_kandidata	6201	1	6200	0	1.0000	2233	126971	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 6200/6200 (100.0%)		DIPL-ID-Raum (HANDOVER §5)
+idk_nd_termini	termin_kandidat_id	FK	idk_nd_kandidata.id_broj_nd_kandidata	450943	0	450943	0	1.0000	39677	127083	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 450943/450943 (100.0%)	idk_nd_kandidata.id_broj_nd_kandidata n=450943 ok=450943	DIPL-ID-Raum (HANDOVER §5)
+idk_nd_termini	termin_zaposlenik_id	FK	idk_employees.employee_id	450943	0	450943	0	1.0000	89	511	belegt	idk_employees.employee_id: 450943/450943 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nd_termini	termin_biljeska_id	FK	idk_nd_kandidata_biljeske.id_biljeska_nd	450943	24	450919	0	1.0000	450919	1719365	belegt	idk_nd_kandidata_biljeske.id_biljeska_nd: 450919/450919 (100.0%)		Kommentar
+idk_nd_ugovori	ug_kandidat_id	FK	idk_nd_kandidata.id_broj_nd_kandidata	2518	0	2518	0	1.0000	2219	126992	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 2518/2518 (100.0%)	idk_nd_kandidata.id_broj_nd_kandidata n=2518 ok=2518	DIPL-ID-Raum (HANDOVER §5)
+idk_nd_ugovori	ug_zaposlenik_id	FK	idk_employees.employee_id	2518	0	2518	0	1.0000	59	451	belegt	idk_employees.employee_id: 2518/2518 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nd_ugovori	ug_razlog_odbijanja	LOOKUP	idk_ro_usluge.id_ro	2518	2480	38	0	1.0000	6	388	belegt	idk_ro_usluge.id_ro: 38/38 (100.0%)		RO-Usluge Typ 3 (Hypothese)
+idk_nd_ustanove	dodao_zaposlenik_ustanove_nd	FK	idk_employees.employee_id	93	0	93	0	1.0000	7	369	belegt	idk_employees.employee_id: 93/93 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nd_ustanove_biljeske	id_ustanova_biljeska_nd	FK	idk_nd_ustanove.id_ustanove_nd	22	0	22	0	1.0000	16	57	belegt	idk_nd_ustanove.id_ustanove_nd: 22/22 (100.0%)		Name/Kommentar
+idk_nd_ustanove_biljeske	dodao_zaposlenik_biljeska_nd	FK	idk_employees.employee_id	22	0	22	0	1.0000	4	372	belegt	idk_employees.employee_id: 22/22 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nd_ustanove_kontakti	idd_ustanove_nd	FK	idk_nd_ustanove.id_ustanove_nd	198	0	198	0	1.0000	80	99	belegt	idk_nd_ustanove.id_ustanove_nd: 198/198 (100.0%)		Name/Kommentar
+idk_nd_ustanove_skola	skola_idd	FK	idk_skole.skola_id	567	0	567	0	1.0000	231	547	belegt	idk_skole.skola_id: 567/567 (100.0%)		Name/Kommentar
+idk_nd_ustanove_skola	idd_ustanove_nd	FK	idk_nd_ustanove.id_ustanove_nd	567	0	567	0	1.0000	90	99	belegt	idk_nd_ustanove.id_ustanove_nd: 567/567 (100.0%)		Name/Kommentar
+idk_nd_ustanove_skole_smjerovi	idd_skole_ustanove_nd	FK	idk_nd_ustanove_skola.id_skole_ustanove_nd	2566	0	2566	0	1.0000	550	726	belegt	idk_nd_ustanove_skola.id_skole_ustanove_nd: 2566/2566 (100.0%)		Name/Kommentar
+idk_nd_ustanove_skole_smjerovi	ss_idd	FK	idk_skole_smjerovi.ss_id	2566	0	2566	0	1.0000	922	3319	belegt	idk_skole_smjerovi.ss_id: 2566/2566 (100.0%)		Name/Kommentar
+idk_nd_ustanove_tip_dokumenta	idd_ustanove_nd	FK	idk_nd_ustanove.id_ustanove_nd	843	0	843	0	1.0000	75	99	belegt	idk_nd_ustanove.id_ustanove_nd: 843/843 (100.0%)		Name/Kommentar
+idk_nd_ustanove_tip_dokumenta	idd_skole_ustanove_nd	FK	idk_nd_ustanove_skola.id_skole_ustanove_nd	843	815	28	0	1.0000	6	708	belegt	idk_nd_ustanove_skola.id_skole_ustanove_nd: 28/28 (100.0%)		Name/Kommentar
+idk_nd_ustanove_tip_dokumenta	idd_skole_smjer_ustanove_nd	FK	idk_nd_ustanove_skole_smjerovi.id_skole_smjer_ustanove_nd	843	823	20	0	1.0000	5	2578	belegt	idk_nd_ustanove_skole_smjerovi.id_skole_smjer_ustanove_nd: 20/20 (100.0%)		Name/Kommentar
+idk_nedostupan_log	kandidat	FK	idk_kandidati.kandidat_id	10122	0	10122	0	1.0000	8373	198321	belegt	idk_kandidati.kandidat_id: 10122/10122 (100.0%)		Name/Kommentar
+idk_nedostupan_log	nalog	FK	idk_nalozi.nalog_id	10122	0	10122	0	1.0000	16	355	belegt	idk_nalozi.nalog_id: 10122/10122 (100.0%)		Auftrag laut Name/Kommentar
+idk_nedostupan_log	agent	FK	idk_employees.employee_id	10122	1	10121	0	1.0000	20	534	belegt	idk_employees.employee_id: 10121/10121 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_nostrifikovane_diplome	id_cand_dipl	FK	idk_nd_kandidata.id_broj_nd_kandidata	2155	0	2155	0	1.0000	2151	127081	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 2155/2155 (100.0%)	idk_nd_kandidata.id_broj_nd_kandidata n=2155 ok=2155	DIPL-ID-Raum (HANDOVER §5)
+idk_nostrifikovane_diplome	id_cand_job	FK	idk_kandidati.kandidat_id	2155	46	2109	0	1.0000	2105	197606	belegt	idk_kandidati.kandidat_id: 2109/2109 (100.0%)	idk_kandidati.kandidat_id n=2109 ok=2109	Name/Kommentar
+idk_nostrifikovane_diplome	upload_employee_id	FK	idk_employees.employee_id	2155	0	2155	0	1.0000	22	457	belegt	idk_employees.employee_id: 2155/2155 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_notes	note_dataid	POLY	idk_kandidati.kandidat_id,idk_companies.company_id,idk_contacts.contact_id,idk_nalozi.nalog_id,idk_projects.project_id,idk_employees.employee_id,idk_clients.client_id,idk_nd_kandidata.id_broj_nd_kandidata,idk_tasks.task_id,users.id	188224							je Gruppe (poly_results.tsv)	g=2: n=182850 K=182808 C=5611 CT=3190 N=1404 P=12681 E=2080 CL=2118 D=106389 U=136410 | g=3: n=2826 K=2804 C=2826 CT=2299 N=1046 P=2547 E=1437 CL=1653 D=2821 U=2509 | g=4: n=1303 K=1239 C=1303 CT=1303 N=1303 P=1088 E=1152 CL=1132 D=1303 U=1176 | g=5: n=16 K=16 C=10 CT=3 N=2 P=16 E=3 CL=3 D=16 U=13 | g=6: n=49 K=49 C=49 CT=49 N=33 P=43 E=39 CL=36 D=49 U=44 | g=7: n=162 K=162 C=162 CT=162 N=149 P=144 E=162 CL=162 D=162 U=149 | g=8: n=935 K=931 C=935 CT=933 N=642 P=758 E=839 CL=934 D=931 U=850 | g=1: n=83 K=83 C=83 CT=83 N=77 P=79 E=83 CL=82 D=83 U=80		gruppiert nach note_group; Gruppen undokumentiert
+idk_notes	note_employeeid	FK	idk_employees.employee_id	188224	2590	185634	0	1.0000	164	534	belegt	idk_employees.employee_id: 185634/185634 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_notification	not_kandidatid	FK	idk_kandidati.kandidat_id	75248	931	74271	46	0.9994	42627	198810	belegt	idk_kandidati.kandidat_id: 74271/74317 (99.9%) | idk_nd_kandidata.id_broj_nd_kandidata: 33228/74317 (44.7%)		Typ 2 = ponovna prijava (DIPL?) -> beide ID-Räume geprüft
+idk_notifications	notification_employeeid	FK	idk_employees.employee_id	1759	0	1759	0	1.0000	22	402	belegt	idk_employees.employee_id: 1759/1759 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_obracuni	employee_id	FK	idk_employees.employee_id	168233	0	168233	0	1.0000	205	496	belegt	idk_employees.employee_id: 168233/168233 (100.0%)	idk_employees.employee_id n=168233 ok=168233	Mitarbeiter laut Name/Kommentar
+idk_obracuni	predracun_id	FK	idk_predracuni.pr_id	168233	0	167920	313	0.9981	5195	19887	belegt	idk_predracuni.pr_id: 167920/168233 (99.8%)	idk_predracuni.pr_id n=168233 ok=167920	Name/Kommentar
+idk_obracuni	kategorija_provizije	LOOKUP	idk_kategorije_provizija.kp_id	168233	166064	2169	0	1.0000	2	2	belegt	idk_kategorije_provizija.kp_id: 2169/2169 (100.0%)		Hypothese
+idk_ostatci_obracuna	oo_employee_id	FK	idk_employees.employee_id	2783	0	2783	0	1.0000	159	496	belegt	idk_employees.employee_id: 2783/2783 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_partner_meetings	meeting_company_id	FK	idk_companies.company_id	11	0	11	0	1.0000	11	1427	belegt	idk_companies.company_id: 11/11 (100.0%)		Firma laut Name/Kommentar
+idk_partner_meetings	meeting_employee	FK	idk_employees.employee_id	11	0	11	0	1.0000	1	493	belegt	idk_employees.employee_id: 11/11 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_partner_notification	notification_type_id	LOOKUP	idk_partner_personal_notification_types.type_id	37	0	37	0	1.0000	3	4	belegt	idk_partner_personal_notification_types.type_id: 37/37 (100.0%)		Name
+idk_partner_notification	notification_partner_id	FK	idk_jobstep_partners.jp_id	37	0	36	1	0.9730	22	36221	wahrscheinlich	idk_jobstep_partners.jp_id: 36/37 (97.3%)		JobStep-Partner (Makler) laut Name/Kommentar
+idk_partner_notification_logs	employee_id	FK	idk_employees.employee_id	9	0	9	0	1.0000	4	526	belegt	idk_employees.employee_id: 9/9 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_partner_notification_status	partner_id	FK	idk_jobstep_partners.jp_id	11	0	11	0	1.0000	7	36220	belegt	idk_jobstep_partners.jp_id: 11/11 (100.0%)		JobStep-Partner (Makler) laut Name/Kommentar
+idk_partner_notification_status	notification_id	FK	idk_partner_notification.notification_id	11	0	11	0	1.0000	11	37	belegt	idk_partner_notification.notification_id: 11/11 (100.0%)		Name/Kommentar
+idk_partner_personal_notifications_preferences	partner_id	FK	idk_jobstep_partners.jp_id	108	1	99	8	0.9252	107	36255	wahrscheinlich	idk_jobstep_partners.jp_id: 99/107 (92.5%)		JobStep-Partner (Makler) laut Name/Kommentar
+idk_partner_pushnot	idk_partnerid	FK	idk_jobstep_partners.jp_id	1212	0	1210	2	0.9983	745	31680	belegt	idk_jobstep_partners.jp_id: 1210/1212 (99.8%)		JobStep-Partner (Makler) laut Name/Kommentar
+idk_partner_tutorials	employee_id	FK	idk_employees.employee_id	4	0	4	0	1.0000	1	134	belegt	idk_employees.employee_id: 4/4 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_partner_uplate	jp_uplate_partnerid	FK	idk_jobstep_partners.jp_id	147	0	147	0	1.0000	18	32842	belegt	idk_jobstep_partners.jp_id: 147/147 (100.0%)	idk_jobstep_partners.jp_id n=147 ok=147	JobStep-Partner (Makler) laut Name/Kommentar
+idk_partner_uplate	jp_uplate_kandidatid	POLY	idk_kandidati.kandidat_id,idk_nd_kandidata.id_broj_nd_kandidata	147							je Gruppe (poly_results.tsv)	g=1 (NALOG): n=28 K=28 D=14 | g=2 (DIPL): n=106 K=103 D=106 | g=NULL: n=13 K=13 D=7	idk_kandidati.kandidat_id n=147 ok=144	gruppiert nach jp_uplate_vrsta; 1 = NALOG (Kandidat), 2 = DIPL
+idk_partner_uplate	jp_uplate_zaposlenikid	FK	idk_employees.employee_id	147	38	109	0	1.0000	20	360	belegt	idk_employees.employee_id: 109/109 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_partner_user_log	user_id	FK	idk_jobstep_partners.jp_id	1319	0	1319	0	1.0000	45	36254	belegt	idk_jobstep_partners.jp_id: 1319/1319 (100.0%) | idk_pp_users.pu_id: 0/1319 (0.0%)		Partner-App-Benutzer (Hypothesen)
+idk_ponovne_prijave	id_kandidata	FK	idk_nd_kandidata.id_broj_nd_kandidata	12764	0	12761	3	0.9998	9700	127161	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 12761/12764 (100.0%)	idk_nd_kandidata.id_broj_nd_kandidata n=12764 ok=12761	DIPL-ID-Raum (HANDOVER §5)
+idk_ponovne_prijave	employee_pp	FK	idk_employees.employee_id	12764	0	12764	0	1.0000	143	511	belegt	idk_employees.employee_id: 12764/12764 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_ponovne_prijave	kampanja_pp	FK	idk_kampanje_dipl.kd_id	12764	1081	11683	0	1.0000	171	336	belegt	idk_kampanje_dipl.kd_id: 11683/11683 (100.0%)		Kommentar
+idk_pp_appointment_groups	papq_nalog_id	FK	idk_nalozi.nalog_id	92	1	91	0	1.0000	35	355	belegt	idk_nalozi.nalog_id: 91/91 (100.0%)		varchar(7) -> CAST
+idk_pp_appointment_hours	pah_employee_id	FK	idk_employees.employee_id	199	0	199	0	1.0000	8	528	belegt	idk_employees.employee_id: 199/199 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_pp_appointment_hours	pap_id	FK	idk_pp_appointments.pap_id	199	0	195	4	0.9799	103	352	wahrscheinlich	idk_pp_appointments.pap_id: 195/199 (98.0%)		Kommentar
+idk_pp_appointments	pap_nalog_id	FK	idk_nalozi.nalog_id	172	0	172	0	1.0000	36	355	belegt	idk_nalozi.nalog_id: 172/172 (100.0%)		Auftrag laut Name/Kommentar
+idk_pp_appointments	pap_group_id	FK	idk_pp_appointment_groups.ppaq_id	172	0	172	0	1.0000	91	164	belegt	idk_pp_appointment_groups.ppaq_id: 172/172 (100.0%)		varchar(7) -> CAST
+idk_pp_appointments_questions	papq_question_id	FK	idk_pp_questions.pqu_id	1230	0	1230	0	1.0000	278	603	belegt	idk_pp_questions.pqu_id: 1230/1230 (100.0%)		Name/Kommentar
+idk_pp_appointments_questions	papq_appointment_id	FK	idk_pp_appointments.pap_id	1230	0	1227	3	0.9976	136	347	belegt	idk_pp_appointments.pap_id: 1227/1230 (99.8%)		Name/Kommentar
+idk_pp_cand_appts	pca_appointment_id	FK	idk_pp_appointments.pap_id	6808	1	6801	6	0.9991	163	352	belegt	idk_pp_appointments.pap_id: 6801/6807 (99.9%)	idk_pp_appointments.pap_id n=6807 ok=6801	Name/Kommentar
+idk_pp_cand_appts	pca_kandidat_id	FK	idk_kandidati.kandidat_id	6808	0	6808	0	1.0000	5551	198797	belegt	idk_kandidati.kandidat_id: 6808/6808 (100.0%)	idk_kandidati.kandidat_id n=6808 ok=6808	Name/Kommentar
+idk_pp_cand_appts	pca_pah_id	FK	idk_pp_appointment_hours.pah_id	6808	3161	3647	0	1.0000	169	386	belegt	idk_pp_appointment_hours.pah_id: 3647/3647 (100.0%)		Name/Kommentar
+idk_pp_cand_required_documents	crd_cand_id	FK	idk_kandidati.kandidat_id	70	0	70	0	1.0000	40	163936	belegt	idk_kandidati.kandidat_id: 70/70 (100.0%)		Name/Kommentar
+idk_pp_cand_required_documents	crd_nalog_id	FK	idk_nalozi.nalog_id	70	0	70	0	1.0000	10	345	belegt	idk_nalozi.nalog_id: 70/70 (100.0%)		Auftrag laut Name/Kommentar
+idk_pp_cand_required_documents	crd_type_id	LOOKUP	idk_pp_document_types.doc_type_id	70	0	70	0	1.0000	8	18	belegt	idk_pp_document_types.doc_type_id: 70/70 (100.0%)		Kommentar
+idk_pp_cand_required_documents	crd_user_activated	FK	idk_employees.employee_id	70	0	70	0	1.0000	7	390	belegt	idk_employees.employee_id: 70/70 (100.0%) | idk_pp_users.pu_id: 30/70 (42.9%)		Benutzer CRM oder PP (Hypothesen)
+idk_pp_cand_required_documents	crd_user_archived	FK	idk_employees.employee_id	70	70	0	0		0		leer (nur NULL/0)	idk_employees.employee_id: 0/0 | idk_pp_users.pu_id: 0/0		Benutzer CRM oder PP (Hypothesen)
+idk_pp_cand_required_documents	crd_vi_id	FK	idk_pp_visa_incomplete.vi_id	70	0	70	0	1.0000	46	116	belegt	idk_pp_visa_incomplete.vi_id: 70/70 (100.0%)		Kommentar
+idk_pp_city	pc_region	LOOKUP	idk_pp_regions.pr_id	55	0	55	0	1.0000	16	46	belegt	idk_pp_regions.pr_id: 55/55 (100.0%)		Kommentar
+idk_pp_contract_sent	cs_kandidat_id	FK	idk_kandidati.kandidat_id	3	0	3	0	1.0000	3	195731	belegt	idk_kandidati.kandidat_id: 3/3 (100.0%)		Name/Kommentar
+idk_pp_contract_sent	cs_nalog_id	FK	idk_nalozi.nalog_id	3	0	3	0	1.0000	3	351	belegt	idk_nalozi.nalog_id: 3/3 (100.0%)		Auftrag laut Name/Kommentar
+idk_pp_contract_sent	cs_partner_id	FK	idk_pp_partners.ppa_id	3	0	3	0	1.0000	3	104	belegt	idk_pp_partners.ppa_id: 3/3 (100.0%) | idk_jobstep_partners.jp_id: 2/3 (66.7%)		Kommentar: Partner aus idk_kandidati (= kandidat_ppa_partner_id?)
+idk_pp_contract_sent	cs_entry_pua_id	FK	idk_pp_user_access.pua_id	3	0	3	0	1.0000	3	2989	belegt	idk_pp_user_access.pua_id: 3/3 (100.0%)		Kommentar
+idk_pp_contract_sent	cs_entry_employee_id	FK	idk_employees.employee_id	3	3	0	0		0		leer (nur NULL/0)	idk_employees.employee_id: 0/0		Mitarbeiter laut Name/Kommentar
+idk_pp_contract_sent	cs_received_employee_id	FK	idk_employees.employee_id	3	3	0	0		0		leer (nur NULL/0)	idk_employees.employee_id: 0/0		Mitarbeiter laut Name/Kommentar
+idk_pp_contract_sent	cs_archived_employee_id	FK	idk_employees.employee_id	3	3	0	0		0		leer (nur NULL/0)	idk_employees.employee_id: 0/0		Mitarbeiter laut Name/Kommentar
+idk_pp_document_types	doc_type_entered_user	FK	idk_employees.employee_id	10	0	10	0	1.0000	3	390	belegt	idk_employees.employee_id: 10/10 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_pp_documents	doc_candidate_id	FK	idk_kandidati.kandidat_id	2418	0	2418	0	1.0000	574	198391	belegt	idk_kandidati.kandidat_id: 2418/2418 (100.0%)	idk_kandidati.kandidat_id n=2418 ok=2418	Name/Kommentar
+idk_pp_documents	doc_nalog_id	FK	idk_nalozi.nalog_id	2418	0	2418	0	1.0000	23	353	belegt	idk_nalozi.nalog_id: 2418/2418 (100.0%)		Auftrag laut Name/Kommentar
+idk_pp_documents	doc_partner_id	FK	idk_pp_partners.ppa_id	2418	4	2414	0	1.0000	35	106	belegt	idk_pp_partners.ppa_id: 2414/2414 (100.0%) | idk_jobstep_partners.jp_id: 2046/2414 (84.8%)		Partner-Portal-Partner (Arbeitgeber), Hypothese gegen Makler geprüft
+idk_pp_documents	doc_nrd_id	FK	idk_pp_nalog_required_documents.nrd_id	2418	69	2349	0	1.0000	101	333	belegt	idk_pp_nalog_required_documents.nrd_id: 2349/2349 (100.0%)		Kommentar
+idk_pp_documents	doc_crd_id	FK	idk_pp_cand_required_documents.crd_id	2418	2349	69	0	1.0000	67	163	belegt	idk_pp_cand_required_documents.crd_id: 69/69 (100.0%)		Kommentar
+idk_pp_documents	doc_status	LOOKUP	idk_pp_documents_statuses.ds_id	2418	0	2418	0	1.0000	7	27	belegt	idk_pp_documents_statuses.ds_id: 2418/2418 (100.0%)		Kommentar
+idk_pp_documents_status_logs	dsl_doc_id	FK	idk_pp_documents.doc_id	14602	0	14555	47	0.9968	2436	5819	belegt	idk_pp_documents.doc_id: 14555/14602 (99.7%)	idk_pp_documents.doc_id n=14602 ok=14555	PK-Teil
+idk_pp_documents_status_logs	dsl_doc_status	LOOKUP	idk_pp_documents_statuses.ds_id	14602	0	14602	0	1.0000	9	27	belegt	idk_pp_documents_statuses.ds_id: 14602/14602 (100.0%)		PK-Teil
+idk_pp_documents_status_logs	dsl_user_id	FK	idk_employees.employee_id	14602	700	13902	0	1.0000	29	518	belegt	idk_employees.employee_id: 13902/13902 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_pp_documents_status_logs	dsl_pp_user_id	FK	idk_pp_users.pu_id	14602	13902	700	0	1.0000	17	316	belegt	idk_pp_users.pu_id: 700/700 (100.0%)		Kommentar
+idk_pp_nalog_profil	pnp_nalog_id	FK	idk_nalozi.nalog_id	13	0	13	0	1.0000	3	298	belegt	idk_nalozi.nalog_id: 13/13 (100.0%)		Auftrag laut Name/Kommentar
+idk_pp_nalog_profil	pnp_info_id	LOOKUP	idk_pp_informacije_profil.pip_id	13	0	13	0	1.0000	5	25	belegt	idk_pp_informacije_profil.pip_id: 13/13 (100.0%)		Kommentar
+idk_pp_nalog_required_documents	nrd_nalog_id	FK	idk_nalozi.nalog_id	142	0	142	0	1.0000	28	353	belegt	idk_nalozi.nalog_id: 142/142 (100.0%)		Auftrag laut Name/Kommentar
+idk_pp_nalog_required_documents	nrd_type_id	LOOKUP	idk_pp_document_types.doc_type_id	142	0	142	0	1.0000	10	20	belegt	idk_pp_document_types.doc_type_id: 142/142 (100.0%)		Kommentar
+idk_pp_nalog_required_documents	nrd_user_activated	FK	idk_employees.employee_id	142	0	142	0	1.0000	13	493	belegt	idk_employees.employee_id: 142/142 (100.0%) | idk_pp_users.pu_id: 16/142 (11.3%)		Benutzer CRM oder PP (Hypothesen)
+idk_pp_nalog_required_documents	nrd_user_archived	FK	idk_employees.employee_id	142	124	18	0	1.0000	5	390	belegt	idk_employees.employee_id: 18/18 (100.0%) | idk_pp_users.pu_id: 6/18 (33.3%)		Benutzer CRM oder PP (Hypothesen)
+idk_pp_partners	ppa_nalog_id	FK	idk_nalozi.nalog_id	58	0	58	0	1.0000	40	355	belegt	idk_nalozi.nalog_id: 58/58 (100.0%)	idk_nalozi.nalog_id n=58 ok=58	Auftrag laut Name/Kommentar
+idk_pp_partners	ppa_company_id	FK	idk_companies.company_id	58	0	58	0	1.0000	39	1434	belegt	idk_companies.company_id: 58/58 (100.0%)	idk_companies.company_id n=58 ok=58	Firma laut Name/Kommentar
+idk_pp_question_options	pqo_question_id	FK	idk_pp_questions.pqu_id	17	0	17	0	1.0000	5	603	belegt	idk_pp_questions.pqu_id: 17/17 (100.0%)		Kommentar
+idk_pp_questions	pqu_nalog_id	FK	idk_nalozi.nalog_id	282	0	282	0	1.0000	30	352	belegt	idk_nalozi.nalog_id: 282/282 (100.0%)		Auftrag laut Name/Kommentar
+idk_pp_questions	pqu_user_id	FK	idk_employees.employee_id	282	243	39	0	1.0000	3	390	belegt	idk_employees.employee_id: 39/39 (100.0%) | idk_pp_users.pu_id: 0/39 (0.0%)		Benutzer CRM oder PP (Hypothesen)
+idk_pp_questions	pqu_category_id	LOOKUP	idk_pp_question_categories.pqc_id	282	98	184	0	1.0000	15	23	belegt	idk_pp_question_categories.pqc_id: 184/184 (100.0%)		Kommentar
+idk_pp_ratings	pra_options_value	FK	idk_pp_question_options.pqo_id	27221	25841	1380	0	1.0000	6	6	belegt	idk_pp_question_options.pqo_id: 1380/1380 (100.0%) | idk_pp_question_options.pqo_value: 1380/1380 (100.0%)		Hypothesen; mehrere Ziele >= 90 % (ID-Räume überlappen, Zuordnung nach Name/Kommentar)
+idk_pp_ratings	pra_appointment_question_id	FK	idk_pp_appointments_questions.papq_id	27221	0	27221	0	1.0000	1022	3241	belegt	idk_pp_appointments_questions.papq_id: 27221/27221 (100.0%)		Name/Kommentar
+idk_pp_ratings	pra_kandidat_id	FK	idk_kandidati.kandidat_id	27221	0	27221	0	1.0000	2541	197507	belegt	idk_kandidati.kandidat_id: 27221/27221 (100.0%)		Name/Kommentar
+idk_pp_reminder_documents	prd_prs_id	FK	idk_pp_reminder_settings.prs_id	382	0	382	0	1.0000	84	1272	belegt	idk_pp_reminder_settings.prs_id: 382/382 (100.0%)		Name/Kommentar
+idk_pp_reminder_documents	prd_nrd_id	FK	idk_pp_nalog_required_documents.nrd_id	382	0	382	0	1.0000	85	327	belegt	idk_pp_nalog_required_documents.nrd_id: 382/382 (100.0%)		Name/Kommentar
+idk_pp_reminder_documents	prd_crd_id	FK	idk_pp_cand_required_documents.crd_id	382	382	0	0		0		leer (nur NULL/0)	idk_pp_cand_required_documents.crd_id: 0/0		Name/Kommentar
+idk_pp_reminder_settings	prs_nalog_id	FK	idk_nalozi.nalog_id	460	0	460	0	1.0000	24	353	belegt	idk_nalozi.nalog_id: 460/460 (100.0%)		Auftrag laut Name/Kommentar
+idk_pp_reminder_settings	prs_partner_id	FK	idk_pp_partners.ppa_id	460	103	329	28	0.9216	37	1423	wahrscheinlich	idk_pp_partners.ppa_id: 329/357 (92.2%) | idk_jobstep_partners.jp_id: 291/357 (81.5%)		Partner-Portal-Partner (Arbeitgeber), Hypothese gegen Makler geprüft
+idk_pp_reminder_settings	prs_reminder_type_id	LOOKUP	idk_pp_reminder_types.prt_id	460	0	460	0	1.0000	19	19	belegt	idk_pp_reminder_types.prt_id: 460/460 (100.0%)		Name
+idk_pp_reminder_settings	prs_pua_ids	LISTE	idk_pp_user_access.pua_id	460							nicht gemessen (ID-Liste)			Liste
+idk_pp_reminder_settings	prs_controlling_pua_ids	LISTE	idk_pp_user_access.pua_id	460							nicht gemessen (ID-Liste)			Liste (Kommentar)
+idk_pp_reminder_settings	prs_employee_ids	LISTE	idk_employees.employee_id	460							nicht gemessen (ID-Liste)			Liste
+idk_pp_reminder_settings	prs_controlling_employee_ids	LISTE	idk_employees.employee_id	460							nicht gemessen (ID-Liste)			Liste (Kommentar)
+idk_pp_reminders	pr_reminder_setting_id	FK	idk_pp_reminder_settings.prs_id	22348	6341	16007	0	1.0000	149	1310	belegt	idk_pp_reminder_settings.prs_id: 16007/16007 (100.0%)		Name/Kommentar
+idk_pp_reminders	pr_reminder_document_id	FK	idk_pp_reminder_documents.prd_id	22348	16007	6341	0	1.0000	120	1111	belegt	idk_pp_reminder_documents.prd_id: 6341/6341 (100.0%)		Name/Kommentar
+idk_pp_reminders	pr_candidate_id	FK	idk_kandidati.kandidat_id	22348	0	22348	0	1.0000	1025	198391	belegt	idk_kandidati.kandidat_id: 22348/22348 (100.0%)	idk_kandidati.kandidat_id n=22348 ok=22348	Name/Kommentar
+idk_pp_reminders	pr_user_assigned	FK	idk_pp_user_access.pua_id	22348	20204	1651	493	0.7701	73	2861	schwach	idk_pp_users.pu_id: 572/2144 (26.7%) | idk_pp_user_access.pua_id: 1651/2144 (77.0%) | idk_employees.employee_id: 1446/2144 (67.4%)		zugewiesener PP-Benutzer (Hypothesen)
+idk_pp_reminders	pr_done_by_crm_employee	FK	idk_employees.employee_id	22348	22130	218	0	1.0000	24	518	belegt	idk_employees.employee_id: 218/218 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_pp_user_access	pua_partner_id	FK	idk_pp_partners.ppa_id	1416	596	819	1	0.9988	55	888	belegt	idk_pp_partners.ppa_id: 819/820 (99.9%) | idk_jobstep_partners.jp_id: 654/820 (79.8%)		Partner-Portal-Partner (Arbeitgeber), Hypothese gegen Makler geprüft
+idk_pp_user_access	pua_nalog_id	FK	idk_nalozi.nalog_id	1416	0	1414	2	0.9986	44	400	belegt	idk_nalozi.nalog_id: 1414/1416 (99.9%)		Auftrag laut Name/Kommentar
+idk_pp_user_access	pua_user_id	FK	idk_pp_users.pu_id	1416	0	1410	6	0.9958	171	999	belegt	idk_pp_users.pu_id: 1410/1416 (99.6%)		Kommentar
+idk_pp_user_access	pua_permission_id	LOOKUP	idk_pp_permissions.ppe_id	1416	1	1415	0	1.0000	2	2	belegt	idk_pp_permissions.ppe_id: 1415/1415 (100.0%)		Kommentar
+idk_pp_users	pu_company_id	FK	idk_companies.company_id	175	0	175	0	1.0000	36	1434	belegt	idk_companies.company_id: 175/175 (100.0%)		Firma laut Name/Kommentar
+idk_pp_visa_incomplete	vi_cand_id	FK	idk_kandidati.kandidat_id	49	0	49	0	1.0000	43	163936	belegt	idk_kandidati.kandidat_id: 49/49 (100.0%)		Name/Kommentar
+idk_pp_visa_incomplete	vi_nalog_id	FK	idk_nalozi.nalog_id	49	0	49	0	1.0000	11	345	belegt	idk_nalozi.nalog_id: 49/49 (100.0%)		Auftrag laut Name/Kommentar
+idk_pp_visa_incomplete	vi_pp_partner_id	FK	idk_pp_partners.ppa_id	49	0	49	0	1.0000	13	97	belegt	idk_pp_partners.ppa_id: 49/49 (100.0%) | idk_jobstep_partners.jp_id: 41/49 (83.7%)		Partner-Portal-Partner (Arbeitgeber), Hypothese gegen Makler geprüft
+idk_predracuni	pr_kandidat_id	FK	idk_nd_kandidata.id_broj_nd_kandidata	10701	0	10701	0	1.0000	5089	127081	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 10701/10701 (100.0%) | idk_kandidati.kandidat_id: 8323/10701 (77.8%)	idk_nd_kandidata.id_broj_nd_kandidata n=10701 ok=10701; idk_kandidati.kandidat_id n=10701 ok=8323	DIPL-ID-Raum (HANDOVER §5)
+idk_predracuni	pr_zaposlenik	FK	idk_employees.employee_id	10701	2	10699	0	1.0000	139	451	belegt	idk_employees.employee_id: 10699/10699 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_predracuni	pr_inkaso_agent	FK	idk_employees.employee_id	10701	10684	17	0	1.0000	6	200	belegt	idk_employees.employee_id: 17/17 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_profil_kriterij	profil_id	FK	idk_nalog_profil.id	83	0	83	0	1.0000	83	83	belegt	idk_nalog_profil.id: 83/83 (100.0%) | idk_pp_informacije_profil.pip_id: 9/83 (10.8%)		Hypothesen
+idk_project_candidate_queue	queue_project_id	FK	idk_projects.project_id	1691	0	1656	35	0.9793	54	4635	wahrscheinlich	idk_projects.project_id: 1656/1691 (97.9%)		varchar(7) -> CAST
+idk_project_candidate_queue	queue_candidate_id	FK	idk_kandidati.kandidat_id	1691	0	1691	0	1.0000	1202	198206	belegt	idk_kandidati.kandidat_id: 1691/1691 (100.0%)		varchar(7) -> CAST
+idk_project_candidate_queue	queue_partner_id	FK	idk_jobstep_partners.jp_id	1691	1691	0	0		0		leer (nur NULL/0)	idk_jobstep_partners.jp_id: 0/0		JobStep-Partner (Makler) laut Name/Kommentar
+idk_project_kandidati	pk_projectid	FK	idk_projects.project_id	207679	37	207639	3	1.0000	958	4691	belegt	idk_projects.project_id: 207639/207642 (100.0%)	idk_projects.project_id n=207642 ok=207639	Projekt laut Name
+idk_project_kandidati	pk_kandidatid	FK	idk_kandidati.kandidat_id	207679	2509	205111	59	0.9997	113960	198810	belegt	idk_kandidati.kandidat_id: 205111/205170 (100.0%)	idk_kandidati.kandidat_id n=205170 ok=205111	Name/Kommentar
+idk_projects	project_companyid	FK	idk_companies.company_id	2740	0	2740	0	1.0000	109	1434	belegt	idk_companies.company_id: 2740/2740 (100.0%)	idk_companies.company_id n=2740 ok=2740	Firma laut Name/Kommentar
+idk_projects	project_employeeid	FK	idk_employees.employee_id	2740	0	2740	0	1.0000	42	535	belegt	idk_employees.employee_id: 2740/2740 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_projects	project_pmanagerid	FK	idk_employees.employee_id	2740	278	2462	0	1.0000	41	535	belegt	idk_employees.employee_id: 2462/2462 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_projects	project_nalogid	FK	idk_nalozi.nalog_id	2740	67	2657	16	0.9940	231	356	belegt	idk_nalozi.nalog_id: 2657/2673 (99.4%)		varchar(25) -> CAST
+idk_projects_tasks	pt_projectid	FK	idk_projects.project_id	169	0	169	0	1.0000	30	656	belegt	idk_projects.project_id: 169/169 (100.0%)		Projekt laut Name
+idk_projects_tasks	pt_employeeid	FK	idk_employees.employee_id	169	21	148	0	1.0000	11	49	belegt	idk_employees.employee_id: 148/148 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_pushnotifications	pushnot_nalogid	FK	idk_nalozi.nalog_id	22	0	22	0	1.0000	7	184	belegt	idk_nalozi.nalog_id: 22/22 (100.0%)		Auftrag laut Name/Kommentar
+idk_pushnotifications	pushnot_employeeid	FK	idk_employees.employee_id	22	0	22	0	1.0000	5	88	belegt	idk_employees.employee_id: 22/22 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_racuni	predracun_id	FK	idk_predracuni.pr_id	4509	689	3820	0	1.0000	3811	19889	belegt	idk_predracuni.pr_id: 3820/3820 (100.0%)	idk_predracuni.pr_id n=3820 ok=3820	varchar(11) -> CAST
+idk_racuni	racun_kandidat_id	FK	idk_nd_kandidata.id_broj_nd_kandidata	4509	0	4509	0	1.0000	1885	126971	belegt	idk_nd_kandidata.id_broj_nd_kandidata: 4509/4509 (100.0%) | idk_kandidati.kandidat_id: 3172/4509 (70.3%)	idk_nd_kandidata.id_broj_nd_kandidata n=4509 ok=4509; idk_kandidati.kandidat_id n=4509 ok=3172	DIPL-ID-Raum (HANDOVER §5)
+idk_reject_reasons	rr_user_id	FK	idk_employees.employee_id	8	0	8	0	1.0000	2	222	belegt	idk_employees.employee_id: 8/8 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_reminders	reminder_candidate_id	POLY	idk_nd_kandidata.id_broj_nd_kandidata,idk_kandidati.kandidat_id	16009							je Gruppe (poly_results.tsv)	g=1: n=15949 D=15948 K=9760 | g=2: n=60 D=60 K=40	idk_kandidati.kandidat_id n=16009 ok=9800; idk_nd_kandidata.id_broj_nd_kandidata n=16009 ok=16008	gruppiert nach reminder_type; 1 = Obrada dipl, 2 = odbijeni ugovori
+idk_reminders	reminder_employee	FK	idk_employees.employee_id	16009	1	16008	0	1.0000	39	484	belegt	idk_employees.employee_id: 16008/16008 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_reminders	reminder_foreign_key	POLY	idk_nd_kandidata_biljeske.id_biljeska_nd,idk_nd_ugovori.ug_id	16009							je Gruppe (poly_results.tsv)	g=1: n=15949 biljeske=15948 (davon gleicher DIPL-Kandidat 15948) nd_ugovori=0 | g=2: n=60 biljeske=60 nd_ugovori=60 (davon gleicher DIPL-Kandidat 60)		gruppiert nach reminder_type; Kommentar: Typ 1 -> Biljeska-ID
+idk_ro_usluge	odobrio_ro	FK	idk_employees.employee_id	389	0	389	0	1.0000	6	173	belegt	idk_employees.employee_id: 389/389 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_ro_usluge	dodao_ro	FK	idk_employees.employee_id	389	3	386	0	1.0000	39	173	belegt	idk_employees.employee_id: 386/386 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_sales_reminders	sr_employee_id	FK	idk_employees.employee_id	1	0	1	0	1.0000	1	402	belegt	idk_employees.employee_id: 1/1 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_sales_reminders	sr_client_id	FK	idk_clients.client_id	1	0	1	0	1.0000	1	580	belegt	idk_clients.client_id: 1/1 (100.0%)		Name/Kommentar
+idk_skladiste	skl_branch	LOOKUP	idk_poslovnice.branch_id	305	0	305	0	1.0000	9	18	belegt	idk_poslovnice.branch_id: 305/305 (100.0%)		Name
+idk_skladiste	skl_kategorija	LOOKUP	idk_skladiste_kategorije.isk_id	305	14	291	0	1.0000	19	19	belegt	idk_skladiste_kategorije.isk_id: 291/291 (100.0%)		Name
+idk_skladiste_product	isp_skl_id	FK	idk_skladiste.skl_id	471	0	470	1	0.9979	276	343	belegt	idk_skladiste.skl_id: 470/471 (99.8%)		Name/Kommentar
+idk_skladiste_zaposlenici	isz_sklid	FK	idk_skladiste.skl_id	296	0	295	1	0.9966	176	343	belegt	idk_skladiste.skl_id: 295/296 (99.7%)		Name/Kommentar
+idk_skladiste_zaposlenici	sz_employeeid	FK	idk_employees.employee_id	296	0	296	0	1.0000	81	447	belegt	idk_employees.employee_id: 296/296 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_skladiste_zaposlenici	sz_branch	LOOKUP	idk_poslovnice.branch_id	296	296	0	0		0	0	leer (nur NULL/0)	idk_poslovnice.branch_id: 0/0		Name
+idk_skladiste_zaposlenici	isz_product_id	FK	idk_skladiste_product.isp_id	296	0	296	0	1.0000	295	559	belegt	idk_skladiste_product.isp_id: 296/296 (100.0%)		Name/Kommentar
+idk_skole_smjerovi	ss_skola_id	FK	idk_skole.skola_id	1848	0	1848	0	1.0000	361	549	belegt	idk_skole.skola_id: 1848/1848 (100.0%)		Name/Kommentar
+idk_skole_smjerovi	ss_struka_id	LOOKUP	idk_struke.id_struke	1848	1582	266	0	1.0000	7	9	belegt	idk_struke.id_struke: 266/266 (100.0%)		Name
+idk_task_force	tf_candidate_id	FK	idk_kandidati.kandidat_id	452568	0	452565	3	1.0000	52297	198804	belegt	idk_kandidati.kandidat_id: 452565/452568 (100.0%)	idk_kandidati.kandidat_id n=452568 ok=452565	Name/Kommentar
+idk_task_force	tf_agent_id	FK	idk_employees.employee_id	452568	5543	447025	0	1.0000	61	534	belegt	idk_employees.employee_id: 447025/447025 (100.0%)	idk_employees.employee_id n=447025 ok=447025	Mitarbeiter laut Name/Kommentar
+idk_task_force	tf_nalog_id	FK	idk_nalozi.nalog_id	452568	4275	448293	0	1.0000	35	355	belegt	idk_nalozi.nalog_id: 448293/448293 (100.0%)	idk_nalozi.nalog_id n=448293 ok=448293	Auftrag laut Name/Kommentar
+idk_task_force	tf_project_id	FK	idk_projects.project_id	452568	4285	448283	0	1.0000	190	4687	belegt	idk_projects.project_id: 448283/448283 (100.0%)	idk_projects.project_id n=448283 ok=448283	Projekt laut Name
+idk_task_force	tf_casting_id	FK	idk_pp_appointment_groups.ppaq_id	452568	327439	125119	10	0.9999	78	164	belegt	idk_pp_appointment_groups.ppaq_id: 125119/125129 (100.0%)		Kommentar: ID iz grupe termina
+idk_task_force	tf_status_id	LOOKUP	idk_tf_statusi.tfs_id	452568	0	452568	0	1.0000	106	148	belegt	idk_tf_statusi.tfs_id: 452568/452568 (100.0%)	idk_tf_statusi.tfs_id n=452568 ok=452568	Name
+idk_task_force	tf_vrsta_id	LOOKUP	idk_tf_vrste.id	452568	0	452568	0	1.0000	27	33	belegt	idk_tf_vrste.id: 452568/452568 (100.0%)	idk_tf_vrste.id n=452568 ok=452568	Kommentar
+idk_tasks	task_assignedid	FK	idk_employees.employee_id	873	0	873	0	1.0000	19	402	belegt	idk_employees.employee_id: 873/873 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_tasks	task_dataid	POLY	idk_kandidati.kandidat_id,idk_companies.company_id,idk_contacts.contact_id,idk_nalozi.nalog_id,idk_projects.project_id,idk_employees.employee_id,idk_clients.client_id,idk_nd_kandidata.id_broj_nd_kandidata,idk_tasks.task_id,users.id	873							je Gruppe (poly_results.tsv)	g=2: n=13 K=13 C=13 CT=13 N=3 P=13 E=13 CL=13 D=13 U=13 | g=3: n=854 K=844 C=854 CT=829 N=455 P=737 E=616 CL=602 D=843 U=766 | g=1: n=6 K=6 C=6 CT=6 N=4 P=4 E=6 CL=6 D=6 U=6		gruppiert nach task_group; Gruppen undokumentiert
+idk_tasks	task_employeeid	FK	idk_employees.employee_id	873	0	873	0	1.0000	14	390	belegt	idk_employees.employee_id: 873/873 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_tf_agent_nalog	tfan_nalog	FK	idk_nalozi.nalog_id	23	19	4	0	1.0000	2	355	belegt	idk_nalozi.nalog_id: 4/4 (100.0%)		Auftrag laut Name/Kommentar
+idk_tf_agent_nalog	tfan_agent	FK	idk_employees.employee_id	23	0	23	0	1.0000	7	530	belegt	idk_employees.employee_id: 23/23 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_tf_agent_nalog	tfan_vrsta_id	LOOKUP	idk_tf_vrste.id	23	0	23	0	1.0000	14	26	belegt	idk_tf_vrste.id: 23/23 (100.0%)		Kommentar
+idk_tf_reservations	tf_kandidat_id	FK	idk_kandidati.kandidat_id	0	0	0	0				Tabelle leer	idk_kandidati.kandidat_id: 0/0		Name/Kommentar
+idk_tf_reservations	tf_agent_id	FK	idk_employees.employee_id	0	0	0	0				Tabelle leer	idk_employees.employee_id: 0/0		Mitarbeiter laut Name/Kommentar
+idk_tf_reservations	tf_projekt_id	FK	idk_projects.project_id	0	0	0	0				Tabelle leer	idk_projects.project_id: 0/0		Projekt laut Name
+idk_tf_reservations	tf_nalog_id	FK	idk_nalozi.nalog_id	0	0	0	0				Tabelle leer	idk_nalozi.nalog_id: 0/0		Auftrag laut Name/Kommentar
+idk_tf_reservations	tf_vrsta_id	LOOKUP	idk_tf_vrste.id	0	0	0	0				Tabelle leer	idk_tf_vrste.id: 0/0		Kommentar
+idk_tf_reservations	tf_dipl_id	FK	idk_nd_kandidata.id_broj_nd_kandidata	0	0	0	0				Tabelle leer	idk_nd_kandidata.id_broj_nd_kandidata: 0/0		DIPL-ID-Raum (HANDOVER §5)
+idk_tf_stats_reservations	tsr_candidate_id	FK	idk_kandidati.kandidat_id	3852	0	3852	0	1.0000	3271	198797	belegt	idk_kandidati.kandidat_id: 3852/3852 (100.0%)		Name/Kommentar
+idk_tf_stats_reservations	tsr_agent_id	FK	idk_employees.employee_id	3852	1	3851	0	1.0000	44	534	belegt	idk_employees.employee_id: 3851/3851 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_tf_stats_reservations	tsr_interview_id	FK	idk_pp_appointment_groups.ppaq_id	3852	21	3828	3	0.9992	66	164	belegt	idk_pp_appointment_groups.ppaq_id: 3828/3831 (99.9%)	idk_pp_appointment_groups.ppaq_id n=3831 ok=3828	Kommentar: ID grupe castinga
+idk_tf_stats_reservations	tsr_nalog_id	FK	idk_nalozi.nalog_id	3852	0	3852	0	1.0000	24	355	belegt	idk_nalozi.nalog_id: 3852/3852 (100.0%)		Auftrag laut Name/Kommentar
+idk_tf_stats_reservations	tsr_link_id	FK	idk_link_generator.lg_id	3852	0	3852	0	1.0000	498	2418	belegt	idk_link_generator.lg_id: 3852/3852 (100.0%)		Kommentar
+idk_tf_statusi	tfs_status_prijave	LOOKUP	idk_kandidat_status_prijave.status_id	136	133	3	0	1.0000	2	3	belegt	idk_kandidat_status_prijave.status_id: 3/3 (100.0%)		Kommentar
+idk_tf_statusi	tfs_vrsta_id	LOOKUP	idk_tf_vrste.id	136	0	136	0	1.0000	28	33	belegt	idk_tf_vrste.id: 136/136 (100.0%)		Kommentar
+idk_tf_transfered_candidates_logs	tcl_destination_project_id	FK	idk_projects.project_id	725	0	725	0	1.0000	24	4687	belegt	idk_projects.project_id: 725/725 (100.0%)		Projekt laut Name
+idk_tf_transfered_candidates_logs	tcl_employee_id	FK	idk_employees.employee_id	725	0	725	0	1.0000	8	528	belegt	idk_employees.employee_id: 725/725 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_ticketi	ticket_posiljaoc	FK	idk_employees.employee_id	252	0	252	0	1.0000	51	242	belegt	idk_employees.employee_id: 252/252 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_ticketi	ticket_primatelj	FK	idk_employees.employee_id	252	3	249	0	1.0000	29	233	belegt	idk_employees.employee_id: 249/249 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_ticketi_komentari	ticket_k_id_tiketa	FK	idk_ticketi.ticket_id	213	0	213	0	1.0000	140	435	belegt	idk_ticketi.ticket_id: 213/213 (100.0%)		Name/Kommentar
+idk_ticketi_komentari	ticket_k_posiljaoc	FK	idk_employees.employee_id	213	0	213	0	1.0000	27	234	belegt	idk_employees.employee_id: 213/213 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_timeline	timeline_dataid	POLY	idk_kandidati.kandidat_id,idk_companies.company_id,idk_contacts.contact_id,idk_nalozi.nalog_id,idk_projects.project_id,idk_employees.employee_id,idk_clients.client_id,idk_nd_kandidata.id_broj_nd_kandidata,idk_tasks.task_id,users.id	1051							je Gruppe (poly_results.tsv)	g=2: n=1046 K=1038 C=1046 CT=514 N=142 P=1000 E=242 CL=377 D=1044 U=952 | g=1: n=5 K=5 C=5 CT=5 N=1 P=4 E=4 CL=4 D=5 U=5		gruppiert nach timeline_group; Gruppen undokumentiert
+idk_timeline	timeline_employeeid	FK	idk_employees.employee_id	1051	0	1051	0	1.0000	23	526	belegt	idk_employees.employee_id: 1051/1051 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_tipovi_provizija	tp_tim	LOOKUP	idk_timovi.id_t	11	1	10	0	1.0000	4	4	belegt	idk_timovi.id_t: 10/10 (100.0%)		Kommentar (0 = alle Teams)
+idk_tutorijali	tutorijal_kategorija_id	LOOKUP	idk_kategorije.kategorija_id	13	0	13	0	1.0000	4	20	belegt	idk_kategorije.kategorija_id: 13/13 (100.0%)		deklarierter FK
+idk_validnosti_inputa	vi_razlog_id	LOOKUP	idk_razlozi_odbijanja.ro_id	82280	79113	3167	0	1.0000	24	24	belegt	idk_razlozi_odbijanja.ro_id: 3167/3167 (100.0%)		Hypothese
+idk_validnosti_inputa	vi_kandidat_id	FK	idk_kandidati.kandidat_id	82280	3	82264	13	0.9998	6247	194552	belegt	idk_kandidati.kandidat_id: 82264/82277 (100.0%)	idk_kandidati.kandidat_id n=82277 ok=82264	Name/Kommentar
+idk_validnosti_inputa	vi_employee_id	FK	idk_employees.employee_id	82280	3	82277	0	1.0000	87	534	belegt	idk_employees.employee_id: 82277/82277 (100.0%)		Mitarbeiter laut Name/Kommentar
+idk_validnosti_inputa	vi_podatak_id	POLY	idk_kandidati.kandidat_id,idk_kandidat_jezici.kj_id,idk_kandidat_edukacija.ke_id,idk_kandidat_radno_iskustvo.kri_id	26160							je Gruppe (poly_results.tsv)	g=obrazovanje: n=7417 kj=0 ke(gleicher Kandidat)=7407 kri=2 leer=2 | g=iskustvo: n=15629 kj=0 ke=2 kri(gleicher Kandidat)=15618 leer=1 | g=dokument: n=3114 kj=44 ke=0 kri=0 leer=0 (Ziel offen) | g=blok_* (12 Werte) + leer: n=ca. 62.000 immer 0 = kein Datensatz-Bezug		gruppiert nach vi_vrsta_podatka; Datensatz je Datenart
+idk_viber_obavijesti	vo_nalogid	FK	idk_nalozi.nalog_id	3905	0	3905	0	1.0000	1	117	belegt	idk_nalozi.nalog_id: 3905/3905 (100.0%)		Auftrag laut Name/Kommentar
+idk_viber_obavijesti	vo_kandidati_id	FK	idk_kandidati.kandidat_id	3905	0	3905	0	1.0000	3905	11444	belegt	idk_kandidati.kandidat_id: 3905/3905 (100.0%)		Name/Kommentar
+mcp_aenderung	a_datensatz_id	POLY		0							nicht gemessen (Tabelle 0 Zeilen)			gruppiert nach a_tabelle; Tabelle leer (0 Zeilen)
+mcp_aenderung	a_kandidat_id	FK	idk_kandidati.kandidat_id	0	0	0	0				Tabelle leer	idk_kandidati.kandidat_id: 0/0		Name/Kommentar
+rb_approvals	consumed_by_request_id	FK	rb_requests.request_id	4							nicht gemessen (Fremdprojekt rb_*, 4 Zeilen)			Name (Fremdprojekt)
+rb_baselines	entity_id	POLY		1							nicht gemessen (Tabelle 1 Zeilen)			gruppiert nach entity_type; Fremdprojekt rb_*, 1 Zeile
+rb_entity_state	entity_id	POLY		1							nicht gemessen (Tabelle 1 Zeilen)			gruppiert nach entity_type; Fremdprojekt rb_*, PK-Teil
+rb_events	entity_id	POLY		2							nicht gemessen (Tabelle 2 Zeilen)			gruppiert nach entity_type; Fremdprojekt rb_*, 2 Zeilen
+rb_events	request_id	FK	rb_requests.request_id	2							nicht gemessen (Fremdprojekt rb_*, 2 Zeilen)			Name (Fremdprojekt)
+rb_events	source_event_id	FK	rb_events.event_id	2							nicht gemessen (Fremdprojekt rb_*, 2 Zeilen)			Name (Fremdprojekt)
+rb_field_state	entity_id	POLY		1							nicht gemessen (Tabelle 1 Zeilen)			gruppiert nach entity_type; Fremdprojekt rb_*, PK-Teil
+users	nalog_id	FK	idk_nalozi.nalog_id	111121	1217	109817	87	0.9992	119	355	belegt	idk_nalozi.nalog_id: 109817/109904 (99.9%)		Auftrag laut Name/Kommentar
+users	kandidat_id	FK	idk_kandidati.kandidat_id	111121	1	111111	9	0.9999	111120	198810	belegt	idk_kandidati.kandidat_id: 111111/111120 (100.0%)	idk_kandidati.kandidat_id n=111120 ok=111111	Name/Kommentar

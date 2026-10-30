@@ -1,0 +1,1810 @@
+tabelle	spalte	typ	klasse	ziele	grund
+beruf_mapping	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+beruf_mapping	freitext_wert	varchar(255)	TEXT		Freitext (varchar(255))
+beruf_mapping	berufsgruppe_id	varchar(100)	CODE		Berufsgruppen-Code (194 Werte), keine Stammtabelle
+beruf_mapping	confidence	decimal(3,2)	ZAHL		Betrag/Messwert
+beruf_mapping	quelle	varchar(20)	CODE		Herkunft der Zuordnung
+beruf_mapping	created_at	timestamp	DATUM		Datum/Zeit
+idk_agenti_activity	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_agenti_activity	employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_agenti_activity	activity_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_agenti_activity	activity_pocetak	datetime	DATUM		Datum/Zeit
+idk_agenti_activity	activity_kraj	datetime	DATUM		Datum/Zeit
+idk_agenti_activity	activity_ukupno	time	DATUM		Datum/Zeit
+idk_agenti_activity	activity_aktivan	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_analitika	analizika_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_analitika	analitika_rating	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_analitika	analitika_datum	datetime	DATUM		Datum/Zeit
+idk_api_clients	client_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_api_clients	client_name	varchar(525)	TEXT		Personen-/Freitextfeld laut Name
+idk_api_clients	client_token	varchar(525)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_appointment_invite_links	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_appointment_invite_links	candidate_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_appointment_invite_links	interview_id	int	FK	idk_pp_cand_appts.pca_id	Kommentar
+idk_appointment_invite_links	link_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_appointment_invite_links	date_sent	datetime	DATUM		Datum/Zeit
+idk_appointment_invite_links	date_open	datetime	DATUM		Datum/Zeit
+idk_appointment_invite_links	date_confirmed	datetime	DATUM		Datum/Zeit
+idk_appointment_invite_links	date_archived	datetime	DATUM		Datum/Zeit
+idk_appointment_invite_links	send_key	varchar(50)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_appointment_invite_links	sent_days_before	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_appointment_invite_links	counter_sent	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_bot_obavijesti	bo_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_bot_obavijesti	bo_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_bot_obavijesti	bo_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_bot_obavijesti	bo_poslana	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_bot_obavijesti	bo_odgovor	int	CODE		Kommentar: Antwort-Code
+idk_candidate_language_logs	cll_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_candidate_language_logs	cll_candidate_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_candidate_language_logs	cll_cvl_id	int	FK	idk_candidate_verified_languages.cvl_id,idk_kandidat_jezici.kj_id	Kommentar
+idk_candidate_language_logs	cll_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_candidate_language_logs	cll_date	datetime	DATUM		Datum/Zeit
+idk_candidate_language_logs	cll_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_candidate_language_logs	cll_days_count	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_candidate_verified_languages	cvl_id	int	FK	idk_kandidat_jezici.kj_id	PK = kj_id (1:1-Erweiterung)
+idk_candidate_verified_languages	cvl_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_candidate_verified_languages	cvl_active	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_candidate_verified_languages	cvl_course1_started	date	DATUM		Datum/Zeit
+idk_candidate_verified_languages	cvl_course1_ended	date	DATUM		Datum/Zeit
+idk_candidate_verified_languages	cvl_course2_started	date	DATUM		Datum/Zeit
+idk_candidate_verified_languages	cvl_course2_ended	date	DATUM		Datum/Zeit
+idk_candidate_verified_languages	cvl_motive_start	date	DATUM		Datum/Zeit
+idk_candidate_verified_languages	cvl_motive_end	date	DATUM		Datum/Zeit
+idk_candidate_verified_languages	cvl_exam_date	date	DATUM		Datum/Zeit
+idk_candidate_verified_languages	cvl_certificate_path	text	TEXT		Freitext/JSON
+idk_candidate_verified_languages	cvl_certificate_upload_date	datetime	DATUM		Datum/Zeit
+idk_candidate_verified_languages	cvl_certficate_creation_date	date	DATUM		Datum/Zeit
+idk_candidate_verified_languages	cvl_certificate_expiration_date	date	DATUM		Datum/Zeit
+idk_candidate_verified_languages	cvl_last_updated	datetime	DATUM		Datum/Zeit
+idk_chat_question	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_chat_question	type	text	LOOKUP	idk_chat_type.id	Kommentar (text) -> CAST
+idk_chat_question	question_order	int	ZAHL		Zahl/Menge laut Name
+idk_chat_question	question	text	TEXT		Freitext/JSON
+idk_chat_question	answer	text	TEXT		Freitext/JSON
+idk_chat_question	parentQuestion	int	FK	idk_chat_question.id	Kommentar
+idk_chat_question	deletedAt	datetime	DATUM		Datum/Zeit
+idk_chat_type	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_chat_type	name	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_clients	client_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_clients	client_name	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_clients	client_country	varchar(255)	CODE		Land
+idk_clients	client_region	varchar(100)	TEXT		Freitext (varchar(100))
+idk_clients	client_city	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_clients	client_address	varchar(250)	TEXT		Freitext (varchar(250))
+idk_clients	client_pp	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_clients	client_telephone	varchar(250)	PII		Personen-/Freitextfeld laut Name
+idk_clients	client_email	varchar(250)	PII		Personen-/Freitextfeld laut Name
+idk_clients	client_origin	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_clients	client_recommendation	int	FK	idk_clients.client_id,idk_jobstep_partners.jp_id,idk_contacts.contact_id	Empfehlung (Hypothesen)
+idk_clients	client_recommendation_company	int	FK	idk_companies.company_id	Firma laut Name/Kommentar
+idk_clients	client_fc_or_sales	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_clients	client_fc_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_clients	client_sales_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_clients	client_manager	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_clients	client_sales_manager	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_clients	client_datum_zvanja	date	DATUM		Datum/Zeit
+idk_clients	client_contract	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_clients	client_description	text	TEXT		Freitext/JSON
+idk_clients_stats	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_clients_stats	client_id	int	FK	idk_clients.client_id	Name/Kommentar
+idk_clients_stats	status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_clients_stats	fc_or_sales	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_clients_stats	date	datetime	DATUM		Datum/Zeit
+idk_clients_stats	zaposlenik_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_clients_stats	stats_desc	text	TEXT		Freitext/JSON
+idk_companies	company_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_companies	company_name	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_companies	company_type	varchar(50)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_companies	company_idnum	varchar(50)	PII		Firmen-Registernummer (Identifikator der Firma, kein Verweis)
+idk_companies	company_taxnum	varchar(50)	PII		Steuernummer
+idk_companies	company_ceo	int	FK	idk_contacts.contact_id	Kontakt (Hypothese)
+idk_companies	company_contact	int	FK	idk_contacts.contact_id	Kontakt (Hypothese)
+idk_companies	company_address	varchar(250)	TEXT		Freitext (varchar(250))
+idk_companies	company_zipcode	varchar(50)	ZAHL		PLZ
+idk_companies	company_city	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_companies	company_state	varchar(150)	TEXT		Freitext (varchar(150))
+idk_companies	company_country	varchar(150)	CODE		Land
+idk_companies	company_info	text	TEXT		Freitext/JSON
+idk_companies	company_inote	text	TEXT		Freitext/JSON
+idk_companies	company_logo	varchar(50)	TEXT		Personen-/Freitextfeld laut Name
+idk_companies	company_contact_type	varchar(150)	CODE		Kontaktart
+idk_companies	company_datetime	datetime	DATUM		Datum/Zeit
+idk_companies	company_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_companies	company_origin	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_companies	company_reccomendation	int	FK	idk_jobstep_partners.jp_id,idk_clients.client_id,idk_contacts.contact_id	Empfehlung (Hypothesen)
+idk_companies	company_size	varchar(255)	CODE		Größenklasse
+idk_companies	js_partner_id	int	FK	idk_jobstep_partners.jp_id	JobStep-Partner (Makler) laut Name/Kommentar
+idk_companies	company_message	text	TEXT		Freitext/JSON
+idk_companies	company_total_workers_required	int	ZAHL		Zahl/Menge laut Name
+idk_companies	company_professions	text	TEXT		Freitext/JSON
+idk_companies_info	comi_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_companies_info	comi_group	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_companies_info	comi_title	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_companies_info	comi_data	varchar(250)	TEXT		Freitext (varchar(250))
+idk_companies_info	comi_primary	int	CODE		Flag primär
+idk_companies_info	comi_companyid	int	FK	idk_companies.company_id	Firma laut Name/Kommentar
+idk_contacts	contact_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_contacts	contact_firstname	varchar(150)	TEXT		Freitext (varchar(150))
+idk_contacts	contact_lastname	varchar(150)	TEXT		Freitext (varchar(150))
+idk_contacts	contact_nickname	varchar(150)	TEXT		Freitext (varchar(150))
+idk_contacts	contact_dob	date	DATUM		Datum/Zeit
+idk_contacts	contact_address	varchar(250)	TEXT		Freitext (varchar(250))
+idk_contacts	contact_zipcode	int	ZAHL		PLZ
+idk_contacts	contact_city	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_contacts	contact_state	varchar(150)	TEXT		Freitext (varchar(150))
+idk_contacts	contact_country	varchar(150)	TEXT		Freitext (varchar(150))
+idk_contacts	contact_info	text	TEXT		Freitext/JSON
+idk_contacts	contact_inote	text	TEXT		Freitext/JSON
+idk_contacts	contact_image	varchar(250)	TEXT		Freitext (varchar(250))
+idk_contacts	contact_type	varchar(50)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_contacts	contact_companyid	int	FK	idk_companies.company_id	Firma laut Name/Kommentar
+idk_contacts	contact_clientid	int	FK	idk_clients.client_id	Name/Kommentar
+idk_contacts	contact_ownerid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_contacts	contact_datetime	datetime	DATUM		Datum/Zeit
+idk_contacts	contact_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_contacts	contact_job_title	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_contacts_info	ci_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_contacts_info	ci_group	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_contacts_info	ci_title	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_contacts_info	ci_data	varchar(250)	TEXT		Freitext (varchar(250))
+idk_contacts_info	ci_primary	int	CODE		Flag primär
+idk_contacts_info	ci_contactid	int	FK	idk_contacts.contact_id	Name/Kommentar
+idk_dak_kandidati	id_dak_kandidat	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_dak_kandidati	origin_dak_kandidat	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_dak_kandidati	tel_dak_kandidat	varchar(250)	PII		Personen-/Freitextfeld laut Name
+idk_dak_kandidati	hashedtel_idk_dak_kandidat	text	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_dak_kandidati	telconfirm_dak_kandidat	varchar(250)	PII		Personen-/Freitextfeld laut Name
+idk_dak_kandidati	pin_dak_kandidat	text	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_dak_kandidati	name_dak_kandidat	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_dak_kandidati	lastname_dak_kandidat	varchar(250)	TEXT		Freitext (varchar(250))
+idk_dak_kandidati	email_dak_kandidat	varchar(250)	PII		Personen-/Freitextfeld laut Name
+idk_dak_kandidati	contacttime_dak_kandidat	datetime	DATUM		Datum/Zeit
+idk_dak_kandidati	daypart_dak_kandidat	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_dak_kandidati	comment_dak_kandidat	text	TEXT		Freitext/JSON
+idk_dak_kandidati	passport_dak_kandidat	varchar(250)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_dak_kandidati	passporttime_dak_kandidat	datetime	DATUM		Datum/Zeit
+idk_dak_kandidati	contract_dak_kandidat	varchar(250)	TEXT		Freitext (varchar(250))
+idk_dak_kandidati	contracttime_dak_kandidat	datetime	DATUM		Datum/Zeit
+idk_dak_kandidati	status_dak_kandidat	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_dak_kandidati	tipunosa_dak_kandidat	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_dak_kandidati	datumunosa_dak_kandidat	datetime	DATUM		Datum/Zeit
+idk_dak_kandidati	datumobrade_dak_kandidat	datetime	DATUM		Datum/Zeit
+idk_dak_kandidati	datumslanja_dak_kandidat	datetime	DATUM		Datum/Zeit
+idk_dak_kandidati	pocetakrada_dak_kandidat	date	DATUM		Datum/Zeit
+idk_dak_kandidati	datumaktivacije_dak_kandidat	datetime	DATUM		Datum/Zeit
+idk_dak_kandidati	datumzavrsetka_dak_kandidat	datetime	DATUM		Datum/Zeit
+idk_dak_kandidati	datumstornoaktivacije_dak_kandidat	datetime	DATUM		Datum/Zeit
+idk_dak_kandidati	datumstornacije_dak_kandidat	datetime	DATUM		Datum/Zeit
+idk_dak_kandidati	company_dak_kandidat	int	FK	idk_companies.company_id	Name/Kommentar
+idk_dak_kandidati	nas_klijent_dak_kandidat	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_dak_kandidati	dipl_dak_kandidat	int	FK	idk_nd_kandidata.id_broj_nd_kandidata	Hypothese (evtl. Flag)
+idk_dak_kandidati	osiguranje_dak_kandidat	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_dak_kandidati	poslovnica_dak_kandidat	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_dak_kandidati	rata1_dak_kandidat	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_dak_kandidati	rata1_datum_dak_kandidat	datetime	DATUM		Datum/Zeit
+idk_dak_kandidati	rata2_dak_kandidat	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_dak_kandidati	rata2_datum_dak_kandidat	datetime	DATUM		Datum/Zeit
+idk_dak_kandidati	manager_dak_kandidat	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_documents	document_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_documents	document_name	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_documents	document_special_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_documents	document_desc	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_documents	document_file	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_documents	document_icon	varchar(5)	TEXT		Personen-/Freitextfeld laut Name
+idk_documents	document_datetime	datetime	DATUM		Datum/Zeit
+idk_documents	document_group	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_documents	document_dataid	int	POLY	idk_kandidati.kandidat_id,idk_companies.company_id,idk_contacts.contact_id,idk_nalozi.nalog_id,idk_projects.project_id,idk_employees.employee_id,idk_clients.client_id,idk_nd_kandidata.id_broj_nd_kandidata,idk_tasks.task_id,users.id	gruppiert nach document_group; Gruppen undokumentiert
+idk_documents	document_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_duration_per_status	dpr_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_duration_per_status	dpr_group	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_duration_per_status	dpr_status	varchar(10)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_duration_per_status	dpr_duration	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_duration_per_status	dpr_description	varchar(400)	TEXT		Personen-/Freitextfeld laut Name
+idk_duration_per_status	dpr_status_name	varchar(100)	TEXT		Freitext (varchar(100))
+idk_email_text	email_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_email_text	email_value	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_email_text	email_title	varchar(255)	PII		Personen-/Freitextfeld laut Name
+idk_email_text	email_txt	text	TEXT		Freitext/JSON
+idk_employees	employee_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_employees	employee_firstname	varchar(150)	TEXT		Freitext (varchar(150))
+idk_employees	employee_lastname	varchar(150)	TEXT		Freitext (varchar(150))
+idk_employees	employee_email	varchar(250)	PII		Personen-/Freitextfeld laut Name
+idk_employees	employee_password	varchar(250)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_employees	employee_key	varchar(150)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_employees	employee_color	varchar(10)	TEXT		Personen-/Freitextfeld laut Name
+idk_employees	employee_jmbg	bigint	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_employees	employee_rfid	varchar(50)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_employees	employee_position	varchar(150)	TEXT		Freitext (varchar(150))
+idk_employees	employee_dob	date	DATUM		Datum/Zeit
+idk_employees	employee_doe	date	DATUM		Datum/Zeit
+idk_employees	employee_address	text	TEXT		Freitext/JSON
+idk_employees	employee_city	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_employees	employee_country	varchar(150)	TEXT		Freitext (varchar(150))
+idk_employees	employee_info	text	TEXT		Freitext/JSON
+idk_employees	employee_inote	text	TEXT		Freitext/JSON
+idk_employees	employee_image	varchar(150)	TEXT		Freitext (varchar(150))
+idk_employees	employee_status	varchar(255)	CODE		Mitarbeiterstatus (Text-Code)
+idk_employees	employee_supervizor	varchar(255)	TEXT		Freitext (varchar(255))
+idk_employees	employee_dlanguage	varchar(50)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_employees	employee_phone	varchar(250)	TEXT		Freitext (varchar(250))
+idk_employees	employee_warehouse	int	FK	idk_skladiste.skl_id,idk_poslovnice.branch_id	Hypothesen
+idk_employees	employee_odjel	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_employees	employee_poslovnica	int	LOOKUP	idk_poslovnice.branch_id	Filiale
+idk_employees	employee_nostrifikacija_diploma	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_employees	employee_nostrifikacija_zadnji_menadzer	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_employees	employee_nostrifikacija_zadnji_menadzer_app	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_employees	employee_faktor_provizije_bih	double	ZAHL		Betrag/Messwert
+idk_employees	employee_faktor_provizije_srb	double	ZAHL		Betrag/Messwert
+idk_employees	employee_faktor_za_timove	double	ZAHL		Betrag/Messwert
+idk_employees	employee_team	int	LOOKUP	idk_timovi.id_t	Kommentar
+idk_employees	employee_viciuser	varchar(150)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_employees	employee_vicipass	varchar(150)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_employees	employee_reset_password	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_employees	employee_last_password_change	datetime	DATUM		Datum/Zeit
+idk_employees	employee_reset_token	varchar(255)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_employees	employee_reset_token_doe	datetime	DATUM		Datum/Zeit
+idk_employees	employee_dvag	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_employees	employee_makler_representative_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_employees_info	ei_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_employees_info	ei_group	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_employees_info	ei_title	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_employees_info	ei_data	varchar(250)	TEXT		Freitext (varchar(250))
+idk_employees_info	ei_primary	int	CODE		Flag primär
+idk_employees_info	ei_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_employees_reports	er_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_employees_reports	er_date	date	DATUM		Datum/Zeit
+idk_employees_reports	er_title	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_employees_reports	er_timefrom	time	DATUM		Datum/Zeit
+idk_employees_reports	er_timeto	time	DATUM		Datum/Zeit
+idk_employees_reports	er_projectid	int	FK	idk_projects.project_id	Projekt laut Name
+idk_employees_reports	er_nalogid	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_employees_reports	er_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_employees_reports	er_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_glossa_log	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_glossa_log	request	text	TEXT		Freitext/JSON
+idk_glossa_log	response	text	TEXT		Freitext/JSON
+idk_glossa_log	code	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_glossa_log	candidate	text	FK	idk_kandidati.kandidat_id	Kommentar: FK idk_kandidati (text) -> CAST
+idk_glossa_log	request_endpoint	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_glossa_log	doe	datetime	DATUM		Datum/Zeit
+idk_ipwhitelist	ipwl_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_ipwhitelist	ipwl_user	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_ipwhitelist	ipwl_ip	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_ipwhitelist	ipwl_added_by	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_ipwhitelist	ipwl_reason	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_ipwhitelist	ipwl_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_ipwhitelist	ipwl_datetime	datetime	DATUM		Datum/Zeit
+idk_jobstep_partners	jp_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_jobstep_partners	jp_imeprezime	varchar(255)	PII		Personen-/Freitextfeld laut Name
+idk_jobstep_partners	jp_ime	varchar(255)	PII		Personen-/Freitextfeld laut Name
+idk_jobstep_partners	jp_prezime	varchar(255)	PII		Personen-/Freitextfeld laut Name
+idk_jobstep_partners	jp_email	varchar(255)	PII		Personen-/Freitextfeld laut Name
+idk_jobstep_partners	jp_password	varchar(255)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_jobstep_partners	jp_lang	varchar(255)	CODE		Sprache
+idk_jobstep_partners	jp_posta	int	LOOKUP	idk_nd_poste.id_poste	Hypothese
+idk_jobstep_partners	jp_racun	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_jobstep_partners	jp_iban	varchar(255)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_jobstep_partners	jp_swift	varchar(255)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_jobstep_partners	jp_placanjeimeprezime	varchar(255)	TEXT		Freitext (varchar(255))
+idk_jobstep_partners	jp_brtelefona	varchar(255)	TEXT		Freitext (varchar(255))
+idk_jobstep_partners	jp_drzava	varchar(255)	CODE		Land Partner
+idk_jobstep_partners	jp_grad	varchar(255)	PII		Personen-/Freitextfeld laut Name
+idk_jobstep_partners	jp_postanskibroj	int	ZAHL		PLZ
+idk_jobstep_partners	jp_ulica	varchar(255)	PII		Personen-/Freitextfeld laut Name
+idk_jobstep_partners	jp_provider	varchar(255)	TEXT		Freitext (varchar(255))
+idk_jobstep_partners	jp_register_date	datetime	DATUM		Datum/Zeit
+idk_jobstep_partners	jp_fcmtoken	varchar(550)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_jobstep_partners	jp_mailconfirmation_token	varchar(255)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_jobstep_partners	jp_confirmedaccount	int	CODE		Kommentar: 0/1/2
+idk_jobstep_partners	jp_position	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_jobstep_partners	jp_socialid	text	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_jobstep_partners	jp_social_token	text	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_jobstep_partners	jp_social_imgurl	text	TEXT		Freitext/JSON
+idk_jobstep_partners	jp_preporuka_id	int	FK	idk_jobstep_partners.jp_id	JobStep-Partner (Makler) laut Name/Kommentar
+idk_jobstep_partners	jp_source	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_jobstep_partners	jp_user_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_jobstep_partners	jp_user_permission	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_jobstep_partners	jp_partner_company	int	LOOKUP	idk_partner_companies.pc_id	Kommentar
+idk_jobstep_partners	jp_makler_id	varchar(255)	TEXT		externe Makler-Nummer (varchar 255), kein interner Verweis
+idk_jobstep_partners	jp_direction_number	varchar(255)	TEXT		Freitext (varchar(255))
+idk_jobstep_partners	jp_region_de	varchar(255)	TEXT		Freitext (varchar(255))
+idk_jobstep_partners	jp_spoken_languages	text	TEXT		Freitext/JSON
+idk_jobstep_partners	jp_received_last_lead	int	FK	idk_kandidati.kandidat_id,idk_nd_kandidata.id_broj_nd_kandidata	Hypothese (letzter Lead)
+idk_jobstep_partners	jp_last_password_reset	timestamp	DATUM		Datum/Zeit
+idk_jobstep_partners	jp_makler_broj_direkcije	varchar(10)	TEXT		externe Direktionsnummer
+idk_jobstep_partners	jp_representative_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_jobstep_partners	jp_latest_login	datetime	DATUM		Datum/Zeit
+idk_jobstep_partners	jp_first_login	datetime	DATUM		Datum/Zeit
+idk_jobstep_partners	jp_datum_deaktivacije	datetime	DATUM		Datum/Zeit
+idk_jobstep_partners	jp_latest_activity	datetime	DATUM		Datum/Zeit
+idk_jobstep_partners	jp_tutorial_sent	varchar(200)	TEXT		Freitext (varchar(200))
+idk_jobstep_partners	jp_password_reset_code	varchar(255)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_jobstep_partners	jp_password_reset_datetime	timestamp	DATUM		Datum/Zeit
+idk_jobstep_partners	jp_password_reset_tries	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_jobstep_partners	jp_device	varchar(255)	TEXT		Freitext (varchar(255))
+idk_jobstep_partners	jp_app_version	varchar(255)	TEXT		Freitext (varchar(255))
+idk_jobstep_partners_pregledi	jpp_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_jobstep_partners_pregledi	jpp_partnerid	varchar(255)	FK	idk_jobstep_partners.jp_id	varchar(255) -> CAST
+idk_jobstep_partners_pregledi	jpp_nalogid	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_jobstep_partners_pregledi	jpp_pregledi_count	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_kampanje_dipl	kd_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kampanje_dipl	kd_naziv	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_kampanje_dipl	kd_skraceni_naziv	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_kampanje_dipl	kd_poruka_kampanje	text	TEXT		Freitext/JSON
+idk_kampanje_dipl	kd_jezik_forme	varchar(10)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kampanje_dipl	kd_drzava	varchar(10)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kampanje_dipl	kd_broj_pregleda	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_kampanje_dipl	kd_broj_prijavljenih	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_kampanje_dipl	kd_datum_kreiranja	datetime	DATUM		Datum/Zeit
+idk_kampanje_dipl	kd_troskovi	double	ZAHL		Betrag/Messwert
+idk_kampanje_dipl	kd_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kampanje_dipl	kd_slike	text	TEXT		Freitext/JSON
+idk_kampanje_dipl	kd_category	varchar(3)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_akademija	ka_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidat_akademija	ka_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_kandidat_akademija	ka_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_kandidat_akademija	ka_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_akademija	ka_date_from	date	DATUM		Datum/Zeit
+idk_kandidat_akademija	ka_date_to	date	DATUM		Datum/Zeit
+idk_kandidat_akademija	ka_note	text	TEXT		Freitext/JSON
+idk_kandidat_akademija	ka_rating	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_kandidat_cv	kcv_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidat_cv	kcv_kandidatid	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_kandidat_cv	kcv_ba	varchar(255)	TEXT		Freitext (varchar(255))
+idk_kandidat_cv	kcv_de	varchar(255)	TEXT		Freitext (varchar(255))
+idk_kandidat_de	kde_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidat_de	kde_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_kandidat_de	kde_prijava_na	varchar(400)	TEXTREF	beruf_mapping.freitext_wert	Freitext -> Berufsgruppe
+idk_kandidat_de	kde_spol	varchar(255)	CODE		Geschlecht DE-Profil
+idk_kandidat_de	kde_drzavljanstvo	varchar(255)	CODE		Staatsangehörigkeit DE-Profil
+idk_kandidat_de	kde_vozacka	varchar(100)	CODE		Führerschein DE-Profil
+idk_kandidat_edukacija	ke_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidat_edukacija	ke_orderid	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_kandidat_edukacija	ke_datumod	date	DATUM		Datum/Zeit
+idk_kandidat_edukacija	ke_datumdo	date	DATUM		Datum/Zeit
+idk_kandidat_edukacija	ke_aktuelno	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_edukacija	ke_smjer_id	int	LOOKUP	idk_skole_smjerovi.ss_id	Name
+idk_kandidat_edukacija	ke_naziv_kvalifikacije	varchar(100)	TEXTREF	beruf_mapping.freitext_wert	Freitext -> Berufsgruppe
+idk_kandidat_edukacija	ke_naziv_kvalifikacije_de	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_kandidat_edukacija	ke_skola_id	int	LOOKUP	idk_skole.skola_id	Name
+idk_kandidat_edukacija	ke_naziv	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_kandidat_edukacija	ke_naziv_de	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_kandidat_edukacija	ke_grad	varchar(50)	PII		Personen-/Freitextfeld laut Name
+idk_kandidat_edukacija	ke_grad_de	varchar(200)	PII		Personen-/Freitextfeld laut Name
+idk_kandidat_edukacija	ke_drzava	varchar(100)	CODE		Land Ausbildung
+idk_kandidat_edukacija	ke_opis	text	TEXT		Freitext/JSON
+idk_kandidat_edukacija	ke_opis_de	text	TEXT		Freitext/JSON
+idk_kandidat_edukacija	ke_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_kandidat_edukacija	ke_vrsta_obrazovanja	varchar(50)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_edukacija	ke_prikaz_pp	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_financije	kf_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidat_financije	nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_kandidat_financije	projekt_id	int	FK	idk_projects.project_id	Projekt laut Name
+idk_kandidat_financije	kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_kandidat_financije	kf_datum	date	DATUM		Datum/Zeit
+idk_kandidat_financije	kf_datum_stvarni	date	DATUM		Datum/Zeit
+idk_kandidat_financije	kf_nalog_rata_id	int	FK	idk_nalozi_rate.nr_id	Kommentar
+idk_kandidat_financije	kf_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_financije	kf_iznos	double	ZAHL		Betrag/Messwert
+idk_kandidat_financije	kf_placeno	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_financije	kf_datum_fakturisanja	date	DATUM		Datum/Zeit
+idk_kandidat_financije	kf_datum_placanja	date	DATUM		Datum/Zeit
+idk_kandidat_financije	kf_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_financije	kf_zamjena_id	int	FK	idk_kandidati.kandidat_id,idk_kandidat_financije.kf_id	Zamjena = Ersatz (Hypothesen)
+idk_kandidat_jezici	kj_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidat_jezici	kj_naziv	varchar(150)	CODE		Sprachname (Freitext-Code)
+idk_kandidat_jezici	kj_naziv_de	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_kandidat_jezici	kj_slusanje	varchar(50)	CODE		CEFR-Niveau
+idk_kandidat_jezici	kj_slusanje_de	varchar(255)	TEXT		Freitext (varchar(255))
+idk_kandidat_jezici	kj_citanje	varchar(50)	CODE		CEFR-Niveau
+idk_kandidat_jezici	kj_citanje_de	varchar(255)	TEXT		Freitext (varchar(255))
+idk_kandidat_jezici	kj_govorna_interakcija	varchar(50)	CODE		CEFR-Niveau
+idk_kandidat_jezici	kj_govorna_interakcija_de	varchar(255)	TEXT		Freitext (varchar(255))
+idk_kandidat_jezici	kj_govorna_produkcija	varchar(50)	CODE		CEFR-Niveau
+idk_kandidat_jezici	kj_govorna_produkcija_de	varchar(255)	TEXT		Freitext (varchar(255))
+idk_kandidat_jezici	kj_pisanje	varchar(50)	CODE		CEFR-Niveau
+idk_kandidat_jezici	kj_pisanje_de	varchar(255)	TEXT		Freitext (varchar(255))
+idk_kandidat_jezici	kj_kandidatid	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_kandidat_jezici	kj_ustanova	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_kontakt_info	kki_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidat_kontakt_info	kki_orderid	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_kandidat_kontakt_info	kki_grupa	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_kontakt_info	kki_naziv	varchar(100)	CODE		Kontaktart (Telefon/E-Mail …)
+idk_kandidat_kontakt_info	kki_naziv_de	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_kandidat_kontakt_info	kki_podatak	varchar(100)	TEXT		Freitext (varchar(100))
+idk_kandidat_kontakt_info	kki_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_kandidat_kontakt_info	kki_primary	int	CODE		Flag primär
+idk_kandidat_pozicija	kp_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidat_pozicija	kp_ime	varchar(150)	PII		Personen-/Freitextfeld laut Name
+idk_kandidat_pozicija	kp_ime_de	varchar(150)	PII		Personen-/Freitextfeld laut Name
+idk_kandidat_pozicija	kp_ime_en	varchar(150)	PII		Personen-/Freitextfeld laut Name
+idk_kandidat_pozicija	kp_ime_rs	varchar(150)	PII		Personen-/Freitextfeld laut Name
+idk_kandidat_pozicija	kp_opis	text	TEXT		Freitext/JSON
+idk_kandidat_pozicija	kp_created_by	int	POLY	idk_employees.employee_id,idk_jobstep_partners.jp_id	gruppiert nach kp_source; Kommentar: 1 = Employee, 2 = Partner
+idk_kandidat_pozicija	kp_source	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_pozicija	kp_active	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_projekcije	kandidat_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidat_projekcije	proracunati_pocetak_rada	date	DATUM		Datum/Zeit
+idk_kandidat_radno_iskustvo	kri_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidat_radno_iskustvo	kri_order	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_kandidat_radno_iskustvo	kri_darum_od	date	DATUM		Datum/Zeit
+idk_kandidat_radno_iskustvo	kri_datum_do	date	DATUM		Datum/Zeit
+idk_kandidat_radno_iskustvo	kri_aktuelno	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_radno_iskustvo	kri_pozicija	varchar(250)	TEXTREF	beruf_mapping.freitext_wert	Freitext -> Berufsgruppe
+idk_kandidat_radno_iskustvo	kri_pozicija_de	varchar(400)	TEXT		Freitext (varchar(400))
+idk_kandidat_radno_iskustvo	kri_pozicija_en	varchar(400)	TEXT		Freitext (varchar(400))
+idk_kandidat_radno_iskustvo	kri_naziv	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_kandidat_radno_iskustvo	kri_naziv_de	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_kandidat_radno_iskustvo	kri_grad	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_kandidat_radno_iskustvo	kri_grad_de	varchar(200)	PII		Personen-/Freitextfeld laut Name
+idk_kandidat_radno_iskustvo	kri_drzava	varchar(100)	CODE		Land Erfahrung
+idk_kandidat_radno_iskustvo	kri_adresa	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_kandidat_radno_iskustvo	kri_telefon	varchar(50)	PII		Personen-/Freitextfeld laut Name
+idk_kandidat_radno_iskustvo	kri_email	varchar(50)	PII		Personen-/Freitextfeld laut Name
+idk_kandidat_radno_iskustvo	kri_web	varchar(50)	TEXT		Personen-/Freitextfeld laut Name
+idk_kandidat_radno_iskustvo	kri_opis	text	TEXT		Freitext/JSON
+idk_kandidat_radno_iskustvo	kri_opis_de	text	TEXT		Freitext/JSON
+idk_kandidat_radno_iskustvo	kri_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_kandidat_radno_iskustvo	kri_prikaz_pp	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_status	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidat_status	status_id	int	ZIEL		Code-Schlüssel der Lookup-Tabelle (Ziel, kein Verweis)
+idk_kandidat_status	status_naziv	varchar(255)	TEXT		Freitext (varchar(255))
+idk_kandidat_status_prijave	status_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidat_status_prijave	status_naziv	varchar(100)	TEXT		Freitext (varchar(100))
+idk_kandidat_status_prijave	status_aktivan	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_status_prijave	rezervisanje	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_status_prijave	redoslijed_statusa	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_vjestine	kv_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidat_vjestine	kv_naziv	varchar(150)	CODE		Fähigkeit (Freitext-Code)
+idk_kandidat_vjestine	kv_naziv_de	text	TEXT		Freitext/JSON
+idk_kandidat_vjestine	kv_grupa	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidat_vjestine	kv_opis	text	TEXT		Freitext/JSON
+idk_kandidat_vjestine	kv_opis_de	text	TEXT		Freitext/JSON
+idk_kandidat_vjestine	kv_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_kandidati	kandidat_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidati	kandidat_check	varchar(200)	TECH		Prüfsumme/Hash
+idk_kandidati	kandidat_ime	varchar(150)	PII		Personen-/Freitextfeld laut Name
+idk_kandidati	kandidat_prezime	varchar(150)	PII		Personen-/Freitextfeld laut Name
+idk_kandidati	kandidat_prijava_na	varchar(250)	TEXTREF	beruf_mapping.freitext_wert	Freitext -> Berufsgruppe
+idk_kandidati	kandidat_spol	varchar(10)	CODE		Geschlecht
+idk_kandidati	kandidat_djevojackoprezime	varchar(150)	PII		Personen-/Freitextfeld laut Name
+idk_kandidati	kandidat_jmbg	varchar(20)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_kandidati	kandidat_brojlk	varchar(50)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_kandidati	kandidat_broj_pasosa	varchar(50)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_kandidati	kandidat_datumrodjenja	date	DATUM		Datum/Zeit
+idk_kandidati	kandidat_mjestorodjenja	varchar(150)	PII		Personen-/Freitextfeld laut Name
+idk_kandidati	kandidat_drzavljanstvo_vrsta	varchar(100)	CODE		EU/NON-EU (Freitext-Code)
+idk_kandidati	kandidat_drzavarodjenja	varchar(150)	TEXT		Freitext (varchar(150))
+idk_kandidati	kandidat_drzavljanstvo	varchar(150)	CODE		Staatsangehörigkeit (Freitext)
+idk_kandidati	kandidat_bracnostanje	varchar(50)	CODE		Familienstand alt (Freitext)
+idk_kandidati	kandidat_bracnostanjeod	date	DATUM		Datum/Zeit
+idk_kandidati	kandidat_adresa	text	TEXT		Freitext/JSON
+idk_kandidati	kandidat_grad	varchar(150)	PII		Personen-/Freitextfeld laut Name
+idk_kandidati	kandidat_pbroj	int	ZAHL		PLZ
+idk_kandidati	kandidat_drzava	varchar(150)	CODE		Wohnland (Freitext)
+idk_kandidati	kandidat_email	varchar(250)	PII		Personen-/Freitextfeld laut Name
+idk_kandidati	kandidat_mobitel	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_kandidati	kandidat_vozacka_dozvola	varchar(20)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_vozacka_kategorija	varchar(25)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_korisnickoime	varchar(250)	PII		Personen-/Freitextfeld laut Name
+idk_kandidati	kandidat_password	varchar(150)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_kandidati	kandidat_slika	varchar(150)	TEXT		Freitext (varchar(150))
+idk_kandidati	kandidat_status	int	LOOKUP	idk_kandidat_status.status_id	Lookup laut Name/Kommentar
+idk_kandidati	kandidat_status_messenger	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_datetime	datetime	DATUM		Datum/Zeit
+idk_kandidati	kandidat_visitedurl	int	FK	idk_link_generator.lg_id	Name/Kommentar
+idk_kandidati	kandidat_group	int	LOOKUP	idk_kandidati_grupe.kg_id	Lookup laut Name/Kommentar
+idk_kandidati	kandidat_mailsent	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	datum_termina	date	DATUM		Datum/Zeit
+idk_kandidati	kandidat_bio_na_terminu	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	datum_aplikacije	date	DATUM		Datum/Zeit
+idk_kandidati	kandidat_procjenatermina	int	CODE		Code
+idk_kandidati	kandidat_viza	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_viza_vrijedi_od	date	DATUM		Datum/Zeit
+idk_kandidati	kandidat_viza_vrijedi_do	date	DATUM		Datum/Zeit
+idk_kandidati	boravak_eu	varchar(255)	CODE		Aufenthalt EU (Freitext)
+idk_kandidati	kandidat_status_prijave	int	LOOKUP	idk_kandidat_status_prijave.status_id	Lookup laut Name/Kommentar
+idk_kandidati	kandidat_zaposlen_kod	int	FK	idk_companies.company_id	Name/Kommentar
+idk_kandidati	cv_ba	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	cv_de	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	profile_ba	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	profile_de	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_datum_ugovora	date	DATUM		Datum/Zeit
+idk_kandidati	kandidat_datum_ugovora_mjesec	date	DATUM		Datum/Zeit
+idk_kandidati	kandidat_datum_pocetakrada	date	DATUM		Datum/Zeit
+idk_kandidati	kandidat_datum_pocetakrada_mjesec	date	DATUM		Datum/Zeit
+idk_kandidati	kandidat_potencijalni_pocetak_rada	varchar(100)	TEXT		Freitext (varchar(100))
+idk_kandidati	kandidat_dogovoreni_pocetak_rada	date	DATUM		Datum/Zeit
+idk_kandidati	kandidat_potvrden_pocetak_rada	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_partnerid	int	FK	idk_jobstep_partners.jp_id	Name/Kommentar
+idk_kandidati	kandidat_partner_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_poslan_sms	varchar(255)	TEXT		Freitext (varchar(255))
+idk_kandidati	kandidat_sms_id	varchar(255)	FK	idk_sms_messages.sms_id	Name/Kommentar
+idk_kandidati	kandidat_pogledao_link_prijave	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_poslan_dipl	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	povezan_na_dipl	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_porijeklo	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	struka_sa_prijave	int	LOOKUP	idk_struke.id_struke	Lookup laut Name/Kommentar
+idk_kandidati	kandidat_nalog_id	int	FK	idk_nalozi.nalog_id	Name/Kommentar
+idk_kandidati	kandidat_latest_reserved_time	datetime	DATUM		Datum/Zeit
+idk_kandidati	kandidat_ppa_partner_id	int	FK	idk_pp_partners.ppa_id	Name/Kommentar
+idk_kandidati	kandidat_pp_lokacija	varchar(400)	TEXT		Personen-/Freitextfeld laut Name
+idk_kandidati	kandidat_pp_pozicija	varchar(400)	TEXT		Freitext (varchar(400))
+idk_kandidati	kandidat_pp_plata	varchar(40)	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_kandidati	kandidat_pp_povezao_user_id	int	FK	idk_pp_users.pu_id,idk_employees.employee_id	Name/Kommentar
+idk_kandidati	kandidat_pp_razlog_odbijanja	varchar(255)	TEXT		Freitext (varchar(255))
+idk_kandidati	kandidat_pp_datum_prihvatanja	date	DATUM		Datum/Zeit
+idk_kandidati	kandidat_dipl_id	int	FK	idk_nd_kandidata.id_broj_nd_kandidata	Name/Kommentar
+idk_kandidati	kandidat_ima_nostrifikaciju	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_glossa	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_tf_status	int	LOOKUP	idk_tf_statusi.tfs_id	Lookup laut Name/Kommentar
+idk_kandidati	kandidat_iskustvo_u_struci	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_iskustvo_u_struci_trajanje	int	CODE		Skala 0-6 (Kommentar)
+idk_kandidati	kandidat_termin_za_vizu	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	tf_reserved_agent	int	FK	idk_employees.employee_id	Name/Kommentar
+idk_kandidati	kandidat_nacin_odlaska	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_bracno_stanje	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_dostavljen_ugovor_jobstepu	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_zeljena_regija	int	LOOKUP	idk_pp_regions.pr_id	Lookup laut Name/Kommentar
+idk_kandidati	kandidat_zeljeni_grad	int	LOOKUP	idk_pp_city.pc_id	Lookup laut Name/Kommentar
+idk_kandidati	kandidat_partner_lead_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	zaduzeni_makler_id	int	FK	idk_jobstep_partners.jp_id,idk_employees.employee_id	Name/Kommentar
+idk_kandidati	zaduzen_makleru_datum	datetime	DATUM		Datum/Zeit
+idk_kandidati	zaduzeni_makler_reminder_datum	date	DATUM		Datum/Zeit
+idk_kandidati	kandidat_nivo_obrazovanja	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_partner_lead_biljeska	text	TEXT		Freitext/JSON
+idk_kandidati	kandidat_destinacija_grad	varchar(255)	PII		Personen-/Freitextfeld laut Name
+idk_kandidati	kandidat_destinacija_postanski_broj	varchar(10)	ZAHL		PLZ
+idk_kandidati	assigned_to_makler	int	FK	idk_jobstep_partners.jp_id,idk_employees.employee_id	Name/Kommentar
+idk_kandidati	kandidat_paralelno_zb	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_pogresan_broj	int	CODE		Flag
+idk_kandidati	kandidat_nedostupan	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	kandidat_atu_paket	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati	exported	tinyint(1)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati_contracts	kc_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidati_contracts	kc_file_name	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_kandidati_contracts	kc_candidate_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_kandidati_contracts	kc_source	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati_contracts	kc_user_id	int	POLY	idk_employees.employee_id,idk_pp_users.pu_id	gruppiert nach kc_source; 1 = CRM, 2 = PP
+idk_kandidati_contracts	kc_upload_time	datetime	DATUM		Datum/Zeit
+idk_kandidati_contracts	kc_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_kandidati_contracts	kc_partner_id	int	FK	idk_pp_partners.ppa_id,idk_jobstep_partners.jp_id	Partner-Portal-Partner (Arbeitgeber), Hypothese gegen Makler geprüft
+idk_kandidati_contracts	kc_signed	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati_contracts	kc_visibility_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati_grupe	kg_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidati_grupe	kg_title	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_kandidati_grupe	kg_title_de	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_kandidati_grupe	kg_title_it	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_kandidati_grupe	kg_date	datetime	DATUM		Datum/Zeit
+idk_kandidati_grupe	kg_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_kandidati_grupe	kg_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati_reject_reasons	krr_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kandidati_reject_reasons	krr_reason_id	int	LOOKUP	idk_reject_reasons.rr_id	Name
+idk_kandidati_reject_reasons	krr_candidate_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_kandidati_reject_reasons	krr_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_kandidati_reject_reasons	krr_partner_id	int	FK	idk_pp_partners.ppa_id,idk_jobstep_partners.jp_id	Partner-Portal-Partner (Arbeitgeber), Hypothese gegen Makler geprüft
+idk_kandidati_reject_reasons	krr_apointment_id	int	FK	idk_pp_cand_appts.pca_id,idk_pp_appointments.pap_id,idk_pp_appointment_groups.ppaq_id	Hypothesen
+idk_kandidati_reject_reasons	krr_description	text	TEXT		Freitext/JSON
+idk_kandidati_reject_reasons	krr_source	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kandidati_reject_reasons	krr_done_by	int	POLY	idk_employees.employee_id,idk_pp_users.pu_id	gruppiert nach krr_source; 1 = CRM, 2 = PP
+idk_kandidati_reject_reasons	krr_date	datetime	DATUM		Datum/Zeit
+idk_kandidati_reject_reasons	krr_last_status	int	LOOKUP	idk_kandidat_status_prijave.status_id	Status vor Absage
+idk_kategorije	kategorija_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kategorije	kategorija_naziv	text	TEXT		Freitext/JSON
+idk_kategorije_provizija	kp_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_kategorije_provizija	kp_naziv	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_kategorije_provizija	kp_iznos	double	ZAHL		Betrag/Messwert
+idk_kategorije_provizija	kp_iznos_rs	double	ZAHL		Betrag/Messwert
+idk_kategorije_provizija	kp_faktorizacija	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kategorije_provizija	kp_tip_id	int	LOOKUP	idk_tipovi_provizija.tp_id	Name
+idk_kategorije_provizija	kp_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kategorije_provizija	kp_odjeli	text	TEXT		Freitext/JSON
+idk_kategorije_provizija	kp_vrsta	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_kategorije_provizija	kp_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_korisni_dokumenti	kd_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_korisni_dokumenti	kd_naziv	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_korisni_dokumenti	kd_detaljni_opis	text	TEXT		Freitext/JSON
+idk_korisni_dokumenti	kd_file	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_korisni_dokumenti	kd_icon	varchar(5)	TEXT		Personen-/Freitextfeld laut Name
+idk_korisni_dokumenti	kd_datetime	datetime	DATUM		Datum/Zeit
+idk_korisni_dokumenti	kd_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_korisni_dokumenti	kd_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_korisni_linkovi	kl_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_korisni_linkovi	kl_naziv	text	TEXT		Freitext/JSON
+idk_korisni_linkovi	kl_detaljni_opis	text	TEXT		Freitext/JSON
+idk_korisni_linkovi	kl_link	text	TEXT		Freitext/JSON
+idk_korisni_linkovi	kl_datetime	datetime	DATUM		Datum/Zeit
+idk_korisni_linkovi	kl_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_korisni_linkovi	kl_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_link_generator	lg_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_link_generator	lg_link_prijave	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_link_generator	idk_urlimg_prijave	varchar(500)	TEXT		Personen-/Freitextfeld laut Name
+idk_link_generator	lg_url	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_link_generator	lg_desc	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_link_generator	lg_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_link_generator	lg_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_link_generator	lg_datetime	datetime	DATUM		Datum/Zeit
+idk_link_generator	lg_project	int	FK	idk_projects.project_id	Projekt laut Name
+idk_link_generator	lg_nalogid	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_link_generator	lg_language	varchar(20)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_link_generator	lg_troskovi	double	ZAHL		Betrag/Messwert
+idk_link_generator	lg_broj_pregleda	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_link_generator	lg_partner_app	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_link_generator_rel	lr_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_link_generator_rel	lr_lgid	int	FK	idk_link_generator.lg_id	Name/Kommentar
+idk_link_generator_rel	lr_groupid	int	LOOKUP	idk_kandidati_grupe.kg_id	Name
+idk_link_projects	lp_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_link_projects	lp_linkid	int	FK	idk_link_generator.lg_id	Name/Kommentar
+idk_link_projects	lp_projectid	int	FK	idk_projects.project_id	Projekt laut Name
+idk_log_kandidat_statusi	lks_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_log_kandidat_statusi	lks_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_log_kandidat_statusi	lks_status_obrade	int	LOOKUP	idk_kandidat_status.status_id	Name
+idk_log_kandidat_statusi	lks_status_messenger	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_log_kandidat_statusi	lks_datetime	datetime	DATUM		Datum/Zeit
+idk_log_kandidat_statusi	lks_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_log_kandidat_statusi	lks_broj_dana	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_log_kandidat_statusi	lks_link_id	int	FK	idk_link_generator.lg_id	Kommentar
+idk_log_statusi_prijave	lsp_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_log_statusi_prijave	lsp_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_log_statusi_prijave	lsp_projekt_id	int	FK	idk_projects.project_id	Projekt laut Name
+idk_log_statusi_prijave	lsp_status_prijave_id	int	LOOKUP	idk_kandidat_status_prijave.status_id	Name
+idk_log_statusi_prijave	lsp_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_log_statusi_prijave	lsp_izvor	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_log_statusi_prijave	lsp_datetime	datetime	DATUM		Datum/Zeit
+idk_log_statusi_prijave	lsp_broj_dana	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_logs	log_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_logs	log_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_logs	log_desc	text	TEXT		Freitext/JSON
+idk_logs	log_date	datetime	DATUM		Datum/Zeit
+idk_logs	log_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_messages	message_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_messages	message_subject	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_messages	message_text	text	TEXT		Freitext/JSON
+idk_messages	message_sentid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_messages	message_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_messages	message_datetime	datetime	DATUM		Datum/Zeit
+idk_messages_users	mu_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_messages_users	mu_messageid	int	FK	idk_messages.message_id	Name/Kommentar
+idk_messages_users	mu_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_messages_users	mu_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_messenger_obavijesti	mo_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_messenger_obavijesti	mo_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_messenger_obavijesti	mo_tip	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_messenger_obavijesti	mo_datum_slanja	datetime	DATUM		Datum/Zeit
+idk_module_permissions	mp_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_module_permissions	mp_name	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_module_permissions	mp_employees	varchar(255)	LISTE	idk_employees.employee_id	Liste von Mitarbeiter-IDs
+idk_modules	module_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_modules	module_name	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_modules	module_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_modules	module_desc	text	TEXT		Freitext/JSON
+idk_nalog_financije	nf_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nalog_financije	nf_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_nalog_financije	nf_datum_aktiviranja	date	DATUM		Datum/Zeit
+idk_nalog_financije	nf_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalog_financije	nf_broj_rate	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nalog_financije	nf_iznos	double	ZAHL		Betrag/Messwert
+idk_nalog_financije	nf_placeno	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalog_financije	nf_datum_fakturisanja	date	DATUM		Datum/Zeit
+idk_nalog_financije	nf_datum_placanja	date	DATUM		Datum/Zeit
+idk_nalog_financije	nf_desc	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_nalog_profil	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nalog_profil	naziv	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_nalog_profil	zaposlenik	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nalog_profil	status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalog_profil	prioritet	int	CODE		Prioritätsklasse
+idk_nalog_profil	doe	timestamp	DATUM		Datum/Zeit
+idk_nalog_profil	nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_nalog_smjer	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nalog_smjer	nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_nalog_smjer	smjer_id	int	LOOKUP	idk_skole_smjerovi.ss_id,idk_struke.id_struke	Hypothesen
+idk_nalozi	nalog_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nalozi	kompanija_id	int	FK	idk_companies.company_id	Firma laut Name/Kommentar
+idk_nalozi	employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nalozi	nalog_broj	varchar(255)	TEXT		Freitext (varchar(255))
+idk_nalozi	nalog_naziv	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_nalozi	nalog_opis	text	TEXT		Freitext/JSON
+idk_nalozi	nalog_kreirano	timestamp	DATUM		Datum/Zeit
+idk_nalozi	nalog_datum_potpisa_naloga	date	DATUM		Datum/Zeit
+idk_nalozi	nalog_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	nalog_marketing_menadzer	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nalozi	nalog_ugovor	varchar(25)	TEXT		Vertragsnummer/Datei
+idk_nalozi	nalog_potrebno_kandidata	int	ZAHL		Zahl/Menge laut Name
+idk_nalozi	nalog_provizija	double	ZAHL		Betrag/Messwert
+idk_nalozi	nalog_provizija_po_plati	float	ZAHL		Betrag/Messwert
+idk_nalozi	nalog_broj_rata	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nalozi	nalog_procenat_avansa	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nalozi	nalog_placa_nostrifikaciju	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	nalog_nacin_nostrifikacije	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	nalog_provizija_nostrifikacija	double	ZAHL		Betrag/Messwert
+idk_nalozi	nalog_broj_rata_nostrifikacija	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nalozi	nalog_firma_fakturisanja	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	nalog_placena_prva_rata	int	CODE		Kommentar 0/1/2
+idk_nalozi	nalog_financije	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	nalog_akademija	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	nalog_provizija_akademija	int	ZAHL		Zahl/Menge laut Name
+idk_nalozi	nalog_nacin_akademija	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	nalog_broj_dana_akademija	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nalozi	nalog_partner_active	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	nalog_partner_provizija	double	ZAHL		Betrag/Messwert
+idk_nalozi	pristup_poslodavcima	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	partneri_pp	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	nalog_prioritet	int	CODE		Prioritätsklasse TF
+idk_nalozi	nalog_slanje_na_glosu	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	nalog_dospijece	int	ZAHL		Zahl/Menge laut Name
+idk_nalozi	nalog_smjerovi_kriterij	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	nalog_js_partner_id	int	FK	idk_jobstep_partners.jp_id	JobStep-Partner (Makler) laut Name/Kommentar
+idk_nalozi	nalog_partner_app_title	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_nalozi	nalog_partner_app_location	varchar(255)	TEXT		Freitext (varchar(255))
+idk_nalozi	nalog_partner_app_until	datetime	DATUM		Datum/Zeit
+idk_nalozi	nalog_partner_app_salary	varchar(255)	TEXT		Freitext (varchar(255))
+idk_nalozi	nalog_poslodavac_trazi_jezik	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	nalog_poslodavac_koristi_pp	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi	offers_and_benefits_of_employers	text	TEXT		Freitext/JSON
+idk_nalozi_blokovi_prijave	nbp_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nalozi_blokovi_prijave	nbp_nalogid	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_vozacka	varchar(50)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_vozacka_kategorija	varchar(255)	CODE		Konfiguration
+idk_nalozi_blokovi_prijave	nbp_visoko_obr	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_dodatno_obr	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_korak4	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_njemacki_jezik	varchar(10)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_ostali_jezici	varchar(50)	CODE		Konfiguration
+idk_nalozi_blokovi_prijave	nbp_korak7	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_slika	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_diploma	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_pripravnicki	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_strucni	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_jezik_cert	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_struka	varchar(50)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_iskustvo_u_struci	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_blokovi_prijave	nbp_iskustvo_u_struci_trajanje	int	CODE		Skala
+idk_nalozi_blokovi_prijave	nbp_kandidat_starost_od	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nalozi_blokovi_prijave	nbp_kandidat_starost_do	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nalozi_log	n_log_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nalozi_log	n_log_nalogid	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_nalozi_log	n_log_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nalozi_log	n_log_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_log	n_log_vrijeme	timestamp	DATUM		Datum/Zeit
+idk_nalozi_opis	no_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nalozi_opis	no_lang	varchar(255)	TEXT		Freitext (varchar(255))
+idk_nalozi_opis	no_nalogid	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_nalozi_opis	no_nalognaziv	varchar(255)	TEXT		Freitext (varchar(255))
+idk_nalozi_opis	no_nalogopis	text	TEXT		Freitext/JSON
+idk_nalozi_rate	nr_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nalozi_rate	nr_nalog	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_nalozi_rate	nr_rata	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nalozi_rate	nr_procenat	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nalozi_rate	nr_vrijeme_placanja	varchar(35)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nalozi_rate	nr_datum	date	DATUM		Datum/Zeit
+idk_nalozi_rate	nr_mjeseci_nakon	int	ZAHL		Zahl/Menge laut Name
+idk_nd_cron_export	id_c	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_cron_export	type_c	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_cron_export	result_c	mediumtext	TEXT		Freitext/JSON
+idk_nd_cron_export	datetime_c	datetime	DATUM		Datum/Zeit
+idk_nd_cron_export	date_c	date	DATUM		Datum/Zeit
+idk_nd_cron_export	sending_type_c	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_cron_export	sent_to_employees_c	text	TEXT		Freitext/JSON
+idk_nd_cron_export	download_employees_c	text	TEXT		Freitext/JSON
+idk_nd_cron_export	settings_id	int	FK	idk_nd_cron_settings.id_s	Kommentar
+idk_nd_cron_settings	id_s	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_cron_settings	type_s	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_cron_settings	status_s	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_cron_settings	employees_s	text	TEXT		Freitext/JSON
+idk_nd_cron_settings	control_employees_s	text	TEXT		Freitext/JSON
+idk_nd_cron_settings	candidate_status_s	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_cron_settings	status_days_s	int	ZAHL		Zahl/Menge laut Name
+idk_nd_cron_settings	communication_days_s	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nd_cron_settings	start_day_s	datetime	DATUM		Datum/Zeit
+idk_nd_cron_settings	end_day_s	datetime	DATUM		Datum/Zeit
+idk_nd_kandidata	id_broj_nd_kandidata	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_kandidata	ime_nd_kandidata	varchar(30)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	prezime_nd_kandidata	varchar(50)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	ulica_nd_kandidata	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	postanski_broj_nd_kandidata	int	ZAHL		PLZ
+idk_nd_kandidata	grad_nd_kandidata	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	ulica_bor_nd_kandidata	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	postanski_broj_bor_nd_kandidata	int	ZAHL		PLZ
+idk_nd_kandidata	grad_bor_nd_kandidata	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	mobilni_nd_kandidata	varchar(20)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	email_nd_kandidata	varchar(50)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	izdao_licnu_nd_kandidata	varchar(100)	TEXT		Freitext (varchar(100))
+idk_nd_kandidata	jmbg_nd_kandidata	varchar(50)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_nd_kandidata	broj_licne_karte_nd_kandidata	varchar(30)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_nd_kandidata	skola_nd_kandidata	int	FK	idk_skole.skola_id	Kommentar
+idk_nd_kandidata	skola_smjer_nd_kandidata	int	FK	idk_skole_smjerovi.ss_id	Kommentar
+idk_nd_kandidata	poslodavac_nd_kandidata	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	poslodavac_nas_nd_kandidata	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	poslodavac_naziv_nas_nd_kandidata	int	FK	idk_companies.company_id	Arbeitgeber = unsere Firma (Hypothese)
+idk_nd_kandidata	poslodavac_naziv_nd_kandidata	varchar(200)	TEXT		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	poslodavac_ulica_nd_kandidata	varchar(150)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	poslodavac_postanski_broj_nd_kandidata	int	ZAHL		PLZ
+idk_nd_kandidata	poslodavac_grad_nd_kandidata	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	poslodavac_regija_nd_kandidata	varchar(50)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	poslodavac_drzava_nd_kandidata	varchar(100)	TEXT		Freitext (varchar(100))
+idk_nd_kandidata	poslodavac_ime_nd_kandidata	varchar(50)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	poslodavac_prezime_nd_kandidata	varchar(50)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	poslodavac_mail_nd_kandidata	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	poslodavac_mobilni_nd_kandidata	varchar(50)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidata	komentar_nd_kandidata	text	TEXT		Freitext/JSON
+idk_nd_kandidata	vrijeme_kreiranja_nd_kandidata	datetime	DATUM		Datum/Zeit
+idk_nd_kandidata	dodao_zaposlenik_nd_kandidata	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nd_kandidata	zaduzen_zaposlenik_nd_kandidata	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nd_kandidata	tim_nd_kandidata	int	FK	idk_timovi.id_t	Name/Kommentar
+idk_nd_kandidata	status_nd_kandidata	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	pstatus_nd_kandidata	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	idd_ustanova_nd	int	FK	idk_nd_ustanove.id_ustanove_nd	Name/Kommentar
+idk_nd_kandidata	broj_zahtjeva_na_ustanovi_nd_kandidata	varchar(100)	TEXT		Freitext (varchar(100))
+idk_nd_kandidata	idd_kontakt_ustanova_nd	int	FK	idk_nd_ustanove_kontakti.id_kontakt_ustanove_nd	Name/Kommentar
+idk_nd_kandidata	tracking_number_nd_kandidata	varchar(100)	TEXT		Freitext (varchar(100))
+idk_nd_kandidata	link_tracking_number_nd_kandidata	int	FK	idk_link_generator.lg_id	Hypothese
+idk_nd_kandidata	vrsta_ugovora_nd_kandidata	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	rata1_nd_kandidata	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	rata1_vrijeme_nd_kandidata	datetime	DATUM		Datum/Zeit
+idk_nd_kandidata	rata2_nd_kandidata	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	rata2_vrijeme_nd_kandidata	datetime	DATUM		Datum/Zeit
+idk_nd_kandidata	povijest_nd_kandidata	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	povijest_vrsta_nd_kandidata	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	kandidat_idd	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_nd_kandidata	partner_nd_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	kampanja_id	int	FK	idk_kampanje_dipl.kd_id	Name/Kommentar
+idk_nd_kandidata	datum_rodjenja	date	DATUM		Datum/Zeit
+idk_nd_kandidata	in_vici_dial	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	status_pp	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	vrijeme_zakaznog_poziva	datetime	DATUM		Datum/Zeit
+idk_nd_kandidata	status_zakaznog_poziva	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	zadnja_komunikacija	datetime	DATUM		Datum/Zeit
+idk_nd_kandidata	chat_slike	text	TEXT		Freitext/JSON
+idk_nd_kandidata	vrsta_obrade	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	nivo_poznavanja_jezika	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	certifikat_nd_kandidata	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	inbound_aktivan	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata	poslan_spisak_datum	date	DATUM		Datum/Zeit
+idk_nd_kandidata	dokumentacija_kompletna_datum	date	DATUM		Datum/Zeit
+idk_nd_kandidata	na_prevodu_datum	date	DATUM		Datum/Zeit
+idk_nd_kandidata	prevod_zavrsen_datum	date	DATUM		Datum/Zeit
+idk_nd_kandidata	poslana_posta_datum	date	DATUM		Datum/Zeit
+idk_nd_kandidata	zaprimljena_dokumentacija_datum	date	DATUM		Datum/Zeit
+idk_nd_kandidata	stigla_taksa_dopuna_datum	date	DATUM		Datum/Zeit
+idk_nd_kandidata	placena_taksa_poslana_dopuna_datum	date	DATUM		Datum/Zeit
+idk_nd_kandidata	zavrsen_datum	date	DATUM		Datum/Zeit
+idk_nd_kandidata_biljeske	id_biljeska_nd	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_kandidata_biljeske	id_kandidata_biljeska_nd	int	FK	idk_nd_kandidata.id_broj_nd_kandidata	DIPL-ID-Raum (HANDOVER §5)
+idk_nd_kandidata_biljeske	status_biljeska_nd	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata_biljeske	tip_biljeska_nd	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata_biljeske	razlog_biljeska_nd	int	LOOKUP	idk_ro_usluge.id_ro	Kommentar
+idk_nd_kandidata_biljeske	sadrzaj_biljeska_nd	text	TEXT		Freitext/JSON
+idk_nd_kandidata_biljeske	vrijeme_dodavanja_biljeska_nd	datetime	DATUM		Datum/Zeit
+idk_nd_kandidata_biljeske	vrijeme_grupa_biljeska_nd	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata_biljeske	dodao_zaposlenik_biljeska_nd	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nd_kandidata_biljeske	predracun_id	int	FK	idk_predracuni.pr_id	Kommentar
+idk_nd_kandidata_biljeske	predracun_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata_biljeske	vrijeme_ponovnog_zvanja	datetime	DATUM		Datum/Zeit
+idk_nd_kandidata_biljeske	uplata_na_datum	datetime	DATUM		Datum/Zeit
+idk_nd_kandidata_biljeske	zadnja_inkaso_biljeska	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata_biljeske	prilog_biljeska_nd	text	TEXT		Freitext/JSON
+idk_nd_kandidata_dokumenti	id_dokument_nd	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_kandidata_dokumenti	naziv_dokument_nd	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_nd_kandidata_dokumenti	naziv_dokument_ostali_nd	varchar(300)	TEXT		Personen-/Freitextfeld laut Name
+idk_nd_kandidata_dokumenti	status_dokument_nd	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata_dokumenti	id_kandidata_dokument_nd	int	FK	idk_nd_kandidata.id_broj_nd_kandidata	DIPL-ID-Raum (HANDOVER §5)
+idk_nd_kandidata_dokumenti	vrijeme_dodavanja_dokument_nd	datetime	DATUM		Datum/Zeit
+idk_nd_kandidata_dokumenti	dodao_zaposlenik_dokument_nd	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nd_kandidata_dokumenti	tip_dokumenta	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata_dokumenti	tip_dokumenta_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata_dokumenti	broj_rate	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nd_kandidata_status_log	id_log_status_nd_kandidata	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_kandidata_status_log	idd_broj_nd_kandidata	int	FK	idk_nd_kandidata.id_broj_nd_kandidata	DIPL-ID-Raum (HANDOVER §5)
+idk_nd_kandidata_status_log	status_nd_kandidata	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata_status_log	pstatus_nd_kandidata	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidata_status_log	vrijeme_promjene_statusa_nd_kandidata	datetime	DATUM		Datum/Zeit
+idk_nd_kandidata_status_log	broj_dana_statusa_nd_kandidata	int	ZAHL		Zahl/Menge laut Name
+idk_nd_kandidata_status_log	promjenio_zaposlenik_nd_kandidata	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nd_kandidati_ciscenje	kandidat_ciscenje_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_kandidati_ciscenje	id_kandidata_dipl	int	FK	idk_nd_kandidata.id_broj_nd_kandidata	DIPL-ID-Raum (HANDOVER §5)
+idk_nd_kandidati_ciscenje	ime_kandidata	varchar(255)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidati_ciscenje	prezime_kandidata	varchar(255)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidati_ciscenje	hash_id_dipl	varchar(255)	TECH		Hash
+idk_nd_kandidati_ciscenje	status_informacija	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidati_ciscenje	status_pracenja	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidati_ciscenje	broj_telefona	varchar(255)	PII		Personen-/Freitextfeld laut Name
+idk_nd_kandidati_ciscenje	id_kandidata_posao	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_nd_kandidati_ciscenje	arhiva	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidati_ciscenje	treba_prebaciti_jezik_u_dipl	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidati_ciscenje	znanje_jezika_iz_idk_kan_jezici	varchar(255)	TEXT		Freitext (varchar(255))
+idk_nd_kandidati_ciscenje	treba_prebaciti_skolu_smjer_u_dipl	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_kandidati_ciscenje	skola	int	FK	idk_skole.skola_id	Name/Kommentar
+idk_nd_kandidati_ciscenje	smjer	int	FK	idk_skole_smjerovi.ss_id	Name/Kommentar
+idk_nd_limiti	lt_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_limiti	lt_emp_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nd_limiti	lt_drzava	varchar(20)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_limiti	lt_dnevni	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nd_limiti	lt_sedmicni	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nd_limiti	lt_mjesecni	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nd_limiti	lt_dnevni_cnt	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nd_limiti	lt_sedmicni_cnt	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nd_limiti	lt_mjesecni_cnt	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nd_limiti	lt_zadnji_dobio_bih	int	FK	idk_nd_kandidata.id_broj_nd_kandidata,idk_kandidati.kandidat_id	'zuletzt erhalten' -> Kandidat-ID (Hypothese)
+idk_nd_limiti	lt_zadnji_dobio_srb	int	FK	idk_nd_kandidata.id_broj_nd_kandidata,idk_kandidati.kandidat_id	'zuletzt erhalten' -> Kandidat-ID (Hypothese)
+idk_nd_limiti	lt_zadnji_dobio_de	int	FK	idk_nd_kandidata.id_broj_nd_kandidata,idk_kandidati.kandidat_id	'zuletzt erhalten' -> Kandidat-ID (Hypothese)
+idk_nd_limiti	lt_zadnji_dobio_ostalo	int	FK	idk_nd_kandidata.id_broj_nd_kandidata,idk_kandidati.kandidat_id	'zuletzt erhalten' -> Kandidat-ID (Hypothese)
+idk_nd_limiti	lt_campaign_category	varchar(15)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_menadzeri_statistike	id_stat	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_menadzeri_statistike	idd_broj_nd_kandidata	int	FK	idk_nd_kandidata.id_broj_nd_kandidata	DIPL-ID-Raum (HANDOVER §5)
+idk_nd_menadzeri_statistike	zaduzen_zaposlenik_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nd_menadzeri_statistike	prethodni_zaposlenik_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nd_menadzeri_statistike	vrsta_aktivnosti	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_menadzeri_statistike	vrijeme_aktivnosti	datetime	DATUM		Datum/Zeit
+idk_nd_naplata_preko	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_naplata_preko	naplata_preko	varchar(200)	TEXT		Freitext (varchar(200))
+idk_nd_naplata_preko	drzava	varchar(10)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_naplata_preko	fk_naplata_preko	int	CODE		Code (unklar)
+idk_nd_naplata_preko	aktivno	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_naplata_preko	datum_aktivacije	datetime	DATUM		Datum/Zeit
+idk_nd_poste	id_poste	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_poste	naziv_poste	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_nd_poste	link_poste	text	TEXT		Freitext/JSON
+idk_nd_rate	id_r	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_rate	id_nd_kan	int	FK	idk_nd_kandidata.id_broj_nd_kandidata	DIPL-ID-Raum (HANDOVER §5)
+idk_nd_rate	br_r	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nd_rate	vr_u_r	datetime	DATUM		Datum/Zeit
+idk_nd_termini	termin_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_termini	termin_kandidat_id	int	FK	idk_nd_kandidata.id_broj_nd_kandidata	DIPL-ID-Raum (HANDOVER §5)
+idk_nd_termini	termin_vrijeme	datetime	DATUM		Datum/Zeit
+idk_nd_termini	termin_kandidat_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_termini	termin_kandidat_pstatus	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_termini	termin_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_termini	termin_zaposlenik_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nd_termini	termin_biljeska_id	int	FK	idk_nd_kandidata_biljeske.id_biljeska_nd	Kommentar
+idk_nd_ugovori	ug_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_ugovori	ug_kandidat_id	int	FK	idk_nd_kandidata.id_broj_nd_kandidata	DIPL-ID-Raum (HANDOVER §5)
+idk_nd_ugovori	ug_broj	varchar(50)	TEXT		Vertragsnummer (Belegnummer)
+idk_nd_ugovori	ug_vrsta	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_ugovori	ug_zaposlenik_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nd_ugovori	ug_token	varchar(50)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_nd_ugovori	ug_jezik	varchar(10)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_ugovori	ug_file	varchar(50)	TEXT		Personen-/Freitextfeld laut Name
+idk_nd_ugovori	ug_file_de	varchar(50)	TEXT		Personen-/Freitextfeld laut Name
+idk_nd_ugovori	ug_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_ugovori	ug_datum_arhiviranja	datetime	DATUM		Datum/Zeit
+idk_nd_ugovori	ug_datum_slanja	datetime	DATUM		Datum/Zeit
+idk_nd_ugovori	ug_datum_prihvatanja	datetime	DATUM		Datum/Zeit
+idk_nd_ugovori	ug_datum_odbijanja	datetime	DATUM		Datum/Zeit
+idk_nd_ugovori	ug_datum_otvaranja_linka	datetime	DATUM		Datum/Zeit
+idk_nd_ugovori	ug_ip_adresa	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_nd_ugovori	ug_timestamp	varchar(30)	DATUM		Zeitstempel als Text
+idk_nd_ugovori	ug_razlog_odbijanja	int	LOOKUP	idk_ro_usluge.id_ro	RO-Usluge Typ 3 (Hypothese)
+idk_nd_ugovori	ug_komentar	text	TEXT		Freitext/JSON
+idk_nd_ustanove	id_ustanove_nd	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_ustanove	naziv_ustanove_nd	varchar(200)	TEXT		Personen-/Freitextfeld laut Name
+idk_nd_ustanove	ulica_ustanove_nd	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_nd_ustanove	postanski_broj_ustanove_nd	int	ZAHL		PLZ
+idk_nd_ustanove	grad_ustanove_nd	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_nd_ustanove	regija_da_ne_ustanove_nd	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_ustanove	naziv_regije_ustanove_nd	varchar(50)	TEXT		Personen-/Freitextfeld laut Name
+idk_nd_ustanove	drzava_ustanove_nd	varchar(100)	TEXT		Freitext (varchar(100))
+idk_nd_ustanove	period_nostrifikacije_ustanove_nd	int	ZAHL		Zahl/Menge laut Name
+idk_nd_ustanove	napomena_ustanove_nd	text	TEXT		Freitext/JSON
+idk_nd_ustanove	datum_registracije_ustanove_nd	datetime	DATUM		Datum/Zeit
+idk_nd_ustanove	dodao_zaposlenik_ustanove_nd	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nd_ustanove_biljeske	id_biljeska_nd	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_ustanove_biljeske	id_ustanova_biljeska_nd	int	FK	idk_nd_ustanove.id_ustanove_nd	Name/Kommentar
+idk_nd_ustanove_biljeske	sadrzaj_biljeska_nd	text	TEXT		Freitext/JSON
+idk_nd_ustanove_biljeske	vrijeme_dodavanja_biljeska_nd	datetime	DATUM		Datum/Zeit
+idk_nd_ustanove_biljeske	vrijeme_grupa_biljeska_nd	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_ustanove_biljeske	dodao_zaposlenik_biljeska_nd	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nd_ustanove_kontakti	id_kontakt_ustanove_nd	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_ustanove_kontakti	ime_kontakt_ustanove_nd	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_nd_ustanove_kontakti	prezime_kontakt_ustanove_nd	varchar(150)	PII		Personen-/Freitextfeld laut Name
+idk_nd_ustanove_kontakti	email_kontakt_ustanove_nd	varchar(200)	PII		Personen-/Freitextfeld laut Name
+idk_nd_ustanove_kontakti	broj_telefona_kontakt_ustanove_nd	varchar(50)	PII		Personen-/Freitextfeld laut Name
+idk_nd_ustanove_kontakti	zaduzenje_kontakt_ustanove_nd	text	TEXT		Freitext/JSON
+idk_nd_ustanove_kontakti	idd_ustanove_nd	int	FK	idk_nd_ustanove.id_ustanove_nd	Name/Kommentar
+idk_nd_ustanove_skola	id_skole_ustanove_nd	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_ustanove_skola	skola_idd	int	FK	idk_skole.skola_id	Name/Kommentar
+idk_nd_ustanove_skola	idd_ustanove_nd	int	FK	idk_nd_ustanove.id_ustanove_nd	Name/Kommentar
+idk_nd_ustanove_skole_smjerovi	id_skole_smjer_ustanove_nd	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_ustanove_skole_smjerovi	idd_skole_ustanove_nd	int	FK	idk_nd_ustanove_skola.id_skole_ustanove_nd	Name/Kommentar
+idk_nd_ustanove_skole_smjerovi	ss_idd	int	FK	idk_skole_smjerovi.ss_id	Name/Kommentar
+idk_nd_ustanove_tip_dokumenta	id_tip_dokumenta_ustanove_nd	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nd_ustanove_tip_dokumenta	povezanost_dokumenta_ustanove_nd	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_ustanove_tip_dokumenta	naziv_tip_dokumenta_ustanove_nd	varchar(200)	TEXT		Freitext (varchar(200))
+idk_nd_ustanove_tip_dokumenta	obaveznost_dokumenta_ustanove_nd	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_ustanove_tip_dokumenta	idd_ustanove_nd	int	FK	idk_nd_ustanove.id_ustanove_nd	Name/Kommentar
+idk_nd_ustanove_tip_dokumenta	idd_skole_ustanove_nd	int	FK	idk_nd_ustanove_skola.id_skole_ustanove_nd	Name/Kommentar
+idk_nd_ustanove_tip_dokumenta	idd_skole_smjer_ustanove_nd	int	FK	idk_nd_ustanove_skole_smjerovi.id_skole_smjer_ustanove_nd	Name/Kommentar
+idk_nd_ustanove_tip_dokumenta	template_dokumenta_ustanove_nd	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nd_ustanove_tip_dokumenta	template_naziv_dokumenta_ustanove_nd	varchar(100)	TEXT		Freitext (varchar(100))
+idk_nedostupan_log	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nedostupan_log	kandidat	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_nedostupan_log	nalog	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_nedostupan_log	agent	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nedostupan_log	brojac	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_nedostupan_log	status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_nedostupan_log	doe	timestamp	DATUM		Datum/Zeit
+idk_nostrifikovane_diplome	id_nd	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_nostrifikovane_diplome	id_cand_dipl	int	FK	idk_nd_kandidata.id_broj_nd_kandidata	DIPL-ID-Raum (HANDOVER §5)
+idk_nostrifikovane_diplome	id_cand_job	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_nostrifikovane_diplome	file_nd	text	TEXT		Freitext/JSON
+idk_nostrifikovane_diplome	upload_date_nd	datetime	DATUM		Datum/Zeit
+idk_nostrifikovane_diplome	upload_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_nostrifikovane_diplome	full_recognition	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_notes	note_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_notes	note_txt	text	TEXT		Freitext/JSON
+idk_notes	note_files	text	TEXT		Freitext/JSON
+idk_notes	note_datetime	datetime	DATUM		Datum/Zeit
+idk_notes	note_group	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_notes	note_dataid	int	POLY	idk_kandidati.kandidat_id,idk_companies.company_id,idk_contacts.contact_id,idk_nalozi.nalog_id,idk_projects.project_id,idk_employees.employee_id,idk_clients.client_id,idk_nd_kandidata.id_broj_nd_kandidata,idk_tasks.task_id,users.id	gruppiert nach note_group; Gruppen undokumentiert
+idk_notes	note_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_notification	not_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_notification	not_kandidatid	int	FK	idk_kandidati.kandidat_id,idk_nd_kandidata.id_broj_nd_kandidata	Typ 2 = ponovna prijava (DIPL?) -> beide ID-Räume geprüft
+idk_notification	not_text	text	TEXT		Freitext/JSON
+idk_notification	not_url	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_notification	not_date	datetime	DATUM		Datum/Zeit
+idk_notification	not_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_notification	not_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_notifications	notification_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_notifications	notification_datetime	datetime	DATUM		Datum/Zeit
+idk_notifications	notification_title	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_notifications	notification_icon	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_notifications	notification_link	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_notifications	notification_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_notifications	notification_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_obracuni	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_obracuni	employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_obracuni	predracun_id	int	FK	idk_predracuni.pr_id	Name/Kommentar
+idk_obracuni	status_predracuna	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_obracuni	status_obracuna	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_obracuni	valuta	varchar(10)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_obracuni	rata	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_obracuni	broj_rata	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_obracuni	vrijednost_tipa	double	ZAHL		Betrag/Messwert
+idk_obracuni	vrijednost_kategorije	double	ZAHL		Betrag/Messwert
+idk_obracuni	iznos_obracuna_bam	double	ZAHL		Betrag/Messwert
+idk_obracuni	iznos_obracuna_rsd	double	ZAHL		Betrag/Messwert
+idk_obracuni	iznos_obracuna_eur	float	ZAHL		Betrag/Messwert
+idk_obracuni	vrijeme_kreiranja	datetime	DATUM		Datum/Zeit
+idk_obracuni	vrijeme_uplate	datetime	DATUM		Datum/Zeit
+idk_obracuni	vrijeme_isplate	datetime	DATUM		Datum/Zeit
+idk_obracuni	tip_provizije	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_obracuni	kategorija_provizije	int	LOOKUP	idk_kategorije_provizija.kp_id	Hypothese
+idk_ostatci_obracuna	oo_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_ostatci_obracuna	oo_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_ostatci_obracuna	oo_valuta	varchar(10)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_ostatci_obracuna	oo_iznos	double	ZAHL		Betrag/Messwert
+idk_ostatci_obracuna	oo_vrijeme_kreiranja	datetime	DATUM		Datum/Zeit
+idk_ostatci_obracuna	oo_period_od	datetime	DATUM		Datum/Zeit
+idk_ostatci_obracuna	oo_period_do	datetime	DATUM		Datum/Zeit
+idk_ostatci_obracuna	oo_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_otherdata	otherdata_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_otherdata	otherdata_data	varchar(150)	TEXT		Freitext (varchar(150))
+idk_otherdata	otherdata_group	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_partner_companies	pc_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_partner_companies	pc_name	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_partner_companies	pc_primary_color	json	TEXT		Freitext/JSON
+idk_partner_companies	pc_logo	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_partner_meetings	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_partner_meetings	meeting_appointment	datetime	DATUM		Datum/Zeit
+idk_partner_meetings	meeting_type	varchar(255)	CODE		Kommentar: Typ
+idk_partner_meetings	meeting_company_id	int	FK	idk_companies.company_id	Firma laut Name/Kommentar
+idk_partner_meetings	meeting_employee	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_partner_notification	notification_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_partner_notification	notification_type_id	int	LOOKUP	idk_partner_personal_notification_types.type_id	Name
+idk_partner_notification	notification_audience	varchar(255)	TEXT		Freitext (varchar(255))
+idk_partner_notification	notification_payload	text	TEXT		Freitext/JSON
+idk_partner_notification	notification_sent_at	datetime	DATUM		Datum/Zeit
+idk_partner_notification	notification_created_at	datetime	DATUM		Datum/Zeit
+idk_partner_notification	notification_title	text	TEXT		Freitext/JSON
+idk_partner_notification	notification_content	text	TEXT		Freitext/JSON
+idk_partner_notification	notification_partner_id	int	FK	idk_jobstep_partners.jp_id	JobStep-Partner (Makler) laut Name/Kommentar
+idk_partner_notification	notification_action	varchar(255)	TEXT		Freitext (varchar(255))
+idk_partner_notification_logs	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_partner_notification_logs	employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_partner_notification_logs	title_de	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_partner_notification_logs	content_de	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_partner_notification_logs	title_en	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_partner_notification_logs	content_en	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_partner_notification_logs	created_at	timestamp	DATUM		Datum/Zeit
+idk_partner_notification_status	status_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_partner_notification_status	partner_id	int	FK	idk_jobstep_partners.jp_id	JobStep-Partner (Makler) laut Name/Kommentar
+idk_partner_notification_status	notification_id	int	FK	idk_partner_notification.notification_id	Name/Kommentar
+idk_partner_notification_status	read_at	datetime	DATUM		Datum/Zeit
+idk_partner_notification_status	deleted_at	datetime	DATUM		Datum/Zeit
+idk_partner_personal_notification_types	type_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_partner_personal_notification_types	type_name	varchar(255)	TEXT		Freitext (varchar(255))
+idk_partner_personal_notifications_preferences	preference_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_partner_personal_notifications_preferences	mute_all_notifications	tinyint(1)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_partner_personal_notifications_preferences	blocked_notification_types	text	TEXT		Freitext/JSON
+idk_partner_personal_notifications_preferences	partner_id	int	FK	idk_jobstep_partners.jp_id	JobStep-Partner (Makler) laut Name/Kommentar
+idk_partner_pushnot	idk_ppid	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_partner_pushnot	idk_partnerid	int	FK	idk_jobstep_partners.jp_id	JobStep-Partner (Makler) laut Name/Kommentar
+idk_partner_pushnot	idk_partner_imeprezime	varchar(555)	PII		Personen-/Freitextfeld laut Name
+idk_partner_pushnot	idk_partner_telefon	varchar(555)	PII		Personen-/Freitextfeld laut Name
+idk_partner_pushnot	idk_partner_email	varchar(555)	PII		Personen-/Freitextfeld laut Name
+idk_partner_pushnot	idk_datum_registracije	varchar(555)	TEXT		Freitext (varchar(555))
+idk_partner_tutorials	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_partner_tutorials	name	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_partner_tutorials	file_name	varchar(50)	TEXT		Personen-/Freitextfeld laut Name
+idk_partner_tutorials	is_default	tinyint(1)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_partner_tutorials	doe	datetime	DATUM		Datum/Zeit
+idk_partner_tutorials	employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_partner_uplate	jp_uplateid	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_partner_uplate	jp_uplate_partnerid	int	FK	idk_jobstep_partners.jp_id	JobStep-Partner (Makler) laut Name/Kommentar
+idk_partner_uplate	jp_uplate_kandidatid	int	POLY	idk_kandidati.kandidat_id,idk_nd_kandidata.id_broj_nd_kandidata	gruppiert nach jp_uplate_vrsta; 1 = NALOG (Kandidat), 2 = DIPL
+idk_partner_uplate	jp_uplate_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_partner_uplate	jp_uplate_zaposlenikid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_partner_uplate	jp_uplate_datum	datetime	DATUM		Datum/Zeit
+idk_partner_uplate	jp_uplate_provizija	varchar(255)	TEXT		Freitext (varchar(255))
+idk_partner_uplate	jp_uplate_vrsta	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_partner_user_log	log_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_partner_user_log	user_id	int	FK	idk_jobstep_partners.jp_id,idk_pp_users.pu_id	Partner-App-Benutzer (Hypothesen)
+idk_partner_user_log	created_at	timestamp	DATUM		Datum/Zeit
+idk_partner_user_log	log_desc	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_ponovne_prijave	id_pp	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_ponovne_prijave	porijeklo_pp	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_ponovne_prijave	id_kandidata	int	FK	idk_nd_kandidata.id_broj_nd_kandidata	DIPL-ID-Raum (HANDOVER §5)
+idk_ponovne_prijave	employee_pp	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_ponovne_prijave	datum_pp	datetime	DATUM		Datum/Zeit
+idk_ponovne_prijave	povijest_pp	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_ponovne_prijave	povijest_vrsta_pp	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_ponovne_prijave	kampanja_pp	int	FK	idk_kampanje_dipl.kd_id	Kommentar
+idk_ponovne_prijave	opis_pp	text	TEXT		Freitext/JSON
+idk_poslovnice	branch_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_poslovnice	branch_name	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_poslovnice	branch_state	varchar(150)	TEXT		Freitext (varchar(150))
+idk_poslovnice	branch_city	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_pp_appointment_groups	ppaq_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_appointment_groups	ppaq_start_date	date	DATUM		Datum/Zeit
+idk_pp_appointment_groups	ppaq_end_date	date	DATUM		Datum/Zeit
+idk_pp_appointment_groups	ppaq_casting_cron_executed	tinyint(1)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_appointment_groups	ppaq_interview_cron_executed	tinyint(1)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_appointment_groups	papq_name	varchar(200)	TEXT		Personen-/Freitextfeld laut Name
+idk_pp_appointment_groups	papq_name_de	varchar(200)	TEXT		Personen-/Freitextfeld laut Name
+idk_pp_appointment_groups	papq_nalog_id	varchar(7)	FK	idk_nalozi.nalog_id	varchar(7) -> CAST
+idk_pp_appointment_hours	pah_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_appointment_hours	pah_time	time	DATUM		Datum/Zeit
+idk_pp_appointment_hours	pah_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_pp_appointment_hours	pah_doe	timestamp	DATUM		Datum/Zeit
+idk_pp_appointment_hours	pap_id	int	FK	idk_pp_appointments.pap_id	Kommentar
+idk_pp_appointments	pap_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_appointments	pap_date	date	DATUM		Datum/Zeit
+idk_pp_appointments	pap_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_pp_appointments	pap_city	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_pp_appointments	pap_location_name	text	TEXT		Freitext/JSON
+idk_pp_appointments	pap_google_maps_location	text	TEXT		Freitext/JSON
+idk_pp_appointments	pap_first_sending_number_days	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_pp_appointments	pap_second_sending_number_days	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_pp_appointments	pap_first_send_enabled	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_appointments	pap_second_send_enabled	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_appointments	pap_group_id	varchar(7)	FK	idk_pp_appointment_groups.ppaq_id	varchar(7) -> CAST
+idk_pp_appointments_questions	papq_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_appointments_questions	papq_question_id	int	FK	idk_pp_questions.pqu_id	Name/Kommentar
+idk_pp_appointments_questions	papq_appointment_id	int	FK	idk_pp_appointments.pap_id	Name/Kommentar
+idk_pp_appointments_questions	papq_order	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_pp_cand_appts	pca_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_cand_appts	pca_appointment_id	int	FK	idk_pp_appointments.pap_id	Name/Kommentar
+idk_pp_cand_appts	pca_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_pp_cand_appts	pca_time	time	DATUM		Datum/Zeit
+idk_pp_cand_appts	pca_avg_rating	double	ZAHL		Betrag/Messwert
+idk_pp_cand_appts	pca_comment	text	TEXT		Freitext/JSON
+idk_pp_cand_appts	pca_interviewer	text	TEXT		Freitext/JSON
+idk_pp_cand_appts	pca_recommendation	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_cand_appts	pca_reason_recommendation	text	TEXT		Freitext/JSON
+idk_pp_cand_appts	pca_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_cand_appts	pca_pah_id	int	FK	idk_pp_appointment_hours.pah_id	Name/Kommentar
+idk_pp_cand_required_documents	crd_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_cand_required_documents	crd_cand_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_pp_cand_required_documents	crd_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_pp_cand_required_documents	crd_type_id	int	LOOKUP	idk_pp_document_types.doc_type_id	Kommentar
+idk_pp_cand_required_documents	crd_done_by	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_cand_required_documents	crd_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_cand_required_documents	crd_date_activated	datetime	DATUM		Datum/Zeit
+idk_pp_cand_required_documents	crd_user_activated	int	FK	idk_employees.employee_id,idk_pp_users.pu_id	Benutzer CRM oder PP (Hypothesen)
+idk_pp_cand_required_documents	crd_date_archived	datetime	DATUM		Datum/Zeit
+idk_pp_cand_required_documents	crd_user_archived	int	FK	idk_employees.employee_id,idk_pp_users.pu_id	Benutzer CRM oder PP (Hypothesen)
+idk_pp_cand_required_documents	crd_comment	text	TEXT		Freitext/JSON
+idk_pp_cand_required_documents	crd_vi_id	int	FK	idk_pp_visa_incomplete.vi_id	Kommentar
+idk_pp_city	pc_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_city	pc_region	int	LOOKUP	idk_pp_regions.pr_id	Kommentar
+idk_pp_city	pc_name	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_pp_city	pc_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_contract_sent	id_cs	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_contract_sent	cs_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_pp_contract_sent	cs_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_pp_contract_sent	cs_partner_id	int	FK	idk_pp_partners.ppa_id,idk_jobstep_partners.jp_id	Kommentar: Partner aus idk_kandidati (= kandidat_ppa_partner_id?)
+idk_pp_contract_sent	cs_tracking_code	text	TEXT		Sendungsnummer
+idk_pp_contract_sent	cs_tracking_link	text	TEXT		Freitext/JSON
+idk_pp_contract_sent	cs_sent_date	date	DATUM		Datum/Zeit
+idk_pp_contract_sent	cs_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_contract_sent	cs_entry_date	datetime	DATUM		Datum/Zeit
+idk_pp_contract_sent	cs_entry_pua_id	int	FK	idk_pp_user_access.pua_id	Kommentar
+idk_pp_contract_sent	cs_entry_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_pp_contract_sent	cs_received_date	date	DATUM		Datum/Zeit
+idk_pp_contract_sent	cs_received_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_pp_contract_sent	cs_archived_date	datetime	DATUM		Datum/Zeit
+idk_pp_contract_sent	cs_archived_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_pp_document_types	doc_type_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_document_types	doc_type_name	varchar(400)	TEXT		Freitext (varchar(400))
+idk_pp_document_types	doc_type_name_de	varchar(400)	TEXT		Freitext (varchar(400))
+idk_pp_document_types	doc_type_date	datetime	DATUM		Datum/Zeit
+idk_pp_document_types	doc_type_entered_user	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_pp_documents	doc_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_documents	doc_file_name	varchar(512)	TEXT		Personen-/Freitextfeld laut Name
+idk_pp_documents	doc_candidate_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_pp_documents	doc_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_pp_documents	doc_partner_id	int	FK	idk_pp_partners.ppa_id,idk_jobstep_partners.jp_id	Partner-Portal-Partner (Arbeitgeber), Hypothese gegen Makler geprüft
+idk_pp_documents	doc_visibility_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_documents	doc_nrd_id	int	FK	idk_pp_nalog_required_documents.nrd_id	Kommentar
+idk_pp_documents	doc_crd_id	int	FK	idk_pp_cand_required_documents.crd_id	Kommentar
+idk_pp_documents	doc_status	int	LOOKUP	idk_pp_documents_statuses.ds_id	Kommentar
+idk_pp_documents_status_logs	dsl_doc_id	int	FK	idk_pp_documents.doc_id	PK-Teil
+idk_pp_documents_status_logs	dsl_doc_status	int	LOOKUP	idk_pp_documents_statuses.ds_id	PK-Teil
+idk_pp_documents_status_logs	dsl_date	datetime	DATUM		Datum/Zeit
+idk_pp_documents_status_logs	dsl_user_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_pp_documents_status_logs	dsl_pp_user_id	int	FK	idk_pp_users.pu_id	Kommentar
+idk_pp_documents_status_logs	dsl_days_count	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_pp_documents_status_logs	dsl_comment	text	TEXT		Freitext/JSON
+idk_pp_documents_statuses	ds_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_documents_statuses	ds_name	varchar(50)	CODE		Statusname (Lookup-Text)
+idk_pp_documents_statuses	ds_name_de	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_pp_documents_statuses	ds_name_pp	varchar(250)	TEXT		Freitext (varchar(250))
+idk_pp_documents_statuses	ds_name_de_pp	varchar(250)	TEXT		Freitext (varchar(250))
+idk_pp_documents_statuses	ds_order	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_pp_informacije_profil	pip_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_informacije_profil	pip_name	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_pp_informacije_profil	pip_name_de	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_pp_informacije_profil	pip_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_nalog_profil	pnp_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_nalog_profil	pnp_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_pp_nalog_profil	pnp_info_id	int	LOOKUP	idk_pp_informacije_profil.pip_id	Kommentar
+idk_pp_nalog_required_documents	nrd_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_nalog_required_documents	nrd_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_pp_nalog_required_documents	nrd_type_id	int	LOOKUP	idk_pp_document_types.doc_type_id	Kommentar
+idk_pp_nalog_required_documents	nrd_done_by	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_nalog_required_documents	nrd_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_nalog_required_documents	nrd_date_activated	datetime	DATUM		Datum/Zeit
+idk_pp_nalog_required_documents	nrd_user_activated	int	FK	idk_employees.employee_id,idk_pp_users.pu_id	Benutzer CRM oder PP (Hypothesen)
+idk_pp_nalog_required_documents	nrd_date_archived	datetime	DATUM		Datum/Zeit
+idk_pp_nalog_required_documents	nrd_user_archived	int	FK	idk_employees.employee_id,idk_pp_users.pu_id	Benutzer CRM oder PP (Hypothesen)
+idk_pp_nalog_required_documents	nrd_comment	text	TEXT		Freitext/JSON
+idk_pp_nalog_required_documents	nrd_skilled_candidates	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_nalog_required_documents	nrd_west_balkan	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_nalog_required_documents	nrd_work_experience	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_partners	ppa_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_partners	ppa_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_pp_partners	ppa_company_id	int	FK	idk_companies.company_id	Firma laut Name/Kommentar
+idk_pp_partners	ppa_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_partners	ppa_number_of_candidates	int	ZAHL		Zahl/Menge laut Name
+idk_pp_permissions	ppe_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_permissions	ppe_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_permissions	ppe_menu	text	TEXT		Freitext/JSON
+idk_pp_permissions	ppe_title	text	TEXT		Freitext/JSON
+idk_pp_question_categories	pqc_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_question_categories	pqc_name	text	TEXT		Freitext/JSON
+idk_pp_question_categories	pqc_name_de	text	TEXT		Freitext/JSON
+idk_pp_question_options	pqo_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_question_options	pqo_question_id	int	FK	idk_pp_questions.pqu_id	Kommentar
+idk_pp_question_options	pqo_value	int	ZAHL		Zahl/Menge laut Name
+idk_pp_question_options	pqo_value_text	text	TEXT		Freitext/JSON
+idk_pp_question_options	pqo_value_text_de	text	TEXT		Freitext/JSON
+idk_pp_question_options	pqo_value_subtext	text	TEXT		Freitext/JSON
+idk_pp_question_options	pqo_value_subtext_de	text	TEXT		Freitext/JSON
+idk_pp_questions	pqu_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_questions	pqu_question	text	TEXT		Freitext/JSON
+idk_pp_questions	pqu_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_pp_questions	pqu_user_id	int	FK	idk_employees.employee_id,idk_pp_users.pu_id	Benutzer CRM oder PP (Hypothesen)
+idk_pp_questions	pqu_category_id	int	LOOKUP	idk_pp_question_categories.pqc_id	Kommentar
+idk_pp_questions	pqu_has_text	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_questions	pqu_has_rating	int	CODE		Flag
+idk_pp_questions	pqu_has_dropdown	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_questions	pqu_export_order	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_pp_ratings	pra_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_ratings	pra_rating	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_pp_ratings	pra_comment	text	TEXT		Freitext/JSON
+idk_pp_ratings	pra_options_value	int	FK	idk_pp_question_options.pqo_id,idk_pp_question_options.pqo_value	Hypothesen
+idk_pp_ratings	pra_appointment_question_id	int	FK	idk_pp_appointments_questions.papq_id	Name/Kommentar
+idk_pp_ratings	pra_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_pp_regions	pr_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_regions	pr_name	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_pp_regions	pr_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_reminder_documents	prd_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_reminder_documents	prd_prs_id	int	FK	idk_pp_reminder_settings.prs_id	Name/Kommentar
+idk_pp_reminder_documents	prd_nrd_id	int	FK	idk_pp_nalog_required_documents.nrd_id	Name/Kommentar
+idk_pp_reminder_documents	prd_crd_id	int	FK	idk_pp_cand_required_documents.crd_id	Name/Kommentar
+idk_pp_reminder_documents	prd_day_freq	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_pp_reminder_documents	prd_create_after	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_pp_reminder_documents	prd_active	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_reminder_settings	prs_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_reminder_settings	prs_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_pp_reminder_settings	prs_partner_id	int	FK	idk_pp_partners.ppa_id,idk_jobstep_partners.jp_id	Partner-Portal-Partner (Arbeitgeber), Hypothese gegen Makler geprüft
+idk_pp_reminder_settings	prs_reminder_type_id	int	LOOKUP	idk_pp_reminder_types.prt_id	Name
+idk_pp_reminder_settings	prs_pua_ids	varchar(500)	LISTE	idk_pp_user_access.pua_id	Liste
+idk_pp_reminder_settings	prs_controlling_pua_ids	varchar(500)	LISTE	idk_pp_user_access.pua_id	Liste (Kommentar)
+idk_pp_reminder_settings	prs_employee_ids	varchar(50)	LISTE	idk_employees.employee_id	Liste
+idk_pp_reminder_settings	prs_controlling_employee_ids	varchar(50)	LISTE	idk_employees.employee_id	Liste (Kommentar)
+idk_pp_reminder_settings	prs_active	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_reminder_settings	prs_first_trigger_date	date	DATUM		Datum/Zeit
+idk_pp_reminder_settings	prs_create_after	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_pp_reminder_types	prt_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_reminder_types	prt_name	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_pp_reminder_types	prt_user_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_reminder_types	prt_day_freq	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_pp_reminder_types	prt_controling	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_reminder_types	prt_mail_subject_de	varchar(100)	PII		Personen-/Freitextfeld laut Name
+idk_pp_reminder_types	prt_mail_text_de	text	TEXT		Freitext/JSON
+idk_pp_reminder_types	prt_notification_text_de	text	TEXT		Freitext/JSON
+idk_pp_reminder_types	prt_has_documents	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_reminders	pr_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_reminders	pr_reminder_setting_id	int	FK	idk_pp_reminder_settings.prs_id	Name/Kommentar
+idk_pp_reminders	pr_reminder_document_id	int	FK	idk_pp_reminder_documents.prd_id	Name/Kommentar
+idk_pp_reminders	pr_candidate_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_pp_reminders	pr_level	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_pp_reminders	pr_date_sent	datetime	DATUM		Datum/Zeit
+idk_pp_reminders	pr_users_sent	varchar(500)	TEXT		Freitext (varchar(500))
+idk_pp_reminders	pr_user_assigned	int	FK	idk_pp_users.pu_id,idk_pp_user_access.pua_id,idk_employees.employee_id	zugewiesener PP-Benutzer (Hypothesen)
+idk_pp_reminders	pr_done_by_crm_employee	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_pp_reminders	pr_date_assigned	datetime	DATUM		Datum/Zeit
+idk_pp_reminders	pr_date_completed	datetime	DATUM		Datum/Zeit
+idk_pp_reminders	pr_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_user_access	pua_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_user_access	pua_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_user_access	pua_partner_id	int	FK	idk_pp_partners.ppa_id,idk_jobstep_partners.jp_id	Partner-Portal-Partner (Arbeitgeber), Hypothese gegen Makler geprüft
+idk_pp_user_access	pua_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_pp_user_access	pua_user_id	int	FK	idk_pp_users.pu_id	Kommentar
+idk_pp_user_access	pua_permission_id	int	LOOKUP	idk_pp_permissions.ppe_id	Kommentar
+idk_pp_user_access	pua_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_users	pu_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_users	pu_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_users	pu_fname	varchar(100)	PII		Vorname
+idk_pp_users	pu_lname	varchar(150)	PII		Nachname
+idk_pp_users	pu_email	varchar(200)	PII		Personen-/Freitextfeld laut Name
+idk_pp_users	pu_password	varchar(250)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_pp_users	pu_key	varchar(250)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+idk_pp_users	pu_language	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_users	pu_gender	varchar(7)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_users	pu_company_id	int	FK	idk_companies.company_id	Firma laut Name/Kommentar
+idk_pp_visa_incomplete	vi_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pp_visa_incomplete	vi_cand_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_pp_visa_incomplete	vi_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_visa_incomplete	vi_complaint	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_visa_incomplete	vi_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pp_visa_incomplete	vi_date_received_candidate	datetime	DATUM		Datum/Zeit
+idk_pp_visa_incomplete	vi_date_we_received_candidate	datetime	DATUM		Datum/Zeit
+idk_pp_visa_incomplete	vi_deadline_date_candidate	date	DATUM		Datum/Zeit
+idk_pp_visa_incomplete	vi_date_received_employer	datetime	DATUM		Datum/Zeit
+idk_pp_visa_incomplete	vi_date_we_received_employer	datetime	DATUM		Datum/Zeit
+idk_pp_visa_incomplete	vi_deadline_date_employer	date	DATUM		Datum/Zeit
+idk_pp_visa_incomplete	vi_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_pp_visa_incomplete	vi_pp_partner_id	int	FK	idk_pp_partners.ppa_id,idk_jobstep_partners.jp_id	Partner-Portal-Partner (Arbeitgeber), Hypothese gegen Makler geprüft
+idk_predracuni	pr_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_predracuni	pr_naplata_preko	int	CODE		Kommentar 0/1
+idk_predracuni	pr_kandidat_id	int	FK	idk_nd_kandidata.id_broj_nd_kandidata,idk_kandidati.kandidat_id	DIPL-ID-Raum (HANDOVER §5)
+idk_predracuni	pr_broj_predracuna	varchar(50)	TEXT		Belegnummer
+idk_predracuni	pr_datum_kreiranja	timestamp	DATUM		Datum/Zeit
+idk_predracuni	pr_zaposlenik	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_predracuni	pr_vrsta_predracuna	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_predracuni	pr_rata	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_predracuni	pr_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_predracuni	pr_domaca_valuta	varchar(50)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_predracuni	pr_vrijednost_BAM	double	ZAHL		Betrag/Messwert
+idk_predracuni	pr_vrijednost_RSD	double	ZAHL		Betrag/Messwert
+idk_predracuni	pr_vrijednost_EUR	double	ZAHL		Betrag/Messwert
+idk_predracuni	pr_file	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_predracuni	pr_file_de	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_predracuni	pr_uplaceno	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_predracuni	pr_datum_uplate	date	DATUM		Datum/Zeit
+idk_predracuni	pr_opis	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_predracuni	pr_stornirano	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_predracuni	pr_datum_storniranja	datetime	DATUM		Datum/Zeit
+idk_predracuni	pr_vrsta_placanja	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_predracuni	pr_izdan_racun	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_predracuni	pr_stari_ink_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_predracuni	pr_inkaso_agent	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_profil_kriterij	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_profil_kriterij	vozacka_dozvola	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_profil_kriterij	kategorija_vozacke_dozvole	varchar(50)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_profil_kriterij	smjerovi_naloga	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_profil_kriterij	radno_iskustvo_struka	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_profil_kriterij	radno_iskustvo_struka_trajanje	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_profil_kriterij	starost	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_profil_kriterij	starost_minimum	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_profil_kriterij	starost_maksimum	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_profil_kriterij	njemacki_jezik	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_profil_kriterij	nivo_njemackog_jezika	varchar(11)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_profil_kriterij	znanje_drugog_jezika	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_profil_kriterij	engleski_jezik	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_profil_kriterij	nivo_engleskog_jezika	varchar(11)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_profil_kriterij	francuski_jezik	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_profil_kriterij	nivo_francuskog_jezika	varchar(11)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_profil_kriterij	italijanski_jezik	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_profil_kriterij	nivo_italijanskog_jezika	varchar(11)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_profil_kriterij	profil_id	int	FK	idk_nalog_profil.id,idk_pp_informacije_profil.pip_id	Hypothesen
+idk_project_candidate_queue	queue_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_project_candidate_queue	queue_project_id	varchar(7)	FK	idk_projects.project_id	varchar(7) -> CAST
+idk_project_candidate_queue	queue_candidate_id	varchar(7)	FK	idk_kandidati.kandidat_id	varchar(7) -> CAST
+idk_project_candidate_queue	queue_partner_id	int	FK	idk_jobstep_partners.jp_id	JobStep-Partner (Makler) laut Name/Kommentar
+idk_project_candidate_queue	queue_entry_date	datetime	DATUM		Datum/Zeit
+idk_project_candidate_queue	queue_is_assigned	tinyint(1)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_project_kandidati	pk_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_project_kandidati	pk_projectid	int	FK	idk_projects.project_id	Projekt laut Name
+idk_project_kandidati	pk_kandidatid	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_projects	project_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_projects	project_order	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_projects	project_name	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_projects	project_desc	text	TEXT		Freitext/JSON
+idk_projects	project_plannedhours	varchar(20)	ZAHL		Zahl/Menge laut Name
+idk_projects	project_companyid	int	FK	idk_companies.company_id	Firma laut Name/Kommentar
+idk_projects	project_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_projects	project_pmanagerid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_projects	project_datetime	datetime	DATUM		Datum/Zeit
+idk_projects	project_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_projects	project_nalogid	varchar(25)	FK	idk_nalozi.nalog_id	varchar(25) -> CAST
+idk_projects	project_datumtermina	date	DATUM		Datum/Zeit
+idk_projects	project_datumterminado	date	DATUM		Datum/Zeit
+idk_projects	project_eukandidati	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_projects_settings	ps_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_projects_settings	ps_name	varchar(150)	TEXT		Personen-/Freitextfeld laut Name
+idk_projects_settings	ps_group	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_projects_tasks	pt_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_projects_tasks	pt_name	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_projects_tasks	pt_desc	text	TEXT		Freitext/JSON
+idk_projects_tasks	pt_datetime	datetime	DATUM		Datum/Zeit
+idk_projects_tasks	pt_duedatetime	datetime	DATUM		Datum/Zeit
+idk_projects_tasks	pt_projectid	int	FK	idk_projects.project_id	Projekt laut Name
+idk_projects_tasks	pt_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_projects_tasks	pt_box	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_projects_tasks	pt_sort	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_provider_for_sending_messages	psm_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_provider_for_sending_messages	psm_group_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_provider_for_sending_messages	psm_group_name	varchar(500)	TEXT		Freitext (varchar(500))
+idk_provider_for_sending_messages	psm_active_provider	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_pushnotifications	pushnot_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_pushnotifications	pushnot_datetime	datetime	DATUM		Datum/Zeit
+idk_pushnotifications	pushnot_nalogid	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_pushnotifications	pushnot_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_racuni	racun_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_racuni	predracun_id	varchar(11)	FK	idk_predracuni.pr_id	varchar(11) -> CAST
+idk_racuni	racun_broj	varchar(50)	TEXT		Belegnummer
+idk_racuni	racun_kandidat_id	int	FK	idk_nd_kandidata.id_broj_nd_kandidata,idk_kandidati.kandidat_id	DIPL-ID-Raum (HANDOVER §5)
+idk_racuni	racun_datum_kreiranja	timestamp	DATUM		Datum/Zeit
+idk_racuni	racun_vrsta_racuna	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_racuni	racun_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_racuni	racun_domaca_valuta	varchar(50)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_racuni	racun_vrijednost_BAM	double	ZAHL		Betrag/Messwert
+idk_racuni	racun_vrijednost_RSD	double	ZAHL		Betrag/Messwert
+idk_racuni	racun_vrijednost_EUR	double	ZAHL		Betrag/Messwert
+idk_racuni	racun_file	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_racuni	racun_file_de	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_racuni	racun_uplaceno	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_racuni	racun_datum_uplate	date	DATUM		Datum/Zeit
+idk_racuni	racun_opis	text	TEXT		Freitext/JSON
+idk_racuni	racun_stornirano	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_racuni	racun_datum_storniranja	datetime	DATUM		Datum/Zeit
+idk_racuni	racun_razlog_storniranja	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_racuni	racun_komentar_storniranja	text	TEXT		Freitext/JSON
+idk_racuni	racun_bf	varchar(25)	TEXT		Belegnummer
+idk_razlozi_odbijanja	ro_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_razlozi_odbijanja	ro_naziv	text	TEXT		Freitext/JSON
+idk_razlozi_odbijanja	ro_naziv_de	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_razlozi_odbijanja	ro_blok	varchar(255)	TEXT		Freitext (varchar(255))
+idk_razlozi_odbijanja	ro_dio_bloka	varchar(255)	TEXT		Freitext (varchar(255))
+idk_reject_reasons	rr_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_reject_reasons	rr_name_bs	text	TEXT		Freitext/JSON
+idk_reject_reasons	rr_name_de	text	TEXT		Freitext/JSON
+idk_reject_reasons	rr_name_en	text	TEXT		Freitext/JSON
+idk_reject_reasons	rr_rejected_by	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_reject_reasons	rr_user_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_reject_reasons	rr_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_reject_reasons	rr_doe	datetime	DATUM		Datum/Zeit
+idk_reminders	reminder_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_reminders	reminder_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_reminders	reminder_candidate_id	int	POLY	idk_nd_kandidata.id_broj_nd_kandidata,idk_kandidati.kandidat_id	gruppiert nach reminder_type; 1 = Obrada dipl, 2 = odbijeni ugovori
+idk_reminders	reminder_date_time	datetime	DATUM		Datum/Zeit
+idk_reminders	reminder_candidate_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_reminders	reminder_candidate_substatus	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_reminders	reminder_employee	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_reminders	reminder_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_reminders	reminder_foreign_key	int	POLY	idk_nd_kandidata_biljeske.id_biljeska_nd,idk_nd_ugovori.ug_id	gruppiert nach reminder_type; Kommentar: Typ 1 -> Biljeska-ID
+idk_ro_usluge	id_ro	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_ro_usluge	naziv_ro_bs	text	TEXT		Freitext/JSON
+idk_ro_usluge	naziv_ro_sr	text	TEXT		Freitext/JSON
+idk_ro_usluge	naziv_ro_de	text	TEXT		Freitext/JSON
+idk_ro_usluge	tip_ro	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_ro_usluge	status_ro	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_ro_usluge	ponovno_zvanje_ro	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_ro_usluge	br_dana_ro	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_ro_usluge	odobrio_ro	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_ro_usluge	dodao_ro	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_sales_reminders	sr_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_sales_reminders	sr_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_sales_reminders	sr_client_id	int	FK	idk_clients.client_id	Name/Kommentar
+idk_sales_reminders	sr_doe	datetime	DATUM		Datum/Zeit
+idk_sales_reminders	sr_call_datetime	datetime	DATUM		Datum/Zeit
+idk_sales_reminders	sr_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_sales_reminders	sr_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_settings	settings_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_settings	settings_name	varchar(50)	TEXT		Personen-/Freitextfeld laut Name
+idk_settings	settings_title	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_settings	settings_value	text	TEXT		Freitext/JSON
+idk_settings	settings_group	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_skladiste	skl_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_skladiste	skl_branch	int	LOOKUP	idk_poslovnice.branch_id	Name
+idk_skladiste	skl_title	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_skladiste	skl_desc	text	TEXT		Freitext/JSON
+idk_skladiste	skl_image	varchar(250)	TEXT		Freitext (varchar(250))
+idk_skladiste	skl_available	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_skladiste	skl_archive	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_skladiste	skl_kategorija	int	LOOKUP	idk_skladiste_kategorije.isk_id	Name
+idk_skladiste	skl_datum_nabavke	date	DATUM		Datum/Zeit
+idk_skladiste_kategorije	isk_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_skladiste_kategorije	isk_naziv_kategorije	varchar(50)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_skladiste_product	isp_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_skladiste_product	isp_skl_id	int	FK	idk_skladiste.skl_id	Name/Kommentar
+idk_skladiste_product	isp_serijski_broj	varchar(150)	TEXT		Freitext (varchar(150))
+idk_skladiste_product	isp_dodatni_info	text	TEXT		Freitext/JSON
+idk_skladiste_product	isp_razlozi_odbijanja	text	TEXT		Freitext/JSON
+idk_skladiste_product	isp_razlozi_razduzivanja	text	TEXT		Freitext/JSON
+idk_skladiste_product	isp_archive	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_skladiste_product	isp_inventar	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_skladiste_zaposlenici	isz_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_skladiste_zaposlenici	isz_sklid	int	FK	idk_skladiste.skl_id	Name/Kommentar
+idk_skladiste_zaposlenici	sz_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_skladiste_zaposlenici	sz_quantity	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_skladiste_zaposlenici	sz_branch	int	LOOKUP	idk_poslovnice.branch_id	Name
+idk_skladiste_zaposlenici	sz_opis	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_skladiste_zaposlenici	isz_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_skladiste_zaposlenici	isz_product_id	int	FK	idk_skladiste_product.isp_id	Name/Kommentar
+idk_skole	skola_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_skole	skola_naziv	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_skole	skola_naziv_de	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_skole	skola_tip_obrazovanja	varchar(50)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_skole_smjerovi	ss_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_skole_smjerovi	ss_naziv	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_skole_smjerovi	ss_naziv_de	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_skole_smjerovi	ss_naziv_en	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_skole_smjerovi	ss_skola_id	int	FK	idk_skole.skola_id	Name/Kommentar
+idk_skole_smjerovi	ss_trajanje_skole	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_skole_smjerovi	ss_struka_id	int	LOOKUP	idk_struke.id_struke	Name
+idk_sms_messages	sms_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_sms_messages	sms_origin	varchar(50)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_sms_messages	sms_number	varchar(100)	PII		Telefonnummer
+idk_sms_messages	sms_content	text	TEXT		Freitext/JSON
+idk_sms_messages	sms_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_sms_messages	sms_created_at	datetime	DATUM		Datum/Zeit
+idk_sms_messages	sms_response_nthsmsid	text	TECH		ID beim SMS-Anbieter (extern)
+idk_sms_messages	sms_response_statuscode	varchar(10)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_sms_messages	sms_count	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_sms_messages	sms_updated_at	datetime	DATUM		Datum/Zeit
+idk_sms_messages	sms_notification_statuscode	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_sms_messages	sms_notification_datetime	datetime	DATUM		Datum/Zeit
+idk_sms_messages	sms_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_struke	id_struke	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_struke	naziv_struke	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_struke	naziv_struke_de	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_task_force	tf_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_task_force	tf_candidate_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_task_force	tf_agent_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_task_force	tf_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_task_force	tf_project_id	int	FK	idk_projects.project_id	Projekt laut Name
+idk_task_force	tf_casting_id	int	FK	idk_pp_appointment_groups.ppaq_id	Kommentar: ID iz grupe termina
+idk_task_force	tf_status_id	int	LOOKUP	idk_tf_statusi.tfs_id	Name
+idk_task_force	tf_call_appointment	datetime	DATUM		Datum/Zeit
+idk_task_force	tf_note	text	TEXT		Freitext/JSON
+idk_task_force	tf_important_note	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_task_force	tf_last_active_task	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_task_force	tf_brojac_neuspjela_komunikacija	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_task_force	tf_files	text	TEXT		Freitext/JSON
+idk_task_force	tf_doe	datetime	DATUM		Datum/Zeit
+idk_task_force	tf_vrsta_id	int	LOOKUP	idk_tf_vrste.id	Kommentar
+idk_tasks	task_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_tasks	task_txt	text	TEXT		Freitext/JSON
+idk_tasks	task_replytxt	text	TEXT		Freitext/JSON
+idk_tasks	task_duedatetime	datetime	DATUM		Datum/Zeit
+idk_tasks	task_assignedid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_tasks	task_emailnotifi	int	CODE		Flag
+idk_tasks	task_repeatnotifi	int	CODE		Flag
+idk_tasks	task_group	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_tasks	task_dataid	int	POLY	idk_kandidati.kandidat_id,idk_companies.company_id,idk_contacts.contact_id,idk_nalozi.nalog_id,idk_projects.project_id,idk_employees.employee_id,idk_clients.client_id,idk_nd_kandidata.id_broj_nd_kandidata,idk_tasks.task_id,users.id	gruppiert nach task_group; Gruppen undokumentiert
+idk_tasks	task_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_tasks	task_datetime	datetime	DATUM		Datum/Zeit
+idk_tasks	task_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_tf_agent_nalog	tfan_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_tf_agent_nalog	tfan_nalog	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_tf_agent_nalog	tfan_agent	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_tf_agent_nalog	tfan_vrsta_id	int	LOOKUP	idk_tf_vrste.id	Kommentar
+idk_tf_reservations	tf_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_tf_reservations	tf_agent_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_tf_reservations	tf_projekt_id	int	FK	idk_projects.project_id	Projekt laut Name
+idk_tf_reservations	tf_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_tf_reservations	tf_vrsta_id	int	LOOKUP	idk_tf_vrste.id	Kommentar
+idk_tf_reservations	tf_dipl_id	int	FK	idk_nd_kandidata.id_broj_nd_kandidata	DIPL-ID-Raum (HANDOVER §5)
+idk_tf_reservations	tf_category_id	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_tf_stats_reservations	tsr_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_tf_stats_reservations	tsr_candidate_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_tf_stats_reservations	tsr_agent_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_tf_stats_reservations	tsr_interview_id	int	FK	idk_pp_appointment_groups.ppaq_id	Kommentar: ID grupe castinga
+idk_tf_stats_reservations	tsr_nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_tf_stats_reservations	tsr_link_id	int	FK	idk_link_generator.lg_id	Kommentar
+idk_tf_stats_reservations	tsr_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_tf_statusi	tfs_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_tf_statusi	tfs_name	varchar(255)	TEXT		Freitext (varchar(255))
+idk_tf_statusi	tfs_is_positive	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_tf_statusi	tfs_has_interview	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_tf_statusi	tfs_appointment	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_tf_statusi	tfs_order	int	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+idk_tf_statusi	tfs_status_prijave	int	LOOKUP	idk_kandidat_status_prijave.status_id	Kommentar
+idk_tf_statusi	tfs_vrsta_id	int	LOOKUP	idk_tf_vrste.id	Kommentar
+idk_tf_transfered_candidates_logs	tcl_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_tf_transfered_candidates_logs	tcl_transfered_candidates	mediumtext	TEXT		Freitext/JSON
+idk_tf_transfered_candidates_logs	tcl_destination_project_id	int	FK	idk_projects.project_id	Projekt laut Name
+idk_tf_transfered_candidates_logs	tcl_doe	datetime	DATUM		Datum/Zeit
+idk_tf_transfered_candidates_logs	tcl_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_tf_vrste	id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_tf_vrste	name	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+idk_tf_vrste	status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_tf_vrste	category	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_ticketi	ticket_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_ticketi	ticket_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_ticketi	ticket_predmet	varchar(255)	TEXT		Freitext (varchar(255))
+idk_ticketi	ticket_opis	text	TEXT		Freitext/JSON
+idk_ticketi	ticket_hitnost	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_ticketi	ticket_posiljaoc	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_ticketi	ticket_primatelj	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_ticketi	ticket_primatelj_odjel	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_ticketi	ticket_vrijeme_kreiranja	datetime	DATUM		Datum/Zeit
+idk_ticketi	ticket_vrijeme_prihvatanja	datetime	DATUM		Datum/Zeit
+idk_ticketi	ticket_vrijeme_zavrsetka	datetime	DATUM		Datum/Zeit
+idk_ticketi	ticket_dokument	varchar(255)	TEXT		Freitext (varchar(255))
+idk_ticketi_komentari	ticket_k_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_ticketi_komentari	ticket_k_id_tiketa	int	FK	idk_ticketi.ticket_id	Name/Kommentar
+idk_ticketi_komentari	ticket_k_posiljaoc	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_ticketi_komentari	ticket_k_sadrzaj	text	TEXT		Freitext/JSON
+idk_ticketi_komentari	ticket_k_dokument	varchar(50)	TEXT		Dateiname
+idk_ticketi_komentari	ticket_k_vrijeme_kreiranja	datetime	DATUM		Datum/Zeit
+idk_timeline	timeline_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_timeline	timeline_type	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_timeline	timeline_txt	text	TEXT		Freitext/JSON
+idk_timeline	timeline_datetime	datetime	DATUM		Datum/Zeit
+idk_timeline	timeline_group	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_timeline	timeline_dataid	int	POLY	idk_kandidati.kandidat_id,idk_companies.company_id,idk_contacts.contact_id,idk_nalozi.nalog_id,idk_projects.project_id,idk_employees.employee_id,idk_clients.client_id,idk_nd_kandidata.id_broj_nd_kandidata,idk_tasks.task_id,users.id	gruppiert nach timeline_group; Gruppen undokumentiert
+idk_timeline	timeline_employeeid	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_timovi	id_t	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_timovi	naziv_t	varchar(200)	TEXT		Personen-/Freitextfeld laut Name
+idk_timovi	skraceni_naziv_t	varchar(20)	TEXT		Personen-/Freitextfeld laut Name
+idk_timovi	boja_t	varchar(20)	TEXT		Personen-/Freitextfeld laut Name
+idk_timovi	datum_reg_t	datetime	DATUM		Datum/Zeit
+idk_timovi	status_t	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_tipovi_provizija	tp_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_tipovi_provizija	tp_naziv	varchar(100)	TEXT		Personen-/Freitextfeld laut Name
+idk_tipovi_provizija	tp_iznos	double	ZAHL		Betrag/Messwert
+idk_tipovi_provizija	tp_iznos_rs	double	ZAHL		Betrag/Messwert
+idk_tipovi_provizija	tp_tip	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_tipovi_provizija	tp_tim	int	LOOKUP	idk_timovi.id_t	Kommentar (0 = alle Teams)
+idk_tipovi_provizija	tp_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_triggerurl	url_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_triggerurl	url_link	varchar(250)	TEXT		Personen-/Freitextfeld laut Name
+idk_triggerurl	url_datetime	datetime	DATUM		Datum/Zeit
+idk_triggerurl	url_tag	varchar(50)	TEXT		Personen-/Freitextfeld laut Name
+idk_tutorijali	tutorijal_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_tutorijali	tutorijal_kategorija_id	int	LOOKUP	idk_kategorije.kategorija_id	deklarierter FK
+idk_tutorijali	tutorijal_yt_url	text	TEXT		Freitext/JSON
+idk_tutorijali	tutorijal_doc	text	TEXT		Freitext/JSON
+idk_tutorijali	tutorijal_opis	text	TEXT		Freitext/JSON
+idk_validnosti_inputa	vi_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_validnosti_inputa	vi_razlog_id	int	LOOKUP	idk_razlozi_odbijanja.ro_id	Hypothese
+idk_validnosti_inputa	vi_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_validnosti_inputa	vi_status	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_validnosti_inputa	vi_employee_id	int	FK	idk_employees.employee_id	Mitarbeiter laut Name/Kommentar
+idk_validnosti_inputa	vi_podatak_id	int	POLY	idk_kandidati.kandidat_id,idk_kandidat_jezici.kj_id,idk_kandidat_edukacija.ke_id,idk_kandidat_radno_iskustvo.kri_id	gruppiert nach vi_vrsta_podatka; Datensatz je Datenart
+idk_validnosti_inputa	vi_vrsta_podatka	varchar(25)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+idk_validnosti_inputa	vi_datetime	datetime	DATUM		Datum/Zeit
+idk_viber_obavijesti	vo_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+idk_viber_obavijesti	vo_nalogid	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+idk_viber_obavijesti	vo_kandidati_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+idk_viber_obavijesti	vo_obavijest_za	varchar(255)	TEXT		Freitext (varchar(255))
+idk_viber_obavijesti	vo_datetime	datetime	DATUM		Datum/Zeit
+mcp_aenderung	a_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+mcp_aenderung	a_zeit	datetime	DATUM		Datum/Zeit
+mcp_aenderung	a_werkzeug	varchar(64)	TEXT		Freitext (varchar(64))
+mcp_aenderung	a_aktion	varchar(10)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+mcp_aenderung	a_tabelle	varchar(64)	CODE		Diskriminator für a_datensatz_id
+mcp_aenderung	a_datensatz_id	int	POLY		gruppiert nach a_tabelle; Tabelle leer (0 Zeilen)
+mcp_aenderung	a_vorher	text	TEXT		Freitext/JSON
+mcp_aenderung	a_nachher	text	TEXT		Freitext/JSON
+mcp_aenderung	a_kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+mcp_aenderung	a_art	varchar(10)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+mcp_aenderung	a_zustand	varchar(16)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+mcp_aenderung	a_freigabe_code	varchar(64)	TECH		Hash
+mcp_aenderung	a_freigabe_zeit	datetime	DATUM		Datum/Zeit
+mcp_aenderung	a_ausgefuehrt_zeit	datetime	DATUM		Datum/Zeit
+mcp_aenderung	a_notiz	varchar(500)	TEXT		Freitext (varchar(500))
+mcp_fehler	f_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+mcp_fehler	f_zeit	datetime	DATUM		Datum/Zeit
+mcp_fehler	f_werkzeug	varchar(64)	TEXT		Freitext (varchar(64))
+mcp_fehler	f_art	varchar(16)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+mcp_fehler	f_meldung	text	TEXT		Freitext/JSON
+mcp_fehler	f_kontext	text	TEXT		Freitext/JSON
+mcp_fehler	f_exportiert	tinyint	CODE		Flag
+mcp_status_info	s_id	int	PK		Primärschlüssel (Ziel, kein Verweis)
+mcp_status_info	s_name_hr	varchar(64)	TEXT		Personen-/Freitextfeld laut Name
+mcp_status_info	s_name_de	varchar(64)	TEXT		Personen-/Freitextfeld laut Name
+mcp_status_info	s_bedeutung	varchar(255)	TEXT		Freitext (varchar(255))
+mcp_status_info	s_setzt	varchar(40)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+mcp_status_info	s_naechste	varchar(80)	TEXT		Freitext (varchar(80))
+mcp_status_info	s_aktiv	tinyint	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+rb_approvals	approval_id	char(36)	PK		Primärschlüssel (Ziel, kein Verweis)
+rb_approvals	principal_hash	char(64)	TEXT		Personen-/Freitextfeld laut Name
+rb_approvals	preview_sha256	char(64)	TEXT		Freitext (char(64))
+rb_approvals	preview_json	json	TEXT		Freitext/JSON
+rb_approvals	decision	varchar(32)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+rb_approvals	decision_by	varchar(255)	TEXT		Freitext (varchar(255))
+rb_approvals	decided_at	datetime(6)	DATUM		Datum/Zeit
+rb_approvals	expires_at	datetime(6)	DATUM		Datum/Zeit
+rb_approvals	consumed_by_request_id	char(36)	FK	rb_requests.request_id	Name (Fremdprojekt)
+rb_baselines	baseline_id	char(36)	PK		Primärschlüssel (Ziel, kein Verweis)
+rb_baselines	entity_type	varchar(64)	CODE		Diskriminator
+rb_baselines	entity_id	varchar(191)	POLY		gruppiert nach entity_type; Fremdprojekt rb_*, 1 Zeile
+rb_baselines	revision	bigint unsigned	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+rb_baselines	captured_at	datetime(6)	DATUM		Datum/Zeit
+rb_baselines	typed_values	json	TEXT		Freitext/JSON
+rb_entity_state	entity_type	varchar(64)	PK		Primärschlüssel (Ziel, kein Verweis)
+rb_entity_state	entity_id	varchar(191)	POLY		gruppiert nach entity_type; Fremdprojekt rb_*, PK-Teil
+rb_entity_state	revision	bigint unsigned	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+rb_entity_state	baseline_at	datetime(6)	DATUM		Datum/Zeit
+rb_events	event_id	char(36)	PK		Primärschlüssel (Ziel, kein Verweis)
+rb_events	entity_type	varchar(64)	CODE		Diskriminator
+rb_events	entity_id	varchar(191)	POLY		gruppiert nach entity_type; Fremdprojekt rb_*, 2 Zeilen
+rb_events	revision_before	bigint unsigned	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+rb_events	revision_after	bigint unsigned	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+rb_events	operation	varchar(32)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+rb_events	actor_issuer	varchar(255)	TEXT		Freitext (varchar(255))
+rb_events	actor_subject	varchar(255)	TEXT		Personen-/Freitextfeld laut Name
+rb_events	request_id	char(36)	FK	rb_requests.request_id	Name (Fremdprojekt)
+rb_events	source_event_id	char(36)	FK	rb_events.event_id	Name (Fremdprojekt)
+rb_events	created_at	datetime(6)	DATUM		Datum/Zeit
+rb_events	typed_changes	json	TEXT		Freitext/JSON
+rb_events	reason	text	TEXT		Freitext/JSON
+rb_events	event_sha256	char(64)	TEXT		Freitext (char(64))
+rb_field_state	entity_type	varchar(64)	PK		Primärschlüssel (Ziel, kein Verweis)
+rb_field_state	entity_id	varchar(191)	POLY		gruppiert nach entity_type; Fremdprojekt rb_*, PK-Teil
+rb_field_state	field_name	varchar(128)	PK		Primärschlüssel (Ziel, kein Verweis)
+rb_field_state	revision	bigint unsigned	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+rb_outbox	event_id	char(36)	PK		Primärschlüssel (Ziel, kein Verweis)
+rb_outbox	status	varchar(32)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+rb_outbox	attempts	int unsigned	ZAHL		Zähler/Menge/Reihenfolge/Bewertung laut Name
+rb_outbox	next_attempt_at	datetime(6)	DATUM		Datum/Zeit
+rb_outbox	lease_token	char(36)	TECH		Token
+rb_outbox	lease_until	datetime(6)	DATUM		Datum/Zeit
+rb_outbox	archived_at	datetime(6)	DATUM		Datum/Zeit
+rb_requests	request_id	char(36)	PK		Primärschlüssel (Ziel, kein Verweis)
+rb_requests	principal_hash	char(64)	TEXT		Personen-/Freitextfeld laut Name
+rb_requests	idempotency_key	varchar(128)	TECH		Idempotenzschlüssel
+rb_requests	payload_sha256	char(64)	TEXT		Freitext (char(64))
+rb_requests	result_json	json	TEXT		Freitext/JSON
+rb_requests	created_at	datetime(6)	DATUM		Datum/Zeit
+rb_requests	completed_at	datetime(6)	DATUM		Datum/Zeit
+users	id	bigint unsigned	PK		Primärschlüssel (Ziel, kein Verweis)
+users	phone	varchar(191)	PII		Telefon
+users	name	varchar(191)	PII		Name
+users	nalog_id	int	FK	idk_nalozi.nalog_id	Auftrag laut Name/Kommentar
+users	email	varchar(191)	PII		Personen-/Freitextfeld laut Name
+users	password	varchar(191)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+users	kandidat_id	int	FK	idk_kandidati.kandidat_id	Name/Kommentar
+users	last_online	datetime	DATUM		Datum/Zeit
+users	sim_id	varchar(255)	TECH		Geräte-ID
+users	token	varchar(255)	SENSIBEL		osjetljive_kolone.md – nie selektieren
+users	type	varchar(15)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	ne_viza	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	ne_srednja	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	ne_visoka	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	ne_dodatna	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	ne_iskustvo	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	ne_diploma	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	ne_pripravnicki	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	ne_strucni	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	ne_cert_jezik	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	ponovno_slanje	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	dipl_obavijest	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	notifikacije	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	jezik	varchar(10)	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
+users	notf_new_year	int	CODE		Status-/Typ-/Gruppen-/Flag-Code laut Name/Kommentar
