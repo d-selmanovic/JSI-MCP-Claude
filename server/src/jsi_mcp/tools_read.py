@@ -73,9 +73,12 @@ SPEC_KEYS = ["zanimanje", "vozacka", "jezik", "jezici", "obrazovanje", "iskustvo
              "izlaz", "limit", "pii", "sortiraj",
              # filter catalogue 2026-10-30 (filter_catalog.json)
              "porijeklo", "messenger_status", "bracno_stanje", "viza", "termin_za_vizu", "casting", "intervju", "odbijen",
-             "dokument_status", "makler", "pp_partner_id", "tf_agent_id", "tf_status", "vjestina", "grad", "aktivan",
+             "dokument_status", "makler", "pp_partner_id", "tf_agent_id", "tf_status", "vjestina", "aktivan",
              "status_historija", "faza_min", "ima_biljeske", "ima_dokumente", "firma_id", "dipl", "cv_de", "profil_de",
              "ugovor", "pocetak_rada_potvrden", "grupa_id", "radno_iskustvo", "glossa", "nalog_izvor"]
+# Not exposed over MCP: free-text place of residence is location-linked personal data (OpenAI plugin guidelines,
+# tool data handling). Country-level filtering stays available via `drzava`.
+MCP_EXCLUDED_KEYS = frozenset({"grad"})
 
 
 def search_candidates(cfg: Config, p: Principal, spec: dict[str, Any], include_sql: bool = False) -> dict:
@@ -84,6 +87,9 @@ def search_candidates(cfg: Config, p: Principal, spec: dict[str, Any], include_s
         require(p, [KANDIDATI_PII])
         if spec.get("izlaz", "broj") != "lista":
             raise InputError("pii=true ist nur mit izlaz='lista' sinnvoll")
+    blocked = sorted(MCP_EXCLUDED_KEYS & set(spec))
+    if blocked:
+        raise InputError(f"Filter nicht verfügbar / Filter nije dostupan: {blocked} – Wohnort nur auf Länderebene (drzava)")
     if isinstance(spec.get("dipl"), dict) and spec["dipl"].get("status") is not None:
         require(p, [DIPL_READ])  # DIPL status is DIPL data, even as a filter
     spec.setdefault("izlaz", "broj")
@@ -106,7 +112,9 @@ def load_filter_catalog() -> dict:
     import os
 
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "filter_catalog.json"), encoding="utf-8") as f:
-        return json.load(f)
+        cat = json.load(f)
+    cat["filter"] = [x for x in cat.get("filter", []) if x.get("schluessel") not in MCP_EXCLUDED_KEYS]
+    return cat
 
 
 def filter_options(cfg: Config, p: Principal, section: str | None = None) -> dict:

@@ -93,8 +93,6 @@ TOOL_PERMISSIONS: dict[str, list[str]] = {
     "orders_overview": [KENNZAHLEN_READ],
     "pipeline_history": [KENNZAHLEN_READ],
     "change_log": [AUDIT_READ],
-    "record_preview": [],
-    "record_write": [],
     "set_application_status": [],
 }
 

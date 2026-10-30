@@ -16,8 +16,7 @@ Kein freies SQL. Alle Abfragen sind fest oder werden von `build_query.py` (unver
 | `orders_overview` | `jsi:kennzahlen:read` | Auftrag: Bedarf / Kandidaten / unterschrieben |
 | `pipeline_history` | `jsi:kennzahlen:read` | Verlauf eines Kandidaten oder Statuswechsel je Periode |
 | `change_log` | `jsi:audit:read` (+ `pii` für vorher/nachher) | `mcp_aenderung` lesen |
-| `record_preview` | `jsi:write:<entität>:<aktion>` | Vorschau vorher/nachher, Prüfungen, `preview_hash` – schreibt nie |
-| `record_write` | `jsi:write:<entität>:<aktion>` | create/update/archive laut Register; **Standard `dry_run=true`** |
+| `<entität>_<aktion>` (z. B. `candidate_update`, `candidate_note_create`, `company_create`, `candidate_archive`; 18 Tools aus `write_registry.yaml`) | `jsi:write:<entität>:<aktion>` | je Tool eigenes Schema mit den Register-Spalten; **Standard `dry_run=true`** = Vorschau vorher/nachher + `preview_hash`, `dry_run=false` + `preview_hash` = ausführen. Ersetzt die früheren generischen `record_preview`/`record_write` (OpenAI-Plugin-Richtlinie „tool independence“). |
 | `set_application_status` | `jsi:write:application_status:update` | Pipeline-Status + `idk_log_statusi_prijave`; Standard `dry_run=true` |
 
 Wildcards in WorkOS möglich: `jsi:write:*`, `jsi:write:candidate:*`, `*` (nur Admin-Testrolle).
@@ -27,7 +26,7 @@ Limits: 200 Zeilen Standard, 5.000 max, 30 s (`MAX_EXECUTION_TIME` + Socket-Time
 Entitäten: `candidate` (create/update/archive → `kandidat_status=3`), `candidate_driving_licence`, `candidate_language`, `candidate_education`, `candidate_experience`, `candidate_note` (`idk_notes`, Gruppe 2), `candidate_order` (`kandidat_nalog_id`), `project_member` (`idk_project_kandidati`), `candidate_dipl_link` (`kandidat_dipl_id` eindeutig), `company`, `contact`, `application_status` (nur über `set_application_status`).
 Erzwungen beim Laden + in Tests: keine [TAJNO]-Spalten, keine PKs, keine Log-/Audit-/Event-/Technik-Tabellen, Spalten/Typen/Längen passen zu `docs/rohdaten/columns.json`, `create` deckt alle NOT-NULL-Spalten ohne Default ab. Kein Löschen.
 
-Ablauf Schreiben: `record_preview` → Nutzer bestätigt → `record_write(dry_run=false, preview_hash=…)`. In einer Transaktion: `SELECT … FOR UPDATE`, Hash-Vergleich (Abbruch bei paralleler Änderung), Referenz-/Eindeutigkeitsprüfungen, Schreiben, Audit-Zeile in `mcp_aenderung` (`a_zustand='ausgefuehrt'`, `a_freigabe_code`=Hash, `a_notiz` mit `sub`), COMMIT. Fehler → ROLLBACK + Zeile in `mcp_fehler`.
+Ablauf Schreiben: `<entität>_<aktion>(dry_run=true)` → Nutzer bestätigt → dasselbe Tool mit `dry_run=false, preview_hash=…`. In einer Transaktion: `SELECT … FOR UPDATE`, Hash-Vergleich (Abbruch bei paralleler Änderung), Referenz-/Eindeutigkeitsprüfungen, Schreiben, Audit-Zeile in `mcp_aenderung` (`a_zustand='ausgefuehrt'`, `a_freigabe_code`=Hash, `a_notiz` mit `sub`), COMMIT. Fehler → ROLLBACK + Zeile in `mcp_fehler`.
 Schreiben nur wenn `JSI_WRITES_ENABLED=true` **und** `JSI_DB_TARGET=mirror`.
 
 `set_application_status`: setzt `kandidat_status_prijave` (bei `rezervisanje=1` auch `kandidat_latest_reserved_time`), schreibt `lsp_broj_dana = DATEDIFF(NOW(), lsp_datetime)` in die bisher letzte Log-Zeile und fügt eine neue Log-Zeile ein (`lsp_izvor = JSI_LSP_IZVOR`, Standard 1 = CRM). Die `lsp_broj_dana`-Logik ist aus den Daten abgeleitet (2026-10-30: 27.300 von 27.313 Zeilen seit 2025 stimmen ±1 Tag), nicht dokumentiert.
@@ -117,6 +116,6 @@ python3 -I scripts/gen_grants.py write    jsicrm jsi_mcp_mirror > sql/grants_mir
 8. `orders_overview` → Auftrag 254: 300 / 900 / 165.
 9. `candidate_profile` ohne `pii` enthält keine Namen/Telefon/E-Mail; mit `pii` (Permission) schon.
 10. Rolle ohne `jsi:kandidati:pii`: `search_candidates … pii=true` → Ablehnung.
-11. Schreiben (Mirror, `JSI_WRITES_ENABLED=true`): `record_preview` → `record_write dry_run=false preview_hash=…` (z. B. `candidate_note` an einem Testkandidaten) → `change_log` zeigt Eintrag → Rücknahme per `record_write update` (Notizen: keine Löschung; Testnotiz kennzeichnen).
+11. Schreiben (Mirror, `JSI_WRITES_ENABLED=true`): `candidate_note_create` (dry_run=true) → dasselbe mit `dry_run=false preview_hash=…` an einem Testkandidaten → `change_log` zeigt Eintrag → Rücknahme per Update-Tool (Notizen: keine Löschung; Testnotiz kennzeichnen).
 12. `set_application_status` dry_run → ausführen → `pipeline_history kandidat_id=…` zeigt neue Zeile; vorherige Zeile hat `broj_dana`; zurücksetzen auf alten Status.
-13. Mit `JSI_WRITES_ENABLED=false` → `record_write dry_run=false` wird abgelehnt.
+13. Mit `JSI_WRITES_ENABLED=false` → jedes Schreib-Tool mit `dry_run=false` wird abgelehnt.

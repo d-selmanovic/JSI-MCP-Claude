@@ -9,7 +9,7 @@ Turns a natural-language candidate search into a deterministic, tested SQL query
 
 ## Preferred path: JSI MCP server
 
-If the tools `search_candidates`, `filter_options`, `candidate_profile` (MCP server `jsi`, URL `https://calm-steel-onjlq.run.mcp-use.com/mcp`) are available, **use them instead of steps 2–3 below**: pass the filter spec keys from the table below directly as `search_candidates` arguments (same names, same validation – the server runs the identical `build_query.py`). Use `filter_options` for valid codes/occupations and `candidate_profile` for one candidate. The server enforces permissions (PII only with `jsi:kandidati:pii`) and never returns [TAJNO] columns. Only if the server is not connected, fall back to the local script + BlazeSQL.
+If the tools `search_candidates`, `filter_options`, `candidate_profile` (MCP server `jsi`, URL `https://calm-steel-onjlq.run.mcp-use.com/mcp`) are available, **use them instead of steps 2–3 below**: pass the filter spec keys from the table below directly as `search_candidates` arguments (same names, same validation – the server runs the identical `build_query.py`). Use `filter_options` for valid codes/occupations and `candidate_profile` for one candidate. The server enforces permissions (PII only with `jsi:kandidati:pii`) and never returns [TAJNO] columns. Exception: the free-text place-of-residence filter `grad` is **not** offered by the MCP server (location-linked personal data); filter by country with `drzava` instead. Only if the server is not connected, fall back to the local script + BlazeSQL.
 
 ## Workflow (fallback without MCP server)
 
