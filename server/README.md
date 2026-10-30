@@ -84,6 +84,9 @@ Manufact prüft nach dem Deploy per MCP-`initialize` auf `/mcp`: 401 (Auth verla
 
 ## WorkOS AuthKit einrichten
 
+**Stand 2026-10-30:** eingerichtet in WorkOS **Staging** (`balanced-lantern-65-staging.authkit.app`) – Ressourcen, 25 `jsi:*`-Permissions, Rollen `jsi-reader` / `jsi-analyst` / `jsi-admin-test`, Organisation „Activi“. Production muss im Dashboard manuell nachgezogen werden (der WorkOS-Connector darf dort nicht schreiben); dafür die folgenden Schritte nutzen und danach `WORKOS_AUTHKIT_DOMAIN`/`WORKOS_CLIENT_ID` auf Manufact umstellen.
+
+
 1. AuthKit aktivieren; **Domain** notieren → `WORKOS_AUTHKIT_DOMAIN`.
 2. In der AuthKit-/MCP-Konfiguration (Menübezeichnung im WorkOS-Dashboard nicht verifiziert) die MCP-URL (`JSI_MCP_PUBLIC_URL`, exakt inkl. `/mcp`) als **Resource Indicator** eintragen; Tokens müssen `aud` = diese URL tragen (der Server prüft `iss`, `aud`, `exp`, Signatur über `https://<domain>/oauth2/jwks`).
 3. **Client ID Metadata Documents (CIMD)** aktivieren, ggf. zusätzlich Dynamic Client Registration (welches Verfahren der claude.ai-Connector nutzt, beim Einbinden prüfen).
