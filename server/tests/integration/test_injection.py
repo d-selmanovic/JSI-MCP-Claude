@@ -32,7 +32,7 @@ def test_no_injection_on_any_filter_key(mysql_db):
         for p in PAYLOADS:
             for v in _shapes(p):
                 try:
-                    sql, _ = bq.build({key: v, "izlaz": "broj"})
+                    sql, _ = bq.build({"izlaz": "broj", key: v})  # key last: izlaz itself gets fuzzed too
                 except Exception:
                     continue  # abgelehnt = sicher
                 t0 = time.monotonic()

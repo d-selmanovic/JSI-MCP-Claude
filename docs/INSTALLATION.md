@@ -2,6 +2,8 @@
 
 Ein Repo, ein Plugin (`plugin/`), alle Plattformen. Wer das Plugin installiert, bekommt den MCP-Server `jsi` (`https://calm-steel-onjlq.run.mcp-use.com/mcp`) **automatisch konfiguriert** und dazu die Skills `jsi-mcp`, `jsi-kandidat-filter`, `jsi-data-analyst` (+ allgemeine Analyse-Skills).
 
+Das Plugin bringt außerdem **Hooks** mit (Kontext, Bestätigung vor Schreibzugriffen, Seitenhinweis, Personendaten-Schutz, JMBG/IBAN-Sperre) – Einrichten/Abschalten: `docs/HOOKS.md`.
+
 **Einmaliger Schritt je Nutzer auf jeder Plattform: OAuth-Anmeldung** (WorkOS AuthKit, Konto mit JSI-Rolle). Keine Plattform dokumentiert eine automatische Anmeldung beim Installieren. Danach kennt der Agent die Tools über die Server-Instructions und den Skill `jsi-mcp`; den Projekt-Hinweis in `AGENTS.md` schreibt `plugin/skills/jsi-mcp/scripts/add_to_agents_md.py` (idempotent).
 
 Stand der Formate: Primärquellen abgerufen 2026-10-30 (Links je Abschnitt). Nicht selbst auf der jeweiligen Plattform ausgeführt sind die mit ⚠️ markierten Schritte.

@@ -1,0 +1,71 @@
+{
+  "description": "JSI CRM: Kontext beim Start, Bestätigung vor Schreibzugriffen, Hinweis auf Teilergebnisse, Schutz vor Weitergabe von Personendaten, Sperre für JMBG/IBAN im Prompt. Abschalten: JSI_HOOKS=off oder JSI_HOOKS_OFF=<name,…> (siehe docs/HOOKS.md).",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/jsi_hooks.py\" session_start",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/jsi_hooks.py\" prompt_secrets",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "jsi__.*_(create|update|archive)$|jsi__set_application_status$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/jsi_hooks.py\" confirm_write",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "^Bash$|[Ss]end|[Mm]ail|[Ss]lack|[Pp]ost_?[Mm]essage|WebFetch|[Uu]pload|[Ss]hare|[Ee]xport|[Ww]ebhook|[Nn]otion|[Dd]rive|[Aa]irtable",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/jsi_hooks.py\" pii_guard",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "jsi__(search_candidates|kpis|orders_overview|pipeline_history|change_log)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/jsi_hooks.py\" paging_reminder",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "jsi__(search_candidates|candidate_profile|change_log)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/jsi_hooks.py\" pii_mark",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
