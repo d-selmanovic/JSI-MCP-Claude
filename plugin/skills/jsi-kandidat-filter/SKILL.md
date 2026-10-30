@@ -5,27 +5,16 @@ description: "Filter-based candidate search for the JSI recruiting CRM (via the 
 
 # JSI Kandidat-Filter
 
-Turns a natural-language candidate search into a deterministic, tested SQL query. The heavy lifting (which tables, which columns, synonyms, licence rules, data-quality workarounds, performance) lives in `scripts/build_query.py` and `scripts/occupations.json` – do not hand-write candidate search SQL.
+Turns a natural-language candidate search into a filter spec for the MCP tool `search_candidates` (server `jsi`). The search logic (tables, synonyms, licence rules, data-quality workarounds, performance) runs **only on the server** – there is no local script and no SQL access.
 
-## Preferred path: JSI MCP server
+## Workflow
 
-If the tools `search_candidates`, `filter_options`, `candidate_profile` (MCP server `jsi`, URL `https://calm-steel-onjlq.run.mcp-use.com/mcp`) are available, **use them instead of steps 2–3 below**: pass the filter spec keys from the table below directly as `search_candidates` arguments (same names, same validation – the server runs the identical `build_query.py`). Use `filter_options` for valid codes/occupations and `candidate_profile` for one candidate. The server enforces permissions (PII only with `jsi:kandidati:pii`) and never returns [TAJNO] columns. Exception: the free-text place-of-residence filter `grad` is **not** offered by the MCP server (location-linked personal data); filter by country with `drzava` instead. Only if the server is not connected, ask the user to sign in (skill `jsi-mcp`); the local script only prints SQL for review.
+1. **Parse the request into a filter spec** (keys below). Ask only if a criterion is genuinely ambiguous (e.g. "Elektriker" strict vs. broad incl. Elektrotehniker/Hilfselektriker – default strict). Valid codes and the occupation catalogue: `filter_options` (`section='katalog'` for the full catalogue).
+2. **Call `search_candidates`** with the keys as arguments. First answer for a search: `"izlaz": "izvori"` (count per occupation source) – it shows how strong the evidence is. To show the generated SQL for review: `include_sql=true`.
+3. **Answer in Bosnian** (unless asked otherwise): count first, then breakdown/list, then the filter notes and data-coverage caveats the tool returns (`napomene`; background in `references/filteri.md`).
+4. Default output is a **count**. Lists only when asked (`"izlaz": "lista"`); they come in pages – state `stranica.pregled` ("Prikazano X–Y od N") and offer the next page via `offset`. Names/phones/emails only with `"pii": true` **and** an explicit user request (permission `jsi:kandidati:pii`).
 
-## Workflow without MCP tools (SQL for review only)
-
-There is no SQL connector anymore (BlazeSQL disconnected 2026-10-30). If the `jsi` tools are missing, ask the user to sign in (skill `jsi-mcp`). The script below only shows **which SQL the server would run** – for checking a filter, not for answering with numbers.
-
-1. **Parse the request into a filter spec** (JSON, keys below). Ask only if a criterion is genuinely ambiguous (e.g. "Elektriker" strict vs. broad incl. Elektrotechniker/Hilfselektriker – default strict).
-2. **Build the SQL**:
-   ```bash
-   python3 -I <skill-dir>/scripts/build_query.py --notes --spec '<json>'
-   ```
-   `--notes` prints the interpretation (stderr) – show it to the user in Bosnian so they see exactly how the filter was applied.
-3. **Do not run** the printed SQL – there is no SQL access. Give numbers only from `search_candidates`.
-4. **Answer in Bosnian** (unless asked otherwise): count first, then breakdown/list, then the applied filter notes and data-coverage caveats (see `references/filteri.md`).
-5. Default output is a **count**. Produce a list only when asked (`"izlaz": "lista"`). Names/phones/emails only with `"pii": true` **and** an explicit user request.
-
-Recommended first answer for a search: run `"izlaz": "izvori"` (count per occupation source) – it shows how strong the evidence is (only applied as X vs. confirmed by qualification + work experience).
+If the `jsi` tools are missing, the user must sign in once (skill `jsi-mcp`). The free-text place-of-residence filter (`grad`) is not available over MCP; filter by country with `drzava`.
 
 ## Filter spec (all keys optional, combined with AND)
 
@@ -54,7 +43,7 @@ Recommended first answer for a search: run `"izlaz": "izvori"` (count per occupa
 | `pii` | `true` | Add name, mobile, email to `lista` (only on explicit request). |
 | `sortiraj` | `"relevantnost"` (default with occupation) · `"novi"` | List order. |
 
-**Added 2026-10-30 (29 keys, full table with sources/fill rates/pitfalls in `references/filteri.md`, machine-readable `references/filter_catalog.json`):**
+**Added 2026-10-30 (29 keys, full table with sources/fill rates/pitfalls in `references/filteri.md`, machine-readable via `filter_options(section='katalog')`):**
 `porijeklo` (channel), `messenger_status`, `bracno_stanje`, `viza` (ima|nema|dobio|odbijena|dopuna), `termin_za_vizu`, `casting` {status,nalog_id,od,do}, `intervju` {preporuka hire|reject|not_sure}, `odbijen` {razlog_id, odbio kandidat|poslodavac}, `dokument_status`, `makler`, `pp_partner_id`, `tf_agent_id`, `tf_status`, `vjestina`, `grad`, `aktivan` {od,do}, `status_historija` {status,od,do,nalog_id,projekt_id}, `faza_min` (7 = contract signed or later), `ima_biljeske`, `ima_dokumente`, `firma_id`, `dipl` {povezan,status}, `cv_de`, `profil_de`, `ugovor` (postoji|potpisan), `pocetak_rada_potvrden`, `grupa_id`, `radno_iskustvo` {min_godina, zanimanje}, `glossa`, `nalog_izvor` (kandidat|projekt|oba). Extended: `drzavljanstvo` by country (BIH, SRB …), `nostrifikacija` (potpuno|djelimicno|status_2|bilo_koje), `obrazovanje.skola_id/smjer_id`, languages es/fr/ru/ar/tr, all 194 `berufsgruppe_id` as `zanimanje`.
 
 Status codes and occupation catalog: `references/filteri.md`. Full database documentation: `../jsi-data-analyst/references/schema/README.md`, wiring: `../jsi-data-analyst/references/veze.md`.
@@ -75,7 +64,7 @@ Status codes and occupation catalog: `references/filteri.md`. Full database docu
 
 ## Rules
 
-- Never hand-edit the generated SQL to add personal or credential columns. If a filter is missing, extend `build_query.py` (+ a test in `scripts/test_build_query.py`) instead of ad-hoc SQL.
+- If a filter is missing, it is added on the server (`server/src/jsi_mcp/build_query.py` + test in `server/tests/`, catalogue via `server/scripts/filter_catalog.py`) – never ad-hoc SQL.
 - Always state the data end date: candidate activity largely ends Feb 2026 (see `jsi-data-analyst`).
 - State coverage caveats when a filter uses a sparsely filled field (gender, experience flag, country, certificate).
 - Language levels are self-assessed unless `certifikat` is set.

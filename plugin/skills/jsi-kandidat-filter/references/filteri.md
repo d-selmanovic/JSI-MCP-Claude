@@ -1,10 +1,10 @@
 # Filterkatalog `search_candidates` (Stand 2026-10-30)
 
-Generiert aus `scripts/filter_catalog.py` (gleiche Quelle wie `filter_catalog.json` im Server). Füllgrade gemessen über BlazeSQL
+Generiert aus `server/scripts/filter_catalog.py` (gleiche Quelle wie `filter_catalog.json` im Server). Füllgrade gemessen über BlazeSQL
 (Basis 122.006 Kandidaten. `docs/rohdaten/kandidat_profil.tsv`). Join-Trefferquoten aus `docs/rohdaten/veze_komplett.tsv`.
 Alle Filter werden mit UND kombiniert; Kindtabellen immer als CTE (`SELECT DISTINCT kid`) – nie korreliertes EXISTS.
 
-**48 Filter** (vorher 19) + 4 Ausgabeoptionen. Ein Tool-Aufruf genügt, z. B.
+**48 Filter** (vorher 19) + 5 Ausgabeoptionen. Ein Tool-Aufruf genügt, z. B.
 
 ```json
 {"zanimanje":"Elektriker","jezik":{"jezik":"de","min_nivo":"A2"},"vozacka":"B"}
@@ -164,7 +164,7 @@ Alle Filter werden mit UND kombiniert; Kindtabellen immer als CTE (`SELECT DISTI
 |---|---|
 | `izlaz` | broj | izvori | lista | id |
 | `limit` | 1–5000 (Standard 200) |
-| `offset` | 0–1000000 (Standard 0): Seite – so viele Treffer überspringen. Der MCP-Server liefert dazu `stranica` (ukupno, prikazano_od/do, sljedeci_offset, pregled „Prikazano X–Y od N“). |
+| `offset` | 0–1000000 (Standard 0): Seite – so viele Treffer überspringen; der Server liefert dazu stranica (ukupno, prikazano_od/do, sljedeci_offset, pregled „Prikazano X–Y od N“) |
 | `pii` | Name/Telefon/E-Mail nur mit jsi:kandidati:pii |
 | `sortiraj` | relevantnost | novi |
 

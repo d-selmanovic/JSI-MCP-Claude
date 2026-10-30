@@ -11,7 +11,7 @@ Regeln für alle Coding-Agents (Codex, Hermes, Grok, Claude Code) in diesem Repo
 - Schreibzugriffe nur gegen die Mirror-DB und nur über die definierten Schreib-Tools (mit `dry_run` + Audit). Nie gegen Produktion.
 - Datenzugriff nur über den JSI-MCP-Server `jsi`. BlazeSQL ist seit 2026-10-30 von der MySQL getrennt – kein freies SQL gegen die CRM-Datenbank.
 - Neue Abfragen im Server (`build_query.py`, `tools_read.py`): Kindtabellen in CTEs voraggregieren, kein korreliertes EXISTS über `idk_kandidati` (Timeout 30 s).
-- Tests: `python3 -I -m unittest discover -s plugin/skills/jsi-kandidat-filter/scripts -p 'test_*.py'`. Hooks: `python3 -I -m unittest discover -s plugin/hooks -p 'test_*.py'` (Doku `docs/HOOKS.md`).
+- Tests: Server `cd server && uv run pytest -q --ignore=tests/integration` (Such-Logik `build_query.py` liegt nur im Server). Hooks: `python3 -I -m unittest discover -s plugin/hooks -p 'test_*.py'` (Doku `docs/HOOKS.md`).
 
 ## Struktur
 

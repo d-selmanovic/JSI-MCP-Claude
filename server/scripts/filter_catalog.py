@@ -2,16 +2,16 @@
 """Single source for the candidate filter catalogue (Stand 2026-10-30, gemessen über BlazeSQL).
 
 Writes:
-  ../references/filter_catalog.json            (maschinenlesbar, auch für den Server)
-  ../../../../server/src/jsi_mcp/filter_catalog.json
-  ../references/filteri.md                     (Doku, aus derselben Quelle generiert)
+  server/src/jsi_mcp/filter_catalog.json                       (maschinenlesbar, vom Server ausgeliefert)
+  plugin/skills/jsi-kandidat-filter/references/filteri.md     (Doku, aus derselben Quelle generiert)
 Fill rates and pitfalls come from docs/rohdaten/kandidat_profil.tsv and veze_komplett.tsv.
-Run: python3 -I filter_catalog.py   (after changing a filter in build_query.py)
+Run: python3 -I server/scripts/filter_catalog.py   (after changing a filter in server/src/jsi_mcp/build_query.py)
 """
 import json
 import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 N = 122006  # idk_kandidati rows 2026-10-30
 
 # key, group, title, source, join, values, fill (candidates with data), pitfalls, example
@@ -105,7 +105,7 @@ F = [
     ("grupa_id", "Beruf", "Bewerbungsgruppe", "kandidat_group", "→ idk_kandidati_grupe.kg_id (100 %)", "[kg_id] (74 Gruppen)", "100 %", "", {"grupa_id": [38, 39]}),
     ("ukljuci_arhivu", "Steuerung", "Archiv einschließen", "kandidat_status = 3", "–", "true", "4.447 archiviert", "Standard: ausgeschlossen", {"ukljuci_arhivu": True}),
 ]
-OUTPUT = {"izlaz": "broj | izvori | lista | id", "limit": "1–5000 (Standard 200)", "pii": "Name/Telefon/E-Mail nur mit jsi:kandidati:pii",
+OUTPUT = {"izlaz": "broj | izvori | lista | id", "limit": "1–5000 (Standard 200)", "offset": "0–1000000 (Standard 0): Seite – so viele Treffer überspringen; der Server liefert dazu stranica (ukupno, prikazano_od/do, sljedeci_offset, pregled „Prikazano X–Y od N“)", "pii": "Name/Telefon/E-Mail nur mit jsi:kandidati:pii",
           "sortiraj": "relevantnost | novi"}
 NOT_FILTERABLE = [
     ("Wunschgehalt", "kandidat_pp_plata 0,3 % befüllt (Freitext)"),
@@ -124,12 +124,11 @@ def main():
         cat["filter"].append({"schluessel": key, "gruppe": grp, "titel": title, "quelle": src, "join": join, "werte": vals,
                               "fuellgrad": fill, "fallstricke": trap, "beispiel": ex})
     js = json.dumps(cat, ensure_ascii=False, indent=1)
-    for p in (os.path.join(HERE, "..", "references", "filter_catalog.json"),
-              os.path.join(HERE, "..", "..", "..", "..", "server", "src", "jsi_mcp", "filter_catalog.json")):
+    for p in (os.path.join(REPO, "server", "src", "jsi_mcp", "filter_catalog.json"),):
         with open(p, "w", encoding="utf-8") as f:
             f.write(js + "\n")
     md = ["# Filterkatalog `search_candidates` (Stand 2026-10-30)", "",
-          "Generiert aus `scripts/filter_catalog.py` (gleiche Quelle wie `filter_catalog.json` im Server). Füllgrade gemessen über BlazeSQL",
+          "Generiert aus `server/scripts/filter_catalog.py` (gleiche Quelle wie `filter_catalog.json` im Server). Füllgrade gemessen über BlazeSQL",
           f"(Basis {N:,} Kandidaten, `docs/rohdaten/kandidat_profil.tsv`), Join-Trefferquoten aus `docs/rohdaten/veze_komplett.tsv`.".replace(",", "."),
           "Alle Filter werden mit UND kombiniert; Kindtabellen immer als CTE (`SELECT DISTINCT kid`) – nie korreliertes EXISTS.", "",
           f"**{len(F)} Filter** (vorher 19) + {len(OUTPUT)} Ausgabeoptionen. Ein Tool-Aufruf genügt, z. B.", "",
@@ -153,7 +152,7 @@ def main():
            '| Schweißer aus BiH 25–45, frei, C/CE | `{"zanimanje":"Schweißer","drzava":"BIH","starost":{"od":25,"do":45},"slobodni":true,"vozacka":["C","CE"]}` | 45 | 45 |',
            '| Pflegekräfte, DE-Zertifikat B1, Nostrifikation abgeschlossen | `{"zanimanje":["krankenpfleger","pflegehelfer"],"jezik":{"jezik":"de","min_nivo":"B1","certifikat":true},"nostrifikacija":true}` | 0 | 0 (auch ohne Niveau 0; DIPL-Zertifikat 0) |',
            '| Auftrag 254, Status Vertrag unterschrieben | `{"nalog_id":[254],"status_prijave":[9]}` | 15 | 15 (Phase ≥ 7: 165; jemals Status 9 im Auftrag: 276) |', ""]
-    with open(os.path.join(HERE, "..", "references", "filteri.md"), "w", encoding="utf-8") as f:
+    with open(os.path.join(REPO, "plugin", "skills", "jsi-kandidat-filter", "references", "filteri.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(md))
     print(len(F), "Filter geschrieben")
 

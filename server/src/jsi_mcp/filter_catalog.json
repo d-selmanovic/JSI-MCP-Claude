@@ -711,7 +711,7 @@
  "ausgabe": {
   "izlaz": "broj | izvori | lista | id",
   "limit": "1–5000 (Standard 200)",
-  "offset": "0–1000000 (Standard 0) – stranica: preskoči toliko pogodaka; MCP vraća stranica.ukupno/prikazano_od/prikazano_do/sljedeci_offset",
+  "offset": "0–1000000 (Standard 0): Seite – so viele Treffer überspringen; der Server liefert dazu stranica (ukupno, prikazano_od/do, sljedeci_offset, pregled „Prikazano X–Y od N“)",
   "pii": "Name/Telefon/E-Mail nur mit jsi:kandidati:pii",
   "sortiraj": "relevantnost | novi"
  },
