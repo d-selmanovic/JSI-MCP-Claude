@@ -84,7 +84,7 @@ def search_candidates(cfg: Config, p: Principal, spec: dict[str, Any], include_s
         require(p, [KANDIDATI_PII])
         if spec.get("izlaz", "broj") != "lista":
             raise InputError("pii=true ist nur mit izlaz='lista' sinnvoll")
-    if spec.get("dipl"):
+    if isinstance(spec.get("dipl"), dict) and spec["dipl"].get("status") is not None:
         require(p, [DIPL_READ])  # DIPL status is DIPL data, even as a filter
     spec.setdefault("izlaz", "broj")
     if spec["izlaz"] in ("lista", "id"):

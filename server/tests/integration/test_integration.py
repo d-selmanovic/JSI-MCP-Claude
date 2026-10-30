@@ -49,6 +49,47 @@ def test_certificate_and_other_filters(ro_cfg):
         tools_read.search_candidates(ro_cfg, READER, spec)  # must execute in strict mode
 
 
+NEW_FILTER_SPECS = [
+    {"drzavljanstvo": ["BIH", "NON-EU"]}, {"porijeklo": [0, 4]}, {"messenger_status": [2]}, {"bracno_stanje": [1, 2]},
+    {"viza": "ima"}, {"viza": "dobio"}, {"viza": "odbijena"}, {"termin_za_vizu": True},
+    {"casting": {"status": [1], "nalog_id": [10], "od": "2023-01-01"}}, {"intervju": {"preporuka": ["hire"], "nalog_id": [10]}},
+    {"odbijen": {"odbio": "poslodavac", "razlog_id": [4]}}, {"dokument_status": [18]}, {"makler": True}, {"makler": [1]},
+    {"pp_partner_id": [1]}, {"tf_agent_id": [1]}, {"tf_status": True}, {"tf_status": [8]}, {"vjestina": "office"},
+    {"grad": "Sarajevo"}, {"aktivan": {"od": "2024-01-01"}}, {"status_historija": {"status": [9], "nalog_id": [10]}},
+    {"status_historija": {"status": [9], "projekt_id": [100], "od": "2022-01-01", "do": "2026-01-01"}}, {"faza_min": 7},
+    {"ima_biljeske": True}, {"ima_dokumente": True}, {"firma_id": [1]}, {"dipl": True}, {"dipl": {"povezan": False}},
+    {"cv_de": True}, {"profil_de": True}, {"ugovor": "potpisan"}, {"ugovor": "postoji"}, {"pocetak_rada_potvrden": True},
+    {"grupa_id": [38]}, {"radno_iskustvo": {"min_godina": 1, "zanimanje": "elektriker"}}, {"radno_iskustvo": {"min_godina": 0.5}},
+    {"glossa": [1]}, {"nalog_id": [10], "nalog_izvor": "projekt"}, {"nalog_id": [10], "nalog_izvor": "oba"},
+    {"nostrifikacija": "bilo_koje"}, {"nostrifikacija": "djelimicno"}, {"obrazovanje": {"skola_id": [1], "smjer_id": [1]}},
+    {"zanimanje": "dachdecker"}, {"jezik": {"jezik": "francuski", "min_nivo": "A1"}},
+    {"zanimanje": "Elektriker", "jezik": {"jezik": "de", "min_nivo": "A2"}, "vozacka": "B", "casting": {"status": [1]},
+     "status_historija": {"status": [9]}, "radno_iskustvo": {"min_godina": 1}, "izlaz": "lista", "limit": 5},
+]
+
+
+@pytest.mark.parametrize("spec", NEW_FILTER_SPECS, ids=[next(iter(s)) for s in NEW_FILTER_SPECS])
+def test_new_filters_execute_strict(ro_cfg, spec):
+    """Every filter from the 2026-10-30 catalogue must run on MySQL 8.4 strict mode as the read-only GRANT user."""
+    r = tools_read.search_candidates(ro_cfg, READER, dict(spec))
+    assert "rezultat" in r and (spec.get("izlaz") == "lista" or r["broj_redova"] == 1)
+
+
+def test_dipl_status_filter_needs_dipl_permission(ro_cfg):
+    from jsi_mcp.permissions import PermissionDenied
+    with pytest.raises(PermissionDenied):
+        tools_read.search_candidates(ro_cfg, READER, {"dipl": {"status": [1]}})
+    p = Principal(sub="it-dipl", permissions=frozenset({"jsi:kandidati:read", "jsi:dipl:read"}))
+    tools_read.search_candidates(ro_cfg, p, {"dipl": {"status": [1]}})
+
+
+def test_filter_options_new_sections(ro_cfg):
+    for sec in ("razlozi_odbijanja", "dokument_status", "tf_status", "makleri", "katalog", "porijeklo"):
+        assert tools_read.filter_options(ro_cfg, READER, sec)
+    with pytest.raises(Exception):
+        tools_read.filter_options(ro_cfg, READER, "dipl_status")
+
+
 def test_filter_options_db(ro_cfg):
     r = tools_read.filter_options(ro_cfg, READER)
     assert {"berufsgruppen", "grupe", "status_prijave_db", "zanimanje", "vozacka"} <= set(r)

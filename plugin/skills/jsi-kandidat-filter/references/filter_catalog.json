@@ -1,0 +1,743 @@
+{
+ "stand": "2026-10-30",
+ "kandidaten_gesamt": 122006,
+ "filter": [
+  {
+   "schluessel": "zanimanje",
+   "gruppe": "Beruf",
+   "titel": "Beruf / Zanimanje",
+   "quelle": "kandidat_prijava_na, kandidat_pp_pozicija, kandidat_group, kri_pozicija(_de), ke_naziv_kvalifikacije, idk_skole_smjerovi.ss_naziv(_de), kde_prijava_na",
+   "join": "beruf_mapping.freitext_wert = Freitext → berufsgruppe_id; idk_kandidat_radno_iskustvo.kri_kandidat_id, idk_kandidat_edukacija.ke_kandidat_id (+ ke_smjer_id → ss_id), idk_kandidat_de.kde_kandidat_id",
+   "werte": "28 Katalogberufe mit Synonymen (occupations.json) + alle 194 berufsgruppe_id (berufsgruppen.json); freie Stichwörter",
+   "fuellgrad": "prijava_na 100 % (95 % gemappt), iskustvo 35.774 Kand. (100 % gemappt), kvalifikacija 78.349 Kand. (67 % gemappt), de_profil 3.332 (45 % gemappt)",
+   "fallstricke": "Bewerbung ≠ Qualifikation → izlaz='izvori' zeigt Beweisstärke; 'mehrfach' (6.748 Texte) und 'unklar' sind Sammelgruppen",
+   "beispiel": {
+    "zanimanje": "Elektriker",
+    "izlaz": "izvori"
+   }
+  },
+  {
+   "schluessel": "vozacka",
+   "gruppe": "Führerschein",
+   "titel": "Führerschein (EU-Logik)",
+   "quelle": "kandidat_vozacka_kategorija (Liste 'B,C1,C,CE'), Legacy kandidat_vozacka_dozvola",
+   "join": "–",
+   "werte": "AM, A1, A2, A, B1, B, BE, C1, C1E, C, CE, D1, D1E, D, DE, E, F, G, M; strict, mode any/all, true = irgendeiner",
+   "fuellgrad": "kategorija 42,2 % (51.511), dozvola 49,2 % (Da 51.556, Ne 8.059)",
+   "fallstricke": "höhere Klasse erfüllt niedrigere (C ⇐ CE); DE-Profil kde_vozacka ist Freitext ('zu', 'B') und wird NICHT genutzt",
+   "beispiel": {
+    "vozacka": [
+     "C",
+     "CE"
+    ]
+   }
+  },
+  {
+   "schluessel": "jezik",
+   "gruppe": "Sprache",
+   "titel": "Sprache + CEFR je Fertigkeit + Zertifikat",
+   "quelle": "idk_kandidat_jezici.kj_naziv, kj_govorna_interakcija/_produkcija, kj_citanje, kj_slusanje, kj_pisanje; idk_candidate_verified_languages.cvl_certificate_path/_expiration_date",
+   "join": "kj_kandidatid = kandidat_id; cvl_id = kj_id (1:1)",
+   "werte": "njemacki, engleski, talijanski, spanjolski, francuski, ruski, arapski, turski; A1–C2; vjestina; certifikat true|'vazeci'",
+   "fuellgrad": "67.648 Kand. mit Sprache (Njemački 69.999 Zeilen); Zertifikat 351 Kand. (367 Dateien, alle Deutsch, 309 davon A2)",
+   "fallstricke": "Selbstauskunft; 'Bez znanja'/'Bezznanja' = 0; Zertifikate fast nur Techniker-Gruppen (0 Pflegekräfte); cvl_status 8 'ima certifikat' nur 2× – Datei zählt",
+   "beispiel": {
+    "jezik": {
+     "jezik": "de",
+     "min_nivo": "B1",
+     "certifikat": true
+    }
+   }
+  },
+  {
+   "schluessel": "obrazovanje",
+   "gruppe": "Ausbildung",
+   "titel": "Ausbildung / Schule / Fachrichtung",
+   "quelle": "ke_vrsta_obrazovanja, ke_skola_id, ke_smjer_id, ss_naziv, ke_naziv_kvalifikacije",
+   "join": "ke_kandidat_id; ke_skola_id → idk_skole.skola_id (99,9 %), ke_smjer_id → idk_skole_smjerovi.ss_id (99,9 %)",
+   "werte": "vrsta srednje|visoko|ostalo; smjer (Stichwort); skola_id/smjer_id [..]",
+   "fuellgrad": "78.349 Kand.; vrsta srednje 126.704 / visoko 5.459 / ostalo 1.250 Zeilen",
+   "fallstricke": "kandidat_nivo_obrazovanja fast leer (25) – nicht verwenden",
+   "beispiel": {
+    "obrazovanje": {
+     "vrsta": "srednje",
+     "smjer": "elektro"
+    }
+   }
+  },
+  {
+   "schluessel": "iskustvo_u_struci",
+   "gruppe": "Erfahrung",
+   "titel": "Berufserfahrung (Selbstauskunft-Flag)",
+   "quelle": "kandidat_iskustvo_u_struci, kandidat_iskustvo_u_struci_trajanje (0–6)",
+   "join": "–",
+   "werte": "true | {'min_godina':1..6}",
+   "fuellgrad": "17,6 % (21.441); Dauer 7,9 %",
+   "fallstricke": "Skala 2–6 nicht sicher dokumentiert (HANDOVER A3/9)",
+   "beispiel": {
+    "iskustvo_u_struci": {
+     "min_godina": 2
+    }
+   }
+  },
+  {
+   "schluessel": "radno_iskustvo",
+   "gruppe": "Erfahrung",
+   "titel": "Berufserfahrung in Jahren aus dem CV (+ Branche)",
+   "quelle": "kri_darum_od, kri_datum_do, kri_aktuelno, kri_pozicija → beruf_mapping",
+   "join": "kri_kandidat_id",
+   "werte": "{'min_godina': 0..50, 'zanimanje': Katalogberuf}",
+   "fuellgrad": "35.774 Kand.; Enddatum 69 %",
+   "fallstricke": "Überlappende Stellen werden addiert; ohne Enddatum zählt nur 'aktuelno'",
+   "beispiel": {
+    "radno_iskustvo": {
+     "min_godina": 2,
+     "zanimanje": "elektriker"
+    }
+   }
+  },
+  {
+   "schluessel": "drzava",
+   "gruppe": "Herkunft",
+   "titel": "Wohnland",
+   "quelle": "kandidat_drzava (Freitext)",
+   "join": "–",
+   "werte": "BIH, SRB, HRV, DEU, MNE, SVN, MKD, XKX, AUT",
+   "fuellgrad": "34,8 % (42.444)",
+   "fallstricke": "Freitextvarianten ('BIH', 'Bosna i Hercegovina', 'Bosna') per REGEXP normalisiert",
+   "beispiel": {
+    "drzava": [
+     "BIH",
+     "SRB"
+    ]
+   }
+  },
+  {
+   "schluessel": "drzavljanstvo",
+   "gruppe": "Herkunft",
+   "titel": "Staatsangehörigkeit",
+   "quelle": "kandidat_drzavljanstvo_vrsta (EU/NON-EU), kandidat_drzavljanstvo (Freitext)",
+   "join": "–",
+   "werte": "EU, NON-EU, BIH, SRB, HRV, MNE, MKD, SVN, BGR, HUN, DEU, ITA, AUT, XKX, ALB",
+   "fuellgrad": "vrsta 44,0 %, Land 14,3 %",
+   "fallstricke": "'nova_prijava' (217) als Wert in vrsta",
+   "beispiel": {
+    "drzavljanstvo": [
+     "BIH"
+    ]
+   }
+  },
+  {
+   "schluessel": "grad",
+   "gruppe": "Herkunft",
+   "titel": "Wohnort",
+   "quelle": "kandidat_grad (Freitext, Personendatum – nur als Filter)",
+   "join": "–",
+   "werte": "Stichwort ≥ 3 Zeichen",
+   "fuellgrad": "34,9 %",
+   "fallstricke": "nie in Ausgabe ohne PII-Recht",
+   "beispiel": {
+    "grad": "Tuzla"
+   }
+  },
+  {
+   "schluessel": "starost",
+   "gruppe": "Person",
+   "titel": "Alter",
+   "quelle": "kandidat_datumrodjenja",
+   "join": "–",
+   "werte": "{'od':..,'do':..}",
+   "fuellgrad": "60,4 % (73.711)",
+   "fallstricke": "Platzhalter 1900, Zukunftsdaten (max 2996) → nur > 1940 gezählt",
+   "beispiel": {
+    "starost": {
+     "od": 25,
+     "do": 45
+    }
+   }
+  },
+  {
+   "schluessel": "spol",
+   "gruppe": "Person",
+   "titel": "Geschlecht",
+   "quelle": "kandidat_spol",
+   "join": "–",
+   "werte": "m (Muško 12.347), z (Žensko 2.990)",
+   "fuellgrad": "12,6 %",
+   "fallstricke": "DE-Profil kde_spol nicht genutzt",
+   "beispiel": {
+    "spol": "z"
+   }
+  },
+  {
+   "schluessel": "bracno_stanje",
+   "gruppe": "Person",
+   "titel": "Familienstand",
+   "quelle": "kandidat_bracno_stanje",
+   "join": "–",
+   "werte": "0 unbekannt, 1 ledig, 2 verheiratet, 3 verwitwet, 4 geschieden",
+   "fuellgrad": "3,2 % ≠ 0",
+   "fallstricke": "Altspalte kandidat_bracnostanje (Text) leer",
+   "beispiel": {
+    "bracno_stanje": [
+     2
+    ]
+   }
+  },
+  {
+   "schluessel": "registriran",
+   "gruppe": "Aktivität",
+   "titel": "Registrierung",
+   "quelle": "kandidat_datetime",
+   "join": "–",
+   "werte": "{'od','do'}",
+   "fuellgrad": "100 %",
+   "fallstricke": "Platzhalter 1970-01-01 vorhanden",
+   "beispiel": {
+    "registriran": {
+     "od": "2024-01-01"
+    }
+   }
+  },
+  {
+   "schluessel": "aktivan",
+   "gruppe": "Aktivität",
+   "titel": "Aktivität (Statuswechsel im Zeitraum)",
+   "quelle": "idk_log_statusi_prijave.lsp_datetime",
+   "join": "lsp_kandidat_id",
+   "werte": "{'od','do'}",
+   "fuellgrad": "80.765 Kand. mit Log (ab 2021-12)",
+   "fallstricke": "Aktivität endet weitgehend Feb 2026",
+   "beispiel": {
+    "aktivan": {
+     "od": "2025-01-01"
+    }
+   }
+  },
+  {
+   "schluessel": "porijeklo",
+   "gruppe": "Kanal",
+   "titel": "Herkunft / Kanal",
+   "quelle": "kandidat_porijeklo",
+   "join": "–",
+   "werte": "0 alt/CRM (53.894), 1 DIPL (1.887), 2 DAK (58), 3 Partner, 4 svezavize (63.208), 5 JobStep-Web (964), 6/7/8 undokumentiert",
+   "fuellgrad": "100 %",
+   "fallstricke": "6–8 nicht im Spaltenkommentar",
+   "beispiel": {
+    "porijeklo": [
+     4,
+     5
+    ]
+   }
+  },
+  {
+   "schluessel": "messenger_status",
+   "gruppe": "Kanal",
+   "titel": "Messenger-Status",
+   "quelle": "kandidat_status_messenger",
+   "join": "–",
+   "werte": "0–6 (3 abgelehnt 76.369, 2 eingeloggt 30.843 …)",
+   "fuellgrad": "100 %",
+   "fallstricke": "",
+   "beispiel": {
+    "messenger_status": [
+     2
+    ]
+   }
+  },
+  {
+   "schluessel": "glossa",
+   "gruppe": "Kanal",
+   "titel": "Glossa-Lead",
+   "quelle": "kandidat_glossa",
+   "join": "–",
+   "werte": "0–3 (1 = 64, 3 = 21)",
+   "fuellgrad": "85 Kand. ≠ 0",
+   "fallstricke": "",
+   "beispiel": {
+    "glossa": [
+     1,
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "schluessel": "makler",
+   "gruppe": "Partner",
+   "titel": "Makler / JobStep-Partner",
+   "quelle": "kandidat_partnerid",
+   "join": "→ idk_jobstep_partners.jp_id (99,8 %)",
+   "werte": "true | [jp_id]",
+   "fuellgrad": "2.009 Kand. (1,6 %)",
+   "fallstricke": "zaduzeni_makler_id/assigned_to_makler praktisch leer",
+   "beispiel": {
+    "makler": true
+   }
+  },
+  {
+   "schluessel": "pp_partner_id",
+   "gruppe": "Partner",
+   "titel": "Arbeitgeber-Partner (Partnerportal)",
+   "quelle": "kandidat_ppa_partner_id",
+   "join": "→ idk_pp_partners.ppa_id (99,8 %)",
+   "werte": "[ppa_id]",
+   "fuellgrad": "584 Kand.",
+   "fallstricke": "",
+   "beispiel": {
+    "pp_partner_id": [
+     10
+    ]
+   }
+  },
+  {
+   "schluessel": "kandidat_status",
+   "gruppe": "Pipeline",
+   "titel": "Bearbeitungsstatus",
+   "quelle": "kandidat_status",
+   "join": "→ idk_kandidat_status.status_id (100 %)",
+   "werte": "0–8 (3 = Archiv, Standard ausgeschlossen)",
+   "fuellgrad": "100 %",
+   "fallstricke": "Log lks_status_obrade enthält Code 9, der in der Lookup fehlt (78 % Treffer)",
+   "beispiel": {
+    "kandidat_status": [
+     1,
+     2
+    ]
+   }
+  },
+  {
+   "schluessel": "status_prijave",
+   "gruppe": "Pipeline",
+   "titel": "Bewerbungs-/Pipelinestatus (aktuell)",
+   "quelle": "kandidat_status_prijave",
+   "join": "→ idk_kandidat_status_prijave.status_id (100 %)",
+   "werte": "1 Slobodan … 9 Potpisan ugovor … 27 Dobio vizu",
+   "fuellgrad": "66,2 %",
+   "fallstricke": "NULL = nie im Prozess (41.299)",
+   "beispiel": {
+    "status_prijave": [
+     9
+    ]
+   }
+  },
+  {
+   "schluessel": "faza_min",
+   "gruppe": "Pipeline",
+   "titel": "Mindestphase (redoslijed_statusa)",
+   "quelle": "idk_kandidat_status_prijave.redoslijed_statusa",
+   "join": "status_id",
+   "werte": "1–15 (7 = Vertrag unterschrieben oder weiter)",
+   "fuellgrad": "66,2 %",
+   "fallstricke": "Status 5 'Odbijen' hat keine Phase → fällt raus",
+   "beispiel": {
+    "faza_min": 7
+   }
+  },
+  {
+   "schluessel": "status_historija",
+   "gruppe": "Pipeline",
+   "titel": "War jemals im Status",
+   "quelle": "idk_log_statusi_prijave",
+   "join": "lsp_kandidat_id; lsp_projekt_id → idk_projects (98,8 %) → project_nalogid",
+   "werte": "{'status':[..],'od','do','nalog_id','projekt_id'}",
+   "fuellgrad": "80.765 Kand.",
+   "fallstricke": "Log erst ab 2021-12-07; Auftrag nur über Projekt des Logs",
+   "beispiel": {
+    "status_historija": {
+     "status": [
+      9
+     ],
+     "nalog_id": [
+      254
+     ]
+    }
+   }
+  },
+  {
+   "schluessel": "slobodni",
+   "gruppe": "Pipeline",
+   "titel": "Frei (nicht reserviert)",
+   "quelle": "kandidat_status_prijave + rezervisanje",
+   "join": "–",
+   "werte": "true = NULL/0/1/2/5",
+   "fuellgrad": "100 %",
+   "fallstricke": "",
+   "beispiel": {
+    "slobodni": true
+   }
+  },
+  {
+   "schluessel": "nalog_id",
+   "gruppe": "Auftrag",
+   "titel": "Auftrag",
+   "quelle": "kandidat_nalog_id (+ nalog_izvor=projekt|oba: idk_project_kandidati → idk_projects.project_nalogid)",
+   "join": "→ idk_nalozi.nalog_id (100 %); project_nalogid varchar → CAST (97 %)",
+   "werte": "[nalog_id], nalog_izvor kandidat|projekt|oba",
+   "fuellgrad": "2.961 Kand. direkt; Projekte 113.960 Kand.",
+   "fallstricke": "kandidat_nalog_id = nur aktuelle Zuordnung",
+   "beispiel": {
+    "nalog_id": [
+     254
+    ],
+    "status_prijave": [
+     9
+    ]
+   }
+  },
+  {
+   "schluessel": "projekt_id",
+   "gruppe": "Auftrag",
+   "titel": "Projektmitglied",
+   "quelle": "idk_project_kandidati.pk_projectid",
+   "join": "pk_kandidatid (98,8 %)",
+   "werte": "[project_id]",
+   "fuellgrad": "113.960 Kand.",
+   "fallstricke": "",
+   "beispiel": {
+    "projekt_id": [
+     100
+    ]
+   }
+  },
+  {
+   "schluessel": "firma_id",
+   "gruppe": "Auftrag",
+   "titel": "Firma",
+   "quelle": "kandidat_zaposlen_kod, idk_projects.project_companyid",
+   "join": "→ idk_companies (100 %)",
+   "werte": "[company_id]",
+   "fuellgrad": "354 direkt + Projekte",
+   "fallstricke": "",
+   "beispiel": {
+    "firma_id": [
+     1
+    ]
+   }
+  },
+  {
+   "schluessel": "tf_status",
+   "gruppe": "Task-Force",
+   "titel": "Aktiver Task-Force-Status",
+   "quelle": "kandidat_tf_status",
+   "join": "→ idk_tf_statusi.tfs_id (100 %)",
+   "werte": "true | [tfs_id]",
+   "fuellgrad": "1.704 Kand.",
+   "fallstricke": "nur aktive Tasks",
+   "beispiel": {
+    "tf_status": true
+   }
+  },
+  {
+   "schluessel": "tf_agent_id",
+   "gruppe": "Task-Force",
+   "titel": "Reserviert für Agent",
+   "quelle": "tf_reserved_agent",
+   "join": "→ idk_employees (100 %)",
+   "werte": "[employee_id]",
+   "fuellgrad": "320 Kand.",
+   "fallstricke": "",
+   "beispiel": {
+    "tf_agent_id": [
+     12
+    ]
+   }
+  },
+  {
+   "schluessel": "casting",
+   "gruppe": "Task-Force",
+   "titel": "Casting-Ergebnis",
+   "quelle": "idk_tf_stats_reservations.tsr_status, tsr_nalog_id; idk_pp_appointment_groups.ppaq_start_date",
+   "join": "tsr_candidate_id (100 %), tsr_interview_id → ppaq_id (99,5 %)",
+   "werte": "status 1 Došao, 2 Nije došao, 3 Odustao (4/5 undok.); nalog_id; od/do",
+   "fuellgrad": "3.271 Kand. (3.852 Reservierungen)",
+   "fallstricke": "Castings 2026 ohne 'Došao' (HANDOVER A3/10)",
+   "beispiel": {
+    "casting": {
+     "status": [
+      1
+     ]
+    }
+   }
+  },
+  {
+   "schluessel": "intervju",
+   "gruppe": "Partnerportal",
+   "titel": "Interview / Arbeitgeber-Empfehlung",
+   "quelle": "idk_pp_cand_appts.pca_recommendation, pca_status; idk_pp_appointments.pap_nalog_id",
+   "join": "pca_kandidat_id (100 %), pca_appointment_id → pap_id (99,9 %)",
+   "werte": "preporuka hire|reject|not_sure, nalog_id, aktivan",
+   "fuellgrad": "5.551 Kand.; Empfehlung nur 567 Termine",
+   "fallstricke": "",
+   "beispiel": {
+    "intervju": {
+     "preporuka": "hire"
+    }
+   }
+  },
+  {
+   "schluessel": "odbijen",
+   "gruppe": "Partnerportal",
+   "titel": "Absage + Grund",
+   "quelle": "idk_kandidati_reject_reasons.krr_reason_id → idk_reject_reasons",
+   "join": "krr_candidate_id (100 %)",
+   "werte": "razlog_id 1,4,7,10,13,16,19,22; odbio kandidat|poslodavac; nalog_id",
+   "fuellgrad": "1.693 Kand.",
+   "fallstricke": "krr_partner_id ist leer",
+   "beispiel": {
+    "odbijen": {
+     "odbio": "poslodavac"
+    }
+   }
+  },
+  {
+   "schluessel": "dokument_status",
+   "gruppe": "Dokumente",
+   "titel": "Dokumentstatus (Partnerportal)",
+   "quelle": "idk_pp_documents.doc_status → idk_pp_documents_statuses",
+   "join": "doc_candidate_id (100 %)",
+   "werte": "3 Uploadan, 6 Provjeren, 9 Čekamo original, 12 Poslan, 15 Imamo original, 18 Spreman, 21 Nije prošao, 24 Odbijen, 27 Arhiviran",
+   "fuellgrad": "574 Kand.",
+   "fallstricke": "",
+   "beispiel": {
+    "dokument_status": [
+     18
+    ]
+   }
+  },
+  {
+   "schluessel": "ima_dokumente",
+   "gruppe": "Dokumente",
+   "titel": "Hat Dokumente",
+   "quelle": "idk_documents (Gruppe 2) ∪ idk_pp_documents",
+   "join": "document_dataid (Gruppe 2 = Kandidat, 99,97 %)",
+   "werte": "true",
+   "fuellgrad": "Dokumente 23.076",
+   "fallstricke": "Gruppe 2 = Kandidat ist abgeleitet",
+   "beispiel": {
+    "ima_dokumente": true
+   }
+  },
+  {
+   "schluessel": "ima_biljeske",
+   "gruppe": "Dokumente",
+   "titel": "Hat Notizen",
+   "quelle": "idk_notes (note_group 2)",
+   "join": "note_dataid (99,98 %)",
+   "werte": "true",
+   "fuellgrad": "182.850 Notizen",
+   "fallstricke": "Gruppe 2 = Kandidat abgeleitet",
+   "beispiel": {
+    "ima_biljeske": true
+   }
+  },
+  {
+   "schluessel": "ugovor",
+   "gruppe": "Dokumente",
+   "titel": "Vertrag hochgeladen / unterschrieben",
+   "quelle": "idk_kandidati_contracts.kc_signed, kc_visibility_status",
+   "join": "kc_candidate_id (100 %)",
+   "werte": "postoji | potpisan",
+   "fuellgrad": "1.059 Kand.; signiert 975 Zeilen",
+   "fallstricke": "",
+   "beispiel": {
+    "ugovor": "potpisan"
+   }
+  },
+  {
+   "schluessel": "cv_de",
+   "gruppe": "Dokumente",
+   "titel": "Deutscher CV",
+   "quelle": "cv_de",
+   "join": "–",
+   "werte": "true",
+   "fuellgrad": "1.663",
+   "fallstricke": "",
+   "beispiel": {
+    "cv_de": true
+   }
+  },
+  {
+   "schluessel": "profil_de",
+   "gruppe": "Dokumente",
+   "titel": "Deutsches Profil",
+   "quelle": "profile_de",
+   "join": "–",
+   "werte": "true",
+   "fuellgrad": "916",
+   "fallstricke": "",
+   "beispiel": {
+    "profil_de": true
+   }
+  },
+  {
+   "schluessel": "viza",
+   "gruppe": "Visum",
+   "titel": "Visum",
+   "quelle": "kandidat_viza; Log Status 27; idk_pp_visa_incomplete.vi_type",
+   "join": "vi_cand_id (100 %)",
+   "werte": "ima, nema, dobio, odbijena, dopuna",
+   "fuellgrad": "kandidat_viza 39,8 % (1 = 1.231); Partnerportal 49 Zeilen",
+   "fallstricke": "'odbijena'/'dopuna' nur Partnerportal",
+   "beispiel": {
+    "viza": "dobio"
+   }
+  },
+  {
+   "schluessel": "termin_za_vizu",
+   "gruppe": "Visum",
+   "titel": "Visatermin",
+   "quelle": "kandidat_termin_za_vizu",
+   "join": "–",
+   "werte": "true/false",
+   "fuellgrad": "2,0 %",
+   "fallstricke": "",
+   "beispiel": {
+    "termin_za_vizu": true
+   }
+  },
+  {
+   "schluessel": "nacin_odlaska",
+   "gruppe": "Visum",
+   "titel": "Ausreiseweg",
+   "quelle": "kandidat_nacin_odlaska",
+   "join": "–",
+   "werte": "0 Fachkraft/EU (120.994), 2 Westbalkan (999), 3 undok. (13)",
+   "fuellgrad": "100 %",
+   "fallstricke": "0 ist Default",
+   "beispiel": {
+    "nacin_odlaska": [
+     2
+    ]
+   }
+  },
+  {
+   "schluessel": "pocetak_rada_potvrden",
+   "gruppe": "Visum",
+   "titel": "Arbeitsbeginn bestätigt",
+   "quelle": "kandidat_potvrden_pocetak_rada",
+   "join": "–",
+   "werte": "true",
+   "fuellgrad": "515",
+   "fallstricke": "",
+   "beispiel": {
+    "pocetak_rada_potvrden": true
+   }
+  },
+  {
+   "schluessel": "nostrifikacija",
+   "gruppe": "Nostrifikation",
+   "titel": "Nostrifikation / Diplom-Anerkennung",
+   "quelle": "idk_nostrifikovane_diplome.full_recognition",
+   "join": "id_cand_job → kandidat_id (97,8 %)",
+   "werte": "true/potpuno (447 Zeilen), djelimicno (1.305), status_2 (388, undok.), bilo_koje",
+   "fuellgrad": "2.105 Kand.",
+   "fallstricke": "Wert 2 nicht dokumentiert; nur 4 Pflegekräfte voll anerkannt",
+   "beispiel": {
+    "nostrifikacija": "potpuno"
+   }
+  },
+  {
+   "schluessel": "dipl",
+   "gruppe": "Nostrifikation",
+   "titel": "DIPL-Verknüpfung / DIPL-Status",
+   "quelle": "kandidat_dipl_id → idk_nd_kandidata.status_nd_kandidata",
+   "join": "kandidat_dipl_id (99,96 %)",
+   "werte": "true | {'povezan':bool,'status':[..]}",
+   "fuellgrad": "77.616 Kand. (63,6 %)",
+   "fallstricke": "Status braucht jsi:dipl:read; nie über kandidat_id joinen",
+   "beispiel": {
+    "dipl": {
+     "povezan": true
+    }
+   }
+  },
+  {
+   "schluessel": "kontaktabilni",
+   "gruppe": "Kontakt",
+   "titel": "Kontaktierbar",
+   "quelle": "kandidat_pogresan_broj, kandidat_nedostupan, kandidat_mobitel",
+   "join": "–",
+   "werte": "true",
+   "fuellgrad": "Mobil 97,7 %; falsche Nr. 6.056; nicht erreichbar 57",
+   "fallstricke": "",
+   "beispiel": {
+    "kontaktabilni": true
+   }
+  },
+  {
+   "schluessel": "vjestina",
+   "gruppe": "Fähigkeiten",
+   "titel": "Fähigkeit",
+   "quelle": "idk_kandidat_vjestine.kv_naziv(_de)",
+   "join": "kv_kandidat_id (100 %)",
+   "werte": "Stichwort(e)",
+   "fuellgrad": "5.267 Kand.",
+   "fallstricke": "Freitext ('Ms Office', 'Komunikativnost')",
+   "beispiel": {
+    "vjestina": "Office"
+   }
+  },
+  {
+   "schluessel": "grupa_id",
+   "gruppe": "Beruf",
+   "titel": "Bewerbungsgruppe",
+   "quelle": "kandidat_group",
+   "join": "→ idk_kandidati_grupe.kg_id (100 %)",
+   "werte": "[kg_id] (74 Gruppen)",
+   "fuellgrad": "100 %",
+   "fallstricke": "",
+   "beispiel": {
+    "grupa_id": [
+     38,
+     39
+    ]
+   }
+  },
+  {
+   "schluessel": "ukljuci_arhivu",
+   "gruppe": "Steuerung",
+   "titel": "Archiv einschließen",
+   "quelle": "kandidat_status = 3",
+   "join": "–",
+   "werte": "true",
+   "fuellgrad": "4.447 archiviert",
+   "fallstricke": "Standard: ausgeschlossen",
+   "beispiel": {
+    "ukljuci_arhivu": true
+   }
+  }
+ ],
+ "ausgabe": {
+  "izlaz": "broj | izvori | lista | id",
+  "limit": "1–5000 (Standard 200)",
+  "pii": "Name/Telefon/E-Mail nur mit jsi:kandidati:pii",
+  "sortiraj": "relevantnost | novi"
+ },
+ "nicht_filterbar": [
+  {
+   "dimension": "Wunschgehalt",
+   "grund": "kandidat_pp_plata 0,3 % befüllt (Freitext)"
+  },
+  {
+   "dimension": "Wunschregion/-stadt",
+   "grund": "kandidat_zeljena_regija 9 Werte, kandidat_zeljeni_grad leer"
+  },
+  {
+   "dimension": "Aufenthalt EU (boravak_eu)",
+   "grund": "21 % befüllt, Freitext NE/NN/Ländernamen – als Filter nicht aufgenommen"
+  },
+  {
+   "dimension": "DE-Profil-Führerschein / -Geschlecht",
+   "grund": "kde_vozacka/kde_spol Freitext ('zu', 'Frau'), 3.332 Profile"
+  },
+  {
+   "dimension": "Agent der Bewerbung",
+   "grund": "lsp_employee_id (69 % befüllt) – als Kennzahl, nicht als Kandidatenfilter"
+  },
+  {
+   "dimension": "Polymorphe Notizen/Dokumente anderer Gruppen",
+   "grund": "note_group 1, 3–8 nicht eindeutig zuordenbar (poly_results.tsv)"
+  }
+ ]
+}

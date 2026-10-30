@@ -141,5 +141,23 @@ class TestExtraFilters(unittest.TestCase):
             self.assertNotIn(col, sql)
 
 
+class TestCatalogComplete(unittest.TestCase):
+    def test_every_filter_key_is_documented(self):
+        import json
+        import re
+        src = open(os.path.join(os.path.dirname(sys.modules["build_query"].__file__), "build_query.py"), encoding="utf-8").read()
+        block = src[src.index("allowed = {"):src.index("}", src.index("allowed = {"))]
+        keys = set(re.findall(r'"([a-z_]+)"', block)) - {"jezici", "nalog_izvor"}  # alias of jezik / option of nalog_id
+        base = os.path.dirname(sys.modules["build_query"].__file__)
+        for cand in (os.path.join(base, "filter_catalog.json"), os.path.join(base, "..", "references", "filter_catalog.json")):
+            if os.path.exists(cand):
+                cat = json.load(open(cand, encoding="utf-8"))
+                break
+        documented = {f["schluessel"] for f in cat["filter"]} | set(cat["ausgabe"])
+        self.assertEqual(sorted(keys - documented), [])
+        for f in cat["filter"]:
+            build(dict(f["beispiel"]))  # every documented example must build
+
+
 if __name__ == "__main__":
     unittest.main()
