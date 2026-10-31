@@ -2,7 +2,7 @@
 
 Python 3.12 · offizielles MCP-Python-SDK (`mcp` 2.3, `MCPServer` = Nachfolger von FastMCP) · Transport **Streamable HTTP** auf `/mcp` · Health `/health` · OAuth-Resource-Server für **WorkOS AuthKit** · MySQL über PyMySQL (TLS).
 
-Kein freies SQL. Alle Abfragen sind fest oder werden von `build_query.py` erzeugt (einzige Kopie; Filterkatalog: `scripts/filter_catalog.py`). [TAJNO]-Spalten (`osjetljive_kolone.md`) werden vor jeder Ausführung blockiert (`sensitive.assert_clean_sql`) **und** sollen per DB-GRANT gesperrt sein (`sql/`).
+Kein freies SQL – außer `sql_query` (nur lesend, nur `jsi:sql:read`, jede Ausführung vom Menschen bestätigt, siehe unten). Alle übrigen Abfragen sind fest oder werden von `build_query.py` erzeugt (einzige Kopie; Filterkatalog: `scripts/filter_catalog.py`). [TAJNO]-Spalten (`osjetljive_kolone.md`) werden vor jeder Ausführung blockiert (`sensitive.assert_clean_sql`) **und** sollen per DB-GRANT gesperrt sein (`sql/`).
 
 ## Tools
 

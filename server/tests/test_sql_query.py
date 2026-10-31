@@ -142,3 +142,15 @@ def test_secret_and_pii_columns():
 ])
 def test_allowed_statements(sql):
     assert tools_sql.check(sql, pii=False)
+
+
+async def test_driver_errors_do_not_leak(monkeypatch):
+    import pymysql
+
+    def query(cfg, sql, params=None, max_rows=None):
+        raise pymysql.err.OperationalError(2003, "Can't connect to MySQL server on 'db.internal.example'")
+
+    monkeypatch.setattr(db, "query", query)
+    async with Client(mcp_for(ADMIN), elicitation_callback=dialog("accept")) as c:
+        res = await c.call_tool("sql_query", {"sql": SQL})
+    assert res.is_error and "Interner Fehler" in text(res) and "db.internal" not in text(res)

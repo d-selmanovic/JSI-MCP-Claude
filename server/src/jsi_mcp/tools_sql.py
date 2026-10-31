@@ -146,6 +146,10 @@ def make_tool(cfg: Config):
         except (PermissionDenied, InputError, SensitiveColumnError, db.DbNotConfigured, db.DbError) as e:
             _log(p, "error:" + type(e).__name__, sql, None, 0)
             raise ToolError(str(e)) from None
+        except Exception as e:  # like tool_wrapper: never pass driver messages (host names …) to the client
+            logging.getLogger("jsi_mcp").exception("tool sql_query failed")
+            _log(p, "error:" + type(e).__name__, sql, None, 0)
+            raise ToolError(f"Interner Fehler / Interna greška ({type(e).__name__}).") from None
         more = len(rows) > lim
         rows = rows[:lim]
         _log(p, "ok", sql, len(rows), 1, round((time.monotonic() - t0) * 1000))
