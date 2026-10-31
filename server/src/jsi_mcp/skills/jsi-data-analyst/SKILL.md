@@ -9,7 +9,7 @@ JSI (JobStep group — invoicing entities Jobstep GmbH (DE) and Jobstep Int GmbH
 
 **How to query – first choice: JSI MCP server** (`jsi`, `https://calm-steel-onjlq.run.mcp-use.com/mcp`) if its tools are available: `kpis` (vermittlungen, neue_kandidaten, pipeline_bestand, umsatz, task_force, casting, dipl_funnel), `orders_overview`, `pipeline_history`, `search_candidates`, `candidate_profile`, `filter_options`, `change_log`, `whoami`. They apply the metric definitions below, permissions and the [TAJNO] rules server-side. Write tools – one per entity and action, e.g. `candidate_update`, `candidate_note_create`, `company_create`, `candidate_archive`, plus `set_application_status` only on explicit request, always `dry_run` first.
 
-**No free SQL**: BlazeSQL was disconnected on 2026-10-30; the MCP tools are the only data access. The SQL patterns below document how the tools and metrics are defined (for review and for new tools) – do not try to run them. Column comments with code meanings: `references/schema/`.
+**SQL**: BlazeSQL was disconnected on 2026-10-30; the MCP tools are the data access. Free read-only SQL exists only for admins/developers via `sql_query` (permission `jsi:sql:read`, every run confirmed by the human). The SQL patterns below document how the tools and metrics are defined; everyone else uses the fixed tools (e.g. `table_read` with an aggregate instead of `SELECT MAX(...)`). Column comments with code meanings: `references/schema/`.
 
 **Report language**: Bosnian, unless the user asks otherwise. Keep table/column names as-is.
 

@@ -1,4 +1,5 @@
-"""Generate src/jsi_mcp/tabele_katalog.json: readable tables per area for table_read/table_describe.
+"""Generate src/jsi_mcp/tabele_katalog.json (readable tables per area for table_read/table_describe) and
+src/jsi_mcp/sql_pii_kolone.json (personal-data column names of all tables, for sql_query).
 
 Sources: docs/rohdaten/columns.json (schema), docs/rohdaten/counts.tsv (row counts),
 src/jsi_mcp/skills/jsi-data-analyst/references/schema/NN_*.md (area of each table), sensitive.SENSITIVE ([TAJNO]).
@@ -115,6 +116,18 @@ def main() -> None:
     with open(path, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1, sort_keys=False)
         f.write("\n")
+    # sql_query: free SQL may read every table the read-only user can see, so the personal-data
+    # rule runs over all tables, not only the catalogue areas
+    sql_pii = sorted({c["col"].lower() for t, cs in cols.items() for c in cs
+                      if c["col"] not in SENSITIVE.get(t, frozenset())
+                      and is_pii(t, c["col"], c["typ"], [x["col"] for x in cs])})
+    sql_path = os.path.join(ROOT, "src", "jsi_mcp", "sql_pii_kolone.json")
+    with open(sql_path, "w", encoding="utf-8") as f:
+        json.dump({"_doc": "Generiert von scripts/gen_tabele.py – Spaltennamen mit Personendaten in allen Tabellen; "
+                           "sql_query verlangt dafür pii=true + jsi:kandidati:pii.", "kolone": sql_pii},
+                  f, ensure_ascii=False, indent=1)
+        f.write("\n")
+    print(f"{sql_path}: {len(sql_pii)} PII-Spaltennamen (alle Tabellen)")
     n_t = sum(len(a["tabele"]) for a in out["podrucja"].values())
     print(f"{path}: {len(out['podrucja'])} Bereiche, {n_t} Tabellen, {len(pii_list)} PII-Spalten")
     for x in pii_list:

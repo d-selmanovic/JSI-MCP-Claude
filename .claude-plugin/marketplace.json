@@ -8,7 +8,7 @@
     {
       "name": "jsi-crm",
       "source": "./plugin",
-      "description": "JSI-MCP-Server (Kandidaten, Kennzahlen, Aufträge, Pipeline) + JSI-Skills"
+      "description": "Verbindung zum JSI-MCP-Server (Kandidaten, Kennzahlen, Aufträge, Pipeline, SQL für Admins), Hooks und Skill jsi-mcp; Fach-Skills liefert der Server"
     }
   ]
 }

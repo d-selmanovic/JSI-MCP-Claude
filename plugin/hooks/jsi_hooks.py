@@ -24,7 +24,8 @@ HOOKS = ("session_start", "confirm_write", "paging_reminder", "pii_mark", "pii_g
 IS_CODEX = bool(os.environ.get("PLUGIN_ROOT"))
 
 SESSION_CONTEXT = (
-    "JSI CRM: the MCP server 'jsi' is the only data access to the JSI recruiting CRM (no SQL connector). "
+    "JSI CRM: the MCP server 'jsi' is the only data access to the JSI recruiting CRM. Free SQL only via sql_query "
+    "(admins/developers, read-only, every run confirmed by the human in the server's dialog). "
     "Answers for JSI users are in Bosnian unless the user asks otherwise. "
     "List results contain 'stranica'; the shown range ('Prikazano X–Y od N') is part of every answer, and further pages use offset. "
     "Personal data (name, phone, e-mail) is shown only on explicit request and with permission jsi:kandidati:pii. "
