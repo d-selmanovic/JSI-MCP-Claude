@@ -205,7 +205,10 @@ def t_search_candidates(
     return tools_read.search_candidates(cfg, p, spec, include_sql=include_sql)
 
 
-def t_filter_options(cfg, p, section: Annotated[str | None, Field(description="Optional ein Abschnitt, z. B. 'zanimanje', 'vozacka', 'status_prijave', 'berufsgruppen', 'grupe'")] = None) -> dict:
+FILTER_SECTION = Literal[tuple(tools_read.filter_sections())]  # enum in the schema: clients cannot send unknown names
+
+
+def t_filter_options(cfg, p, section: Annotated[FILTER_SECTION | None, Field(description="Optional ein Abschnitt, z. B. 'zanimanje', 'vozacka', 'status_prijave', 'berufsgruppen', 'grupe', 'katalog' (alle Filter) oder ein Suchfilter-Schlüssel wie 'starost'")] = None) -> dict:
     out = tools_read.filter_options(cfg, p, section)
     if not section:
         out["schreib_register"] = registry.describe()

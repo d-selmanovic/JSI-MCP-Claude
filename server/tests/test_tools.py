@@ -151,3 +151,20 @@ def test_unconfigured_app_reports_errors():
     r = c.post("/mcp", json={})
     assert r.status_code == 401 and "WORKOS_AUTHKIT_DOMAIN" in r.json()["error_description"]
     assert "WORKOS_AUTHKIT_DOMAIN" in r.headers["www-authenticate"]
+
+
+async def test_filter_options_section_enum_and_filter_keys():
+    """Every search filter key is a valid section (catalogue entry); the schema enumerates them, so a client
+    cannot send an unknown name (2026-11: Codex sent 'section' names that were filter keys → input_error)."""
+    async with Client(mcp_for("*")) as c:
+        schema = next(t for t in (await c.list_tools()).tools if t.name == "filter_options").input_schema
+        enum = set(json.dumps(schema["properties"]["section"]).split('"'))
+        for key in ("starost", "jezici", "iskustvo_u_struci", "zanimanje", "katalog", "grupe"):
+            assert key in enum, key
+        out = json.loads(text(await c.call_tool("filter_options", {"section": "starost"})))
+        assert out["filter"]["schluessel"] == "starost"
+        assert (await c.call_tool("filter_options", {"section": "gibt_es_nicht"})).is_error
+
+
+def test_every_spec_key_is_a_section():
+    assert set(tools_read.SPEC_KEYS) - {"offset", "pii"} <= set(tools_read.filter_sections())

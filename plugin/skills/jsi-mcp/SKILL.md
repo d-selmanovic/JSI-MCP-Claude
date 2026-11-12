@@ -13,7 +13,7 @@ The JSI CRM (MySQL `jsicrm`, mirror database) is reachable through the MCP serve
 |---|---|---|
 | Who am I, which permissions, server/DB status | `whoami` | Call first if a tool reports `forbidden`. |
 | Find / count / list candidates | `search_candidates` | Filter keys and examples: `skill_lesen(skill='jsi-kandidat-filter')`. Default output is a count (`izlaz: "broj"`). Lists come in pages: always state `stranica.pregled` ("Prikazano 21–40 od 900") and offer the next page via `offset = stranica.sljedeci_offset`; never present a page as the full result. |
-| Valid filter values, codes, occupation catalogue | `filter_options` | Optional `section`, e.g. `berufsgruppen`, `status_prijave`, `katalog`. |
+| Valid filter values, codes, occupation catalogue | `filter_options` | Optional `section` (enum in the schema), e.g. `berufsgruppen`, `status_prijave`, `katalog` (all filters), or any search filter key such as `starost` (its catalogue entry). |
 | One candidate | `candidate_profile` | Needs `kandidat_id`. |
 | KPIs | `kpis` | `bereich`: vermittlungen, neue_kandidaten, pipeline_bestand, umsatz (needs `jsi:finansije:read`), task_force, casting, dipl_funnel (needs `jsi:dipl:read`). |
 | Orders: demand vs. candidates vs. signed | `orders_overview` | |

@@ -151,9 +151,13 @@ def load_filter_catalog() -> dict:
     return cat
 
 
-def filter_options(cfg: Config, p: Principal, section: str | None = None) -> dict:
+SECTION_ALIASES = {"jezici": "jezik"}  # search keys whose values live under another section
+DB_SECTIONS = ("berufsgruppen", "grupe", "db", "razlozi_odbijanja", "dokument_status", "tf_status", "makleri", "dipl_status")
+
+
+def _static_sections() -> dict[str, Any]:
     catalog = bq.load_occupations()
-    static = {
+    return {
         "zanimanje": {
             "katalog": {k: {"sinonimi": v.get("synonyms", []), "berufsgruppen": v.get("berufsgruppen", []),
                             "siroko_dodaje": v.get("broad", [])} for k, v in catalog.items()},
@@ -190,11 +194,33 @@ def filter_options(cfg: Config, p: Principal, section: str | None = None) -> dic
         "sortiraj": ["relevantnost", "novi"],
         "limit": {"default": ROW_LIMIT_DEFAULT, "max": ROW_LIMIT_MAX},
     }
+
+
+def _filter_entries() -> dict[str, dict]:
+    return {x["schluessel"]: x for x in load_filter_catalog().get("filter", [])}
+
+
+def filter_sections() -> list[str]:
+    """Every accepted section: value lists, DB lookups, 'katalog' and every search filter key (its catalogue entry)."""
+    names = list(_static_sections()) + list(DB_SECTIONS) + ["katalog"]
+    return names + sorted({*_filter_entries(), *SECTION_ALIASES} - set(names))
+
+
+def filter_options(cfg: Config, p: Principal, section: str | None = None) -> dict:
+    static = _static_sections()
+    db_sections = DB_SECTIONS
+    section = SECTION_ALIASES.get(section, section) if section else section
     if section == "katalog":
         return {"katalog": load_filter_catalog()}
-    db_sections = ("berufsgruppen", "grupe", "db", "razlozi_odbijanja", "dokument_status", "tf_status", "makleri", "dipl_status")
     if section and section not in static and section not in db_sections:
-        raise InputError(f"section unbekannt; erlaubt: {sorted(static) + list(db_sections) + ['katalog']}")
+        entry = _filter_entries().get(section)
+        if entry is None:
+            raise InputError(f"section {section!r} unbekannt / nepoznata sekcija. Werte-Abschnitte: "
+                             f"{sorted(static) + list(db_sections)}; jeder Suchfilter-Schlüssel (z. B. 'starost', "
+                             "'jezici') liefert seinen Katalogeintrag; alle Filter: section='katalog'.")
+        return {"section": section, "filter": entry,
+                "napomena": "Kein eigener Werte-Abschnitt: Beschreibung, Quelle und Werte aus dem Filterkatalog. "
+                            "/ Opis filtera iz kataloga."}
     out: dict[str, Any] = {k: v for k, v in static.items() if not section or k == section}
     want_db = section in (None, "status_prijave", "kandidat_status") + db_sections
     if want_db:
