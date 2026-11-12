@@ -1,6 +1,6 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "jsi-crm",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "JSI Recruiting-CRM: Verbindung zum JSI-MCP-Server (OAuth über WorkOS), Hooks und Skill jsi-mcp; Fachwissen und Analyse-Skills liefert der Server (skill_lesen)."
 }

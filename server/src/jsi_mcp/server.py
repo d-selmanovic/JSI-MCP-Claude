@@ -20,7 +20,7 @@ from starlette.responses import JSONResponse
 from starlette.routing import Route
 
 from . import config as config_mod
-from . import admin, db, registry, skills_ext, tools_read, tools_tables, writes
+from . import admin, db, registry, skills_ext, tools_read, tools_sql, tools_tables, writes
 from .auth import WorkOSTokenVerifier, current_principal
 from .permissions import TOOL_PERMISSIONS, PermissionDenied, require
 from .sensitive import SensitiveColumnError
@@ -45,10 +45,18 @@ INSTRUCTIONS = (
     "Fachwissen (Statuscodes, Kennzahlen-Definitionen, Filter, Schema, Analyse-Methoden) liefert der Server als Skills: "
     "skill_lesen() listet sie, skill_lesen(skill='jsi-data-analyst') bzw. 'jsi-kandidat-filter' vor Auswertungen laden "
     "(Hosts mit Skills-Extension: skills/list, skill://…). "
+    "Freies SQL nur für Admins/Entwickler: sql_query (nur lesen, jsi:sql:read, jede Ausführung bestätigt der Mensch im "
+    "Dialog; ohne Dialog-Unterstützung abgelehnt) – nur wenn die festen Tools die Frage nicht beantworten. "
     "Antworten für JSI auf Bosnisch. Personendaten nur auf ausdrücklichen Wunsch (Permission jsi:kandidati:pii). "
     "/ Fiksni alati umjesto SQL-a; lični podaci samo na izričit zahtjev."
 )
 
+SQL_ANN = ToolAnnotations(read_only_hint=False, destructive_hint=False, idempotent_hint=True, open_world_hint=False)
+SQL_DESCRIPTION = (
+    "Lesende SQL-Abfrage (SELECT/WITH/EXPLAIN) gegen die JSI-Datenbank – nur für Admins und Entwickler "
+    "(jsi:sql:read). Jede Ausführung muss der Mensch im Bestätigungsdialog freigeben; Clients ohne Dialog werden "
+    "abgelehnt. Spalten ausdrücklich nennen (kein SELECT *), [TAJNO]-Spalten gesperrt, Personendaten nur mit "
+    "pii=true. Für normale Fragen zuerst die festen Tools. / SQL upit samo za čitanje, uz potvrdu korisnika.")
 RO = ToolAnnotations(read_only_hint=True, destructive_hint=False, idempotent_hint=True, open_world_hint=False)
 RW = ToolAnnotations(read_only_hint=False, destructive_hint=False, idempotent_hint=False, open_world_hint=False)
 
@@ -345,6 +353,9 @@ def build_mcp(cfg: config_mod.Config) -> MCPServer:
     for wt in WRITE_TOOLS:
         mcp.add_tool(tool_wrapper(cfg, wt.name)(wt.fn), name=wt.name, title=wt.title, description=wt.description,
                      annotations=wt.annotations, structured_output=False)
+    # not read_only on purpose: hosts then ask before every call (the server's own confirmation is the real gate)
+    mcp.add_tool(tools_sql.make_tool(cfg), name="sql_query", title="SQL-Abfrage (nur Admin/Entwickler)",
+                 description=SQL_DESCRIPTION, annotations=SQL_ANN, structured_output=False)
 
     @mcp.custom_route("/health", methods=["GET"])
     async def health(request: Request):
@@ -402,7 +413,7 @@ def _health(cfg: config_mod.Config) -> dict:
     return {"status": "ok" if not cfg.errors else "degraded", "version": VERSION, "db_target": cfg.db_target,
             "db_konfiguriert": cfg.db_ready(), "auth": "disabled(local)" if cfg.auth_disabled else "workos",
             "schreiben_aktiv": cfg.writes_allowed, "konfigurationsfehler": cfg.errors,
-            "tools": [t[0] for t in TOOLS]}
+            "tools": [t[0] for t in TOOLS] + ["sql_query"]}
 
 
 async def _admin_response(cfg: config_mod.Config, request: Request, as_json: bool):
@@ -414,7 +425,7 @@ async def _admin_response(cfg: config_mod.Config, request: Request, as_json: boo
         return Response("Anmeldung erforderlich", status_code=401, headers={
             "WWW-Authenticate": 'Basic realm="JSI MCP admin", charset="UTF-8"', **admin.SECURITY_HEADERS})
     import anyio
-    tool_names = [n for n, *_ in TOOLS] + [wt.name for wt in WRITE_TOOLS]
+    tool_names = [n for n, *_ in TOOLS] + [wt.name for wt in WRITE_TOOLS] + ["sql_query"]
     st = await anyio.to_thread.run_sync(admin.status, cfg, VERSION, tool_names)
     if as_json:
         return Response(admin.json_body(st), media_type="application/json", headers=admin.SECURITY_HEADERS)

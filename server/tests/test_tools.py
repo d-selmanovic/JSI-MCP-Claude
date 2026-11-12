@@ -13,7 +13,7 @@ from testenv import LOCAL_ENV
 WRITE_TOOL_NAMES = {f"{n}_{a}" for n, e in REGISTRY.items() if not e.process_tool for a in e.actions}
 EXPECTED = {"whoami", "search_candidates", "filter_options", "candidate_profile", "kpis", "orders_overview",
             "pipeline_history", "change_log", "set_application_status", "table_describe",
-            "table_read", "skill_lesen"} | WRITE_TOOL_NAMES
+            "table_read", "skill_lesen", "sql_query"} | WRITE_TOOL_NAMES
 
 
 def mcp_for(perms: str, **env):

@@ -10,6 +10,7 @@ KENNZAHLEN_READ = "jsi:kennzahlen:read"
 FINANSIJE_READ = "jsi:finansije:read"
 DIPL_READ = "jsi:dipl:read"
 AUDIT_READ = "jsi:audit:read"
+SQL_READ = "jsi:sql:read"  # sql_query: free read-only SQL, only admins/developers, confirmed per call
 
 # table_read / table_describe: one permission per area of tabele_katalog.json
 TABELE_AREAS = ("kandidati", "pipeline", "taskforce", "komunikacija", "firme", "partner_portal", "dipl")
@@ -32,8 +33,8 @@ def _write_permissions() -> frozenset[str]:
 
 
 def admin_test_permissions() -> frozenset[str]:
-    """All jsi:* slugs: 6 reads + 7 table areas + every write action in the registry (32)."""
-    return READ_PERMISSIONS | _write_permissions()
+    """All jsi:* slugs: 6 reads + 7 table areas + every write action in the registry + sql (33)."""
+    return READ_PERMISSIONS | _write_permissions() | {SQL_READ}
 
 
 ROLE_PERMISSIONS: dict[str, frozenset[str]] = {
@@ -102,6 +103,7 @@ TOOL_PERMISSIONS: dict[str, list[str]] = {
     "table_describe": [],  # lists areas; details need the area permission
     "table_read": [],  # area permission (+ jsi:finansije:read for finance tables) checked per call
     "skill_lesen": [],  # static documentation shipped with the server, no CRM data
+    "sql_query": [SQL_READ],  # checked in tools_sql before the confirmation dialog
 }
 
 # Extra permission per kpis area.

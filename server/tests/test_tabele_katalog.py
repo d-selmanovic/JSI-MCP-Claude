@@ -5,7 +5,7 @@ import subprocess
 import sys
 
 from jsi_mcp import tools_tables
-from jsi_mcp.sensitive import SENSITIVE
+from jsi_mcp.sensitive import SENSITIVE, SENSITIVE_COLUMN_NAMES
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MUST_BE_PII = [
@@ -49,12 +49,14 @@ def test_free_text_is_pii():
 
 def test_catalog_matches_generator(tmp_path):
     """The committed JSON is exactly what scripts/gen_tabele.py produces."""
-    path = os.path.join(HERE, "..", "src", "jsi_mcp", "tabele_katalog.json")
-    before = open(path, encoding="utf-8").read()
+    paths = [os.path.join(HERE, "..", "src", "jsi_mcp", n) for n in ("tabele_katalog.json", "sql_pii_kolone.json")]
+    before = [open(p, encoding="utf-8").read() for p in paths]
     subprocess.run([sys.executable, "-I", os.path.join(HERE, "..", "scripts", "gen_tabele.py")], check=True,
                    capture_output=True)
-    assert open(path, encoding="utf-8").read() == before, "tabele_katalog.json veraltet – gen_tabele.py ausführen"
-    assert json.loads(before)["podrucja"]
+    assert [open(p, encoding="utf-8").read() for p in paths] == before, "Kataloge veraltet – gen_tabele.py ausführen"
+    assert json.loads(before[0])["podrucja"]
+    pii_names = set(json.loads(before[1])["kolone"])
+    assert {"kandidat_ime", "kandidat_prezime"} <= pii_names and not pii_names & SENSITIVE_COLUMN_NAMES
 
 
 def test_filter_catalog_matches_generator():

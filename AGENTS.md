@@ -9,7 +9,7 @@ Regeln für alle Coding-Agents (Codex, Hermes, Grok, Claude Code) in diesem Repo
 - Personendaten (Name, Telefon, E-Mail) nur auf ausdrücklichen Wunsch; nie Beispielwerte aus der DB in Dateien übernehmen.
 - Zugangsdaten nur aus Umgebungsvariablen (`JSI_MIRROR_DB_*`, später `JSI_DB_*`); nie ausgeben, nie committen.
 - Schreibzugriffe nur gegen die Mirror-DB und nur über die definierten Schreib-Tools (mit `dry_run` + Audit). Nie gegen Produktion.
-- Datenzugriff nur über den JSI-MCP-Server `jsi`. BlazeSQL ist seit 2026-10-30 von der MySQL getrennt – kein freies SQL gegen die CRM-Datenbank.
+- Datenzugriff nur über den JSI-MCP-Server `jsi` (BlazeSQL ist seit 2026-10-30 von der MySQL getrennt). Freies SQL gegen die CRM-Datenbank nur über das Tool `sql_query`: nur lesend, nur mit `jsi:sql:read` (Rolle `jsi-admin-test`), jede Ausführung bestätigt der Mensch im Dialog des Servers. Für Fachfragen zuerst die festen Tools.
 - Neue Abfragen im Server (`build_query.py`, `tools_read.py`): Kindtabellen in CTEs voraggregieren, kein korreliertes EXISTS über `idk_kandidati` (Timeout 30 s).
 - Tests: Server `cd server && uv run pytest -q --ignore=tests/integration` (Such-Logik `build_query.py` liegt nur im Server). Hooks: `python3 -I -m unittest discover -s plugin/hooks -p 'test_*.py'` (Doku `docs/HOOKS.md`).
 
@@ -24,7 +24,7 @@ Regeln für alle Coding-Agents (Codex, Hermes, Grok, Claude Code) in diesem Repo
 
 This agent has the **JSI MCP server** `jsi` (`https://calm-steel-onjlq.run.mcp-use.com/mcp`, OAuth via WorkOS) for the JSI recruiting CRM.
 
-- Use its tools for every question about JSI candidates, orders, pipeline/application status, placements, task force, castings, DIPL and KPIs: `search_candidates`, `filter_options`, `candidate_profile`, `kpis`, `orders_overview`, `pipeline_history`, `change_log`, `whoami`, and for all other CRM tables `table_describe` + `table_read` (per-area permissions). There is no other data access (BlazeSQL was disconnected) – never write SQL against the CRM yourself.
+- Use its tools for every question about JSI candidates, orders, pipeline/application status, placements, task force, castings, DIPL and KPIs: `search_candidates`, `filter_options`, `candidate_profile`, `kpis`, `orders_overview`, `pipeline_history`, `change_log`, `whoami`, and for all other CRM tables `table_describe` + `table_read` (per-area permissions). Free SQL only via `sql_query` (read-only, permission `jsi:sql:read` for admins/developers, every run confirmed by the human in the server's dialog; clients without that dialog are refused) – otherwise never write SQL against the CRM yourself.
 - Write tools – one per entity and action, e.g. `candidate_update`, `candidate_note_create`, `company_create`, `candidate_archive`, plus `set_application_status` only on explicit request; always preview / `dry_run=true` first and write only after the user confirms.
 - Answer JSI users in Bosnian unless asked otherwise. Personal data (name, phone, e-mail) only on explicit request and with permission `jsi:kandidati:pii`; never select or log [TAJNO] columns (passwords, tokens, JMBG, passport, IBAN).
 - If the tools are missing, the user must sign in once (Claude Code `/mcp`, Codex `codex mcp add jsi --url <URL>` + `codex mcp login jsi`, Hermes `hermes mcp login jsi`, claude.ai/ChatGPT: Connect in the connector settings).

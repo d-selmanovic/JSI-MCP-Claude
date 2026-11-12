@@ -100,7 +100,7 @@ def test_role_map_when_permissions_missing():
     assert "jsi:kandidati:pii" not in analyst
     assert permissions_from_claims({"roles": ["admin", "crm-writer-approval"]}) == frozenset()
     assert permissions_from_claims({"role": "jsi-admin-test"}) == admin_test_permissions()
-    assert len(admin_test_permissions()) == 32
+    assert len(admin_test_permissions()) == 33
 
 
 def test_explicit_permissions_stay_authoritative():

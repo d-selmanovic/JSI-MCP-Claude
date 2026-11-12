@@ -1,4 +1,4 @@
-"""Read tools. All SQL is fixed or built by build_query.py; there is no free SQL.
+"""Read tools. All SQL is fixed or built by build_query.py (free SQL only in tools_sql.sql_query).
 
 Convention: our own SQL is always executed with a params tuple, so literal % is written as %%.
 """
